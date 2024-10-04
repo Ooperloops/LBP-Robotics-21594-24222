@@ -32,12 +32,6 @@ public abstract class HumanOperated extends OpMode {
     protected double backLeftWheelP = 0;
     protected double backRightWheelP = 0;
 
-    protected double bottomArmServoP = 0;
-    protected double topArmServoP = 0;
-    protected double clawServoP = 0;
-
-    protected double droneReleaseServoP = 0;
-
     //------------------------------------------------------------------------------------------------
     // Config
     //------------------------------------------------------------------------------------------------
@@ -51,60 +45,33 @@ public abstract class HumanOperated extends OpMode {
     // Defaults
     //------------------------------------------------------------------------------------------------
 
-    // How much pressed the GamePad trigger has to be considered truthy.
-    protected final double GP_TRIGGER_THRESHOLD = 0.5;
-    protected final double SERVO_DELTA = 0.7;
-
     protected void useDefaultMovementControls() {
         // Allow for forward / backward movement command
         // to be receive from left and right joystick.
-        double drive = gamepad1.left_stick_y != 0
-                ? gamepad1.left_stick_y
-                : gamepad1.right_stick_y;
+
+
+        /** [HOW THIS WORKS]
+         * DcMotors need a power input between (-1.00 to 1.00)
+         * This can be done by calling the .setPower(); method on a DcMotor variable
+         * -----
+         * Each of the joysticks' have two axes (x and y)
+         * if a the left joystick of a gamepad is moved up then gamepad#.left_stick_y is positive
+         * if a the left joystick of a gamepad is moved down then gamepad#.left_stick_y is negative
+         * etc.
+         * -----
+         * Forward and Backward drive is done by setting the power of all the wheels as the value
+         * of the y-axis value of the gamepad's left joystick
+         *
+         */
+        double drive = gamepad1.left_stick_y;
 
         double strafe = gamepad1.left_stick_x;
         double rotate = gamepad1.right_stick_x;
 
-        frontLeftWheelP  = drive - strafe + rotate;
+        frontLeftWheelP  = drive + strafe + rotate;
         frontRightWheelP = drive - strafe - rotate;
-        backLeftWheelP   = drive + strafe + rotate;
+        backLeftWheelP   = drive - strafe + rotate;
         backRightWheelP  = drive + strafe - rotate;
-    }
-
-    protected void useDefaultArmControl() {
-        // Upper Arm
-        if (gamepad1.left_bumper) {
-            topArmServoP = SERVO_DELTA;
-        } else if (gamepad1.left_trigger > GP_TRIGGER_THRESHOLD) {
-            topArmServoP = -SERVO_DELTA;
-        } else {
-            topArmServoP = 0;
-        }
-
-        // Lower Arm
-        // Side note: too heavy to maintain balance
-        if (gamepad1.right_bumper) {
-            bottomArmServoP = SERVO_DELTA;
-        } else if (gamepad1.right_trigger > GP_TRIGGER_THRESHOLD) {
-            bottomArmServoP = -SERVO_DELTA;
-        } else {
-            bottomArmServoP = 0;
-        }
-
-        // Claw
-        if (gamepad1.dpad_up) {
-            clawServoP = -SERVO_DELTA;
-        } else if (gamepad1.dpad_down) {
-            clawServoP = SERVO_DELTA;
-        } else {
-            clawServoP = 0;
-        }
-    }
-
-    protected void useDefaultDroneLauncherControl() {
-        droneReleaseServoP = gamepad1.start || gamepad2.start
-                ? -SERVO_LOWER_POWER_LIMIT
-                : 0;
     }
 
     //------------------------------------------------------------------------------------------------
@@ -121,21 +88,15 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.frontRightWheel.setPower(limitMotorPower(frontRightWheelP));
         hardwareManager.backLeftWheel.setPower(limitMotorPower(backLeftWheelP));
         hardwareManager.backRightWheel.setPower(limitMotorPower(backRightWheelP));
-
-//        hardwareManager.topLeftArmServo.setPower(limitServoPower(topArmServoP));
-//        hardwareManager.topRightArmServo.setPower(limitServoPower(topArmServoP));
-//        hardwareManager.bottomLeftArmServo.setPower(limitServoPower(bottomArmServoP));
-//        hardwareManager.bottomRightArmServo.setPower(limitServoPower(bottomArmServoP));
-//
-//        hardwareManager.droneReleaseServo.setPower(droneReleaseServoP);
-//        hardwareManager.clawServo.setPower(clawServoP);
     }
 
-    protected double limitMotorPower(double input) {
+    protected double limitMotorPower(double input){
+        // Limits the DcMotor output power with a certain interval
         return Range.clip(input, MOTOR_LOWER_POWER_LIMIT, MOTOR_UPPER_POWER_LIMIT);
     }
 
     protected double limitServoPower(double input) {
+        // Limits the Servo output power with a certain interval
         return Range.clip(input, SERVO_LOWER_POWER_LIMIT, SERVO_UPPER_POWER_LIMIT);
     }
 }

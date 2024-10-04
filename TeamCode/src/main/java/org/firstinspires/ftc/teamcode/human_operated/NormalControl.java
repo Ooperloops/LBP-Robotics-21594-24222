@@ -3,27 +3,16 @@ package org.firstinspires.ftc.teamcode.human_operated;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.base.HumanOperated;
 
-/**
- * In normal control mode, the entire control of the
- * robot is handled by a single game controller.
- *
- * GamePad Control Schema:
- * (left_trigger) -> Upper Arm Down          (right_trigger) -> Lower Arm Down
- * (left_bumper)  -> Upper Arm Up            (right_bumper)  -> Lower Arm Up
- *     (d_pad_up) -> Claw Close            (X, Y, B, A) -> none
- *     (d_pad_down) -> Claw Open           (start) -> Launch Drone
- *              (left_stick)          (right_stick)
- *                   ║                     ╚ ▶ Forward, Backward, Rotate Left or Right;
- *                   ╚ ▶ For Omnidirectional Strafing;
- */
+
 @TeleOp(name = "Normal Control", group = "TeleOp")
 public class NormalControl extends HumanOperated {
+
+    /* > The following code overrides the "loop" function
+     * > The "loop" function is constantly called as the TeleOp is running
+     */
     @Override
     public void loop() {
-        useDefaultDroneLauncherControl();
         useDefaultMovementControls();
-        useDefaultArmControl();
-
         setHardwarePower();
     }
 }

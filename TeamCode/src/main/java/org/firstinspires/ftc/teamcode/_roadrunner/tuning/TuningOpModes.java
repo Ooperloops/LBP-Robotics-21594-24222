@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.tuning;
+package org.firstinspires.ftc.teamcode._roadrunner.tuning;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.reflection.ReflectionConfig;
@@ -22,10 +22,10 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegistrar;
 
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.firstinspires.ftc.teamcode.TankDrive;
-import org.firstinspires.ftc.teamcode.ThreeDeadWheelLocalizer;
-import org.firstinspires.ftc.teamcode.TwoDeadWheelLocalizer;
+import org.firstinspires.ftc.teamcode._roadrunner.MecanumDrive;
+import org.firstinspires.ftc.teamcode._roadrunner.TankDrive;
+import org.firstinspires.ftc.teamcode._roadrunner.ThreeDeadWheelLocalizer;
+import org.firstinspires.ftc.teamcode._roadrunner.TwoDeadWheelLocalizer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +51,6 @@ public final class TuningOpModes {
     @OpModeRegistrar
     public static void register(OpModeManager manager) {
         if (DISABLED) return;
-
         DriveViewFactory dvf;
         if (DRIVE_CLASS.equals(MecanumDrive.class)) {
             dvf = hardwareMap -> {
@@ -151,7 +150,6 @@ public final class TuningOpModes {
             throw new RuntimeException();
         }
 
-        manager.register(metaForClass(AngularRampLogger.class), new AngularRampLogger(dvf));
         manager.register(metaForClass(ForwardPushTest.class), new ForwardPushTest(dvf));
         manager.register(metaForClass(ForwardRampLogger.class), new ForwardRampLogger(dvf));
         manager.register(metaForClass(LateralPushTest.class), new LateralPushTest(dvf));
