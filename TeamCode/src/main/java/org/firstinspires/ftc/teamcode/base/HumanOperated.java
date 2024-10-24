@@ -63,6 +63,18 @@ public abstract class HumanOperated extends OpMode {
          * of the y-axis value of the gamepad's left joystick
          *
          */
+
+        /**
+         *
+         *   (Front of Robot)
+         *       ^
+         *       |
+         *  0--------0
+         *   |      |
+         *   |------|
+         *   |      |
+         *  0|      |0
+         */
         double drive = gamepad1.left_stick_y;
 
         double strafe = gamepad1.left_stick_x;
@@ -72,6 +84,10 @@ public abstract class HumanOperated extends OpMode {
         frontRightWheelP = drive - strafe - rotate;
         backLeftWheelP   = drive - strafe + rotate;
         backRightWheelP  = drive + strafe - rotate;
+    }
+
+    public void testServoMovement(){
+        hardwareManager.miscServo.setPower(gamepad1.a ? 1 : 0);
     }
 
     //------------------------------------------------------------------------------------------------
@@ -91,7 +107,7 @@ public abstract class HumanOperated extends OpMode {
     }
 
     protected double limitMotorPower(double input){
-        // Limits the DcMotor output power with a certain interval
+        // Limits the DcMotor output power within a certain interval
         return Range.clip(input, MOTOR_LOWER_POWER_LIMIT, MOTOR_UPPER_POWER_LIMIT);
     }
 

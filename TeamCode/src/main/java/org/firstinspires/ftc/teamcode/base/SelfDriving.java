@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.all_purpose.HardwareManager;
  * Providing all the required tools to do precise movements.
  */
 public abstract class SelfDriving extends LinearOpMode {
-    protected final double WHEEL_CIRCUMFERENCE = Math.PI * 0.098; // M
+    protected final double WHEEL_CIRCUMFERENCE = Math.PI * 0.102; // M
     protected final int COUNTS_PER_MOTOR_REVOLUTION = 900;
     protected final double COUNTS_PER_METER =
             COUNTS_PER_MOTOR_REVOLUTION / WHEEL_CIRCUMFERENCE;
@@ -45,7 +45,22 @@ public abstract class SelfDriving extends LinearOpMode {
     // Strafing
     //------------------------------------------------------------------------------------------------
     protected void strafe(double metersDistance) {
-        // Do that..
+        if(!opModeIsActive())
+            return;
+
+        int direction = (metersDistance > 0) ? 1 : -1;
+
+        hardwareManager.frontLeftWheel.setPower(direction * 1);
+        hardwareManager.frontRightWheel.setPower(direction * -1);
+        hardwareManager.backLeftWheel.setPower(direction * -1);
+        hardwareManager.backRightWheel.setPower(direction * 1);
+
+        double totalCounts = COUNTS_PER_METER * metersDistance;
+        while(opModeIsActive() && hardwareManager.getAverageWheelCounts() <= totalCounts){
+            idle();
+        }
+
+        hardwareManager.doToAllWheels((wheel) -> wheel.setPower(0));
     }
 
     //------------------------------------------------------------------------------------------------

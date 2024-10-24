@@ -12,6 +12,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
  */
 public class HardwareManager {
     //------------------------------------------------------------------------------------------------
+    // Misc. Servos
+    //------------------------------------------------------------------------------------------------
+    public final CRServo miscServo;
+    //------------------------------------------------------------------------------------------------
     // Wheels
     //------------------------------------------------------------------------------------------------
     public final DcMotor frontLeftWheel;
@@ -82,6 +86,8 @@ public class HardwareManager {
     }
 
     public HardwareManager(HardwareMap hardwareMap) {
+        // Servos
+        miscServo = hardwareMap.crservo.get("MiscServo");
         // Wheels
         frontLeftWheel = hardwareMap.dcMotor.get("FrontLeftM");
         frontRightWheel = hardwareMap.dcMotor.get("FrontRightM");
