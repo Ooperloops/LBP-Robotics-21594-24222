@@ -26,6 +26,7 @@ public abstract class SelfDriving extends LinearOpMode {
     //------------------------------------------------------------------------------------------------
     // Movement
     //------------------------------------------------------------------------------------------------
+
     protected void move(double metersDistance) {
         if (!opModeIsActive())
             return;
@@ -33,7 +34,7 @@ public abstract class SelfDriving extends LinearOpMode {
         hardwareManager.resetWheelCounts();
         hardwareManager.doToAllWheels((wheel) -> wheel.setPower(MOVEMENT_POWER));
 
-        double totalCounts = COUNTS_PER_METER * metersDistance;
+        double totalCounts = Math.abs(COUNTS_PER_METER * metersDistance);
         while (opModeIsActive() && hardwareManager.getAverageWheelCounts() <= totalCounts) {
             idle();
         }
@@ -49,15 +50,16 @@ public abstract class SelfDriving extends LinearOpMode {
             return;
 
         int direction = (metersDistance > 0) ? 1 : -1;
-
+        hardwareManager.resetWheelCounts();
         hardwareManager.frontLeftWheel.setPower(direction * 1);
         hardwareManager.frontRightWheel.setPower(direction * -1);
         hardwareManager.backLeftWheel.setPower(direction * -1);
         hardwareManager.backRightWheel.setPower(direction * 1);
 
-        double totalCounts = COUNTS_PER_METER * metersDistance;
+        double totalCounts = Math.abs(COUNTS_PER_METER * metersDistance);
         while(opModeIsActive() && hardwareManager.getAverageWheelCounts() <= totalCounts){
             idle();
+            telemetry.addLine().addData("Average Wheel Counts", hardwareManager.getAverageWheelCounts());
         }
 
         hardwareManager.doToAllWheels((wheel) -> wheel.setPower(0));

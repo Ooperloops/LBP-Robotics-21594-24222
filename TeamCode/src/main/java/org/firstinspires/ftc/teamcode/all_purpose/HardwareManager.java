@@ -14,10 +14,12 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     // Misc. Servos
     //------------------------------------------------------------------------------------------------
-    public final CRServo miscServo;
     //------------------------------------------------------------------------------------------------
     // Wheels
     //------------------------------------------------------------------------------------------------
+    
+
+
     public final DcMotor frontLeftWheel;
     public final DcMotor frontRightWheel;
     public final DcMotor backLeftWheel;
@@ -30,10 +32,10 @@ public class HardwareManager {
      */
 
     public double getAverageWheelCounts() {
-        return (frontLeftWheel.getCurrentPosition() +
-                frontRightWheel.getCurrentPosition() +
-                backLeftWheel.getCurrentPosition() +
-                backRightWheel.getCurrentPosition()) / 4.0;
+        return (Math.abs(frontLeftWheel.getCurrentPosition())) +
+                Math.abs(frontRightWheel.getCurrentPosition()) +
+                Math.abs(backLeftWheel.getCurrentPosition()) +
+                Math.abs(backRightWheel.getCurrentPosition()) / 4.0;
     }
 
     public void resetWheelCounts() {
@@ -52,12 +54,15 @@ public class HardwareManager {
      * To this:
      *      doToAllWheels((wheel) -> wheel.doTheSameCommand());
      */
+
+
     public void doToAllWheels(WheelCallback callback) {
         callback.run(frontLeftWheel);
         callback.run(frontRightWheel);
         callback.run(backLeftWheel);
         callback.run(backRightWheel);
     }
+
 
     public interface WheelCallback {
         void run(DcMotor motor);
@@ -71,6 +76,9 @@ public class HardwareManager {
     // Sensors
     //------------------------------------------------------------------------------------------------
     public IMU imu;
+    /*
+     * The
+     */
 
     /**
      * Returns a normalized robot yaw orientation in Degrees (°)
@@ -86,8 +94,7 @@ public class HardwareManager {
     }
 
     public HardwareManager(HardwareMap hardwareMap) {
-        // Servos
-        miscServo = hardwareMap.crservo.get("MiscServo");
+
         // Wheels
         frontLeftWheel = hardwareMap.dcMotor.get("FrontLeftM");
         frontRightWheel = hardwareMap.dcMotor.get("FrontRightM");
@@ -105,8 +112,8 @@ public class HardwareManager {
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(
                 new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
-                        RevHubOrientationOnRobot.UsbFacingDirection.UP
+                        RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                        RevHubOrientationOnRobot.UsbFacingDirection.DOWN
                 )
         );
 

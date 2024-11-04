@@ -69,13 +69,15 @@ public abstract class HumanOperated extends OpMode {
          *   (Front of Robot)
          *       ^
          *       |
-         *  0--------0
+         *  0|      |0
          *   |      |
          *   |------|
          *   |      |
-         *  0|      |0
+         *  0--------0
          */
-        double drive = gamepad1.left_stick_y;
+        double drive = (-gamepad1.left_stick_y != 0)
+                ? -gamepad1.left_stick_y
+                : -gamepad1.right_stick_y;
 
         double strafe = gamepad1.left_stick_x;
         double rotate = gamepad1.right_stick_x;
@@ -86,9 +88,6 @@ public abstract class HumanOperated extends OpMode {
         backRightWheelP  = drive + strafe - rotate;
     }
 
-    public void testServoMovement(){
-        hardwareManager.miscServo.setPower(gamepad1.a ? 1 : 0);
-    }
 
     //------------------------------------------------------------------------------------------------
     // Inheritance
