@@ -4,13 +4,13 @@ package org.firstinspires.ftc.teamcode.base;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class PIDAutoMove {
-    private double Ki = 5.0;
-    private double Kd = 5.0;
-    private double Kp = 5.0;
+    private double Ki;
+    private double Kd;
+    private double Kp;
 
-    private double P = 5.0;
-    private double I = 5.0;
-    private double D = 5.0;
+    private double P;
+    private double I;
+    private double D;
     private double deltaTimeSeconds = 0.05;
     private ElapsedTime elapsedTime;
 
@@ -22,6 +22,7 @@ public class PIDAutoMove {
         this.Ki = Ki;
         this.Kd = Kd;
         this.deltaTimeSeconds = deltaTimeSeconds;
+        elapsedTime = new ElapsedTime();
     }
 
     //------------------------------------------------------------------------------------------------
@@ -49,6 +50,7 @@ public class PIDAutoMove {
 
     private double Derivative(double error){
         double DeDt = (error - lastErrorPosition)/deltaTimeSeconds;
+        lastErrorPosition = DeDt;
         return Kd * (DeDt);
     }
 
