@@ -14,5 +14,8 @@ public class NormalControl extends HumanOperated {
     public void loop() {
         useDefaultMovementControls();
         setHardwarePower();
+
+        //TestMotor();
+        //TestServo();
     }
 }

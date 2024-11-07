@@ -16,6 +16,7 @@ public abstract class SelfDriving extends LinearOpMode {
             COUNTS_PER_MOTOR_REVOLUTION / WHEEL_CIRCUMFERENCE;
 
     protected HardwareManager hardwareManager;
+    protected PIDAutoMove movementPID;
 
     //------------------------------------------------------------------------------------------------
     // Config
@@ -30,12 +31,23 @@ public abstract class SelfDriving extends LinearOpMode {
     protected void move(double metersDistance) {
         if (!opModeIsActive())
             return;
+        movementPID = new PIDAutoMove(5, 1, 5, 0.05);
 
         hardwareManager.resetWheelCounts();
-        hardwareManager.doToAllWheels((wheel) -> wheel.setPower(MOVEMENT_POWER));
-
         double totalCounts = Math.abs(COUNTS_PER_METER * metersDistance);
+        hardwareManager.imu.resetYaw();
+        double initialAngleTheta = hardwareManager.getCurrentDegreeHeading();
         while (opModeIsActive() && hardwareManager.getAverageWheelCounts() <= totalCounts) {
+            double PIDoutput = movementPID.OnUpdatePower(
+                    hardwareManager.getCurrentDegreeHeading(),
+                    initialAngleTheta
+            );
+
+            double powerMultiplier = (PIDoutput/180);
+            hardwareManager.frontLeftWheel.setPower(1*(1 - powerMultiplier));
+            hardwareManager.backLeftWheel.setPower(1*(1 - powerMultiplier));
+            hardwareManager.frontRightWheel.setPower(1*(1 + powerMultiplier));
+            hardwareManager.backRightWheel.setPower(1*(1 + powerMultiplier));
             idle();
         }
 

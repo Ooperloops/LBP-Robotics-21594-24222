@@ -25,6 +25,8 @@ public class HardwareManager {
     public final DcMotor backLeftWheel;
     public final DcMotor backRightWheel;
 
+    //public final CRServo testServo;
+
     /**
      * let `n` be return value;
      *      n < 0 = Motors went reversed.
@@ -100,20 +102,23 @@ public class HardwareManager {
         frontRightWheel = hardwareMap.dcMotor.get("FrontRightM");
         backLeftWheel = hardwareMap.dcMotor.get("BackLeftM");
         backRightWheel = hardwareMap.dcMotor.get("BackRightM");
+        //testServo = hardwareMap.crservo.get("TestServo");
 
         frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        //testServo.setDirection(DcMotorSimple.Direction.FORWARD);
 
         doToAllWheels((wheel) -> wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE));
+        
 
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(
                 new RevHubOrientationOnRobot(
                         RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                        RevHubOrientationOnRobot.UsbFacingDirection.DOWN
+                        RevHubOrientationOnRobot.UsbFacingDirection.UP
                 )
         );
 

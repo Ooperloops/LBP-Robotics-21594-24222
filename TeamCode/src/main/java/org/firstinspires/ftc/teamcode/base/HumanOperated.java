@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.base;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.all_purpose.HardwareManager;
@@ -82,12 +83,35 @@ public abstract class HumanOperated extends OpMode {
         double strafe = gamepad1.left_stick_x;
         double rotate = gamepad1.right_stick_x;
 
-        frontLeftWheelP  = drive + strafe + rotate;
-        frontRightWheelP = drive - strafe - rotate;
-        backLeftWheelP   = drive - strafe + rotate;
-        backRightWheelP  = drive + strafe - rotate;
+        frontLeftWheelP  = drive - strafe + rotate;
+        frontRightWheelP = drive + strafe - rotate;
+        backLeftWheelP   = drive + strafe + rotate;
+        backRightWheelP  = drive - strafe - rotate;
     }
 
+    public void TestMotor(){
+        if(gamepad1.a){
+            frontLeftWheelP = 1;
+        } else if(gamepad1.b){
+            frontLeftWheelP = -1;
+        } else {
+            frontLeftWheelP = 0;
+        }
+
+        hardwareManager.frontLeftWheel.setPower(frontLeftWheelP);
+    }
+    /*
+    public void TestServo(){
+        if(gamepad1.x){
+            hardwareManager.testServo.setPower(1);
+            hardwareManager.testServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        } else if(gamepad1.y){
+            hardwareManager.testServo.setPower(1);
+            hardwareManager.testServo.setDirection(DcMotorSimple.Direction.FORWARD);
+        } else {
+            hardwareManager.testServo.setPower(0);
+        }
+    }*/
 
     //------------------------------------------------------------------------------------------------
     // Inheritance
