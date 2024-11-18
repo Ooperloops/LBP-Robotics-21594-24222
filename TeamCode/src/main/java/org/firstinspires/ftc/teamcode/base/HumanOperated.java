@@ -128,6 +128,21 @@ public abstract class HumanOperated extends OpMode {
 
     }
 
+    public void liftControl(){
+        boolean raiseLift = gamepad1.a;
+        boolean lowerLift = gamepad1.x;
+        if(raiseLift){
+            hardwareManager.liftMotor.setPower(0.8);
+        }else{
+            hardwareManager.liftMotor.setPower(0);
+        }
+        if(lowerLift){
+            hardwareManager.liftMotor.setPower(-0.8);
+        }else{
+            hardwareManager.liftMotor.setPower(0);
+        }
+    }
+
 
     //------------------------------------------------------------------------------------------------
     // Inheritance

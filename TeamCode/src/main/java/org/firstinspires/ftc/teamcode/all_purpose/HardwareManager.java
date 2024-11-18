@@ -15,10 +15,10 @@ public class HardwareManager {
     // Active Intake
     //------------------------------------------------------------------------------------------------
     public final DcMotor intakeWheel;
-
     public final Servo intakeServo;
-
     public final DcMotor intakeSlide;
+
+    public final DcMotor liftMotor;
 
     //------------------------------------------------------------------------------------------------
     // Wheels
@@ -110,6 +110,9 @@ public class HardwareManager {
         intakeServo = hardwareMap.servo.get("IntakeServo");
         intakeSlide = hardwareMap.dcMotor.get("IntakeSlide");
 
+        // Lift Motor
+        liftMotor = hardwareMap.dcMotor.get("LiftMotor");
+
         frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -119,6 +122,8 @@ public class HardwareManager {
 
         intakeWheel.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");

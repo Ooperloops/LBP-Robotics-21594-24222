@@ -15,8 +15,6 @@ public class NormalControl extends HumanOperated {
         useDefaultMovementControls();
         setHardwarePower();
         ActiveIntake();
-
-        //TestMotor();
-        //TestServo();
+        liftControl();
     }
 }
