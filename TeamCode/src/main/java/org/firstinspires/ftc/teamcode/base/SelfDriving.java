@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.base;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.all_purpose.HardwareManager;
 
@@ -19,12 +21,14 @@ public abstract class SelfDriving extends LinearOpMode {
     protected PIDAutoMove movementPID;
 
     //------------------------------------------------------------------------------------------------
-    // Active Intake Slide
+    // Active Intake
     //------------------------------------------------------------------------------------------------
     protected final int COUNTS_PER_ACTIVE_INTAKE_MOTOR_REVOLUTION = 480;
     protected final double ACTIVE_INTAKE_WHEEL_CIRCUMFERENCE = Math.PI; // Inches
-    protected final double COUNTS_PER_METER_ACTIN_SLIDE =
+    protected final double COUNTS_PER_INCH_ACTIN_SLIDE =
             COUNTS_PER_ACTIVE_INTAKE_MOTOR_REVOLUTION / ACTIVE_INTAKE_WHEEL_CIRCUMFERENCE;
+
+    protected final double maxIntakeWheelPower = 0.9;
 
     //------------------------------------------------------------------------------------------------
     // Config
@@ -39,7 +43,7 @@ public abstract class SelfDriving extends LinearOpMode {
     protected void move(double metersDistance) {
         if (!opModeIsActive())
             return;
-        movementPID = new PIDAutoMove(5, 1, 5, 0.05);
+        movementPID = new PIDAutoMove(5, 0, 5, 0.05);
 
         hardwareManager.resetWheelCounts();
         double totalCounts = Math.abs(COUNTS_PER_METER * metersDistance);
@@ -79,7 +83,6 @@ public abstract class SelfDriving extends LinearOpMode {
         double totalCounts = Math.abs(COUNTS_PER_METER * metersDistance);
         while(opModeIsActive() && hardwareManager.getAverageWheelCounts() <= totalCounts){
             idle();
-            telemetry.addLine().addData("Average Wheel Counts", hardwareManager.getAverageWheelCounts());
         }
 
         hardwareManager.doToAllWheels((wheel) -> wheel.setPower(0));
@@ -124,10 +127,36 @@ public abstract class SelfDriving extends LinearOpMode {
     // Active Intake
     //------------------------------------------------------------------------------------------------
     public void MoveSlide(double slideTravelDistance){
-        //hardwareManager.intakeSlide.
-        while(opModeIsActive() && hardwareManager.intakeSlide.getCurrentPosition() == 1){
-
+        int direction = (slideTravelDistance >= 0) ? 1 : -1;
+        hardwareManager.intakeSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        hardwareManager.intakeSlide.setPower(direction);
+        double totalCounts = Math.abs(COUNTS_PER_INCH_ACTIN_SLIDE * slideTravelDistance);
+        while(opModeIsActive() && Math.abs(hardwareManager.intakeSlide.getCurrentPosition()) <= totalCounts){
+            idle();
         }
+        hardwareManager.intakeSlide.setPower(0);
+    }
+
+    public void MoveActinArm(double position){
+        double moveTo = Range.clip(position, 0, 1);
+        hardwareManager.intakeServo.setPosition(moveTo);
+    }
+
+    public void MoveWheel(boolean intake, double spinTimeInSeconds){
+        double direction = (intake) ? maxIntakeWheelPower: -maxIntakeWheelPower;
+        hardwareManager.intakeWheel.setPower(direction);
+        ElapsedTime time = new ElapsedTime();
+        while(opModeIsActive() && time.seconds() < spinTimeInSeconds){ //Keep spinning until n seconds
+            idle();
+        }
+        hardwareManager.intakeWheel.setPower(0);
+
+    }
+    //------------------------------------------------------------------------------------------------
+    // Outake Slide
+    //------------------------------------------------------------------------------------------------
+    public void MoveUpwardSlide(){
+
     }
     //------------------------------------------------------------------------------------------------
     // Inheritance
