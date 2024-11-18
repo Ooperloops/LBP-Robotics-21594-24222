@@ -33,6 +33,9 @@ public abstract class HumanOperated extends OpMode {
     protected double backLeftWheelP = 0;
     protected double backRightWheelP = 0;
 
+    protected double activeIntakeServoPosition = 0;
+    protected double increment = 0.0027;
+
     //------------------------------------------------------------------------------------------------
     // Config
     //------------------------------------------------------------------------------------------------
@@ -89,29 +92,42 @@ public abstract class HumanOperated extends OpMode {
         backRightWheelP  = drive - strafe - rotate;
     }
 
-    public void TestMotor(){
-        if(gamepad1.a){
-            frontLeftWheelP = 1;
-        } else if(gamepad1.b){
-            frontLeftWheelP = -1;
-        } else {
-            frontLeftWheelP = 0;
+    public void ActiveIntake(){
+        boolean extendSlide = gamepad1.dpad_right;
+        boolean retractSlide = gamepad1.dpad_left;
+        if (extendSlide) {
+            hardwareManager.intakeSlide.setPower(0.8);
+        }else{
+            hardwareManager.intakeSlide.setPower(0);
+        }
+        if (retractSlide) {
+            hardwareManager.intakeSlide.setPower(-0.8);
+        }else{
+            hardwareManager.intakeSlide.setPower(0);
+        }
+        double spinIntakeForward = gamepad1.right_trigger;
+        if(spinIntakeForward == 1){
+            hardwareManager.intakeWheel.setPower(0.8);
+        }else{
+            hardwareManager.intakeWheel.setPower(0);
+        }
+        double spintIntakeReverse = gamepad1.left_trigger;
+        if(spintIntakeReverse == 1){
+            hardwareManager.intakeWheel.setPower(-0.8);
+        }else{
+            hardwareManager.intakeWheel.setPower(0);
         }
 
-        hardwareManager.frontLeftWheel.setPower(frontLeftWheelP);
-    }
-    /*
-    public void TestServo(){
-        if(gamepad1.x){
-            hardwareManager.testServo.setPower(1);
-            hardwareManager.testServo.setDirection(DcMotorSimple.Direction.REVERSE);
-        } else if(gamepad1.y){
-            hardwareManager.testServo.setPower(1);
-            hardwareManager.testServo.setDirection(DcMotorSimple.Direction.FORWARD);
-        } else {
-            hardwareManager.testServo.setPower(0);
+        if(gamepad1.dpad_up){
+            activeIntakeServoPosition = Range.clip(activeIntakeServoPosition + increment, 0, 1);
+        } else if (gamepad1.dpad_down){
+            activeIntakeServoPosition = Range.clip(activeIntakeServoPosition - increment, 0, 1);
         }
-    }*/
+
+        hardwareManager.intakeServo.setPosition(activeIntakeServoPosition);
+
+    }
+
 
     //------------------------------------------------------------------------------------------------
     // Inheritance

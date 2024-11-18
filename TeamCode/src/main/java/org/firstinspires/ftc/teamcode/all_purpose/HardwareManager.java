@@ -12,11 +12,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
  */
 public class HardwareManager {
     //------------------------------------------------------------------------------------------------
-    // Active Intake Servos
+    // Active Intake
     //------------------------------------------------------------------------------------------------
-    //------------------------------------------------------------------------------------------------
-    // Active Intake Motors
-    //------------------------------------------------------------------------------------------------
+    public final DcMotor intakeWheel;
+
+    public final Servo intakeServo;
+
+    public final DcMotor intakeSlide;
+
     //------------------------------------------------------------------------------------------------
     // Wheels
     //------------------------------------------------------------------------------------------------
@@ -25,7 +28,6 @@ public class HardwareManager {
     public final DcMotor backLeftWheel;
     public final DcMotor backRightWheel;
 
-    //public final CRServo testServo;
 
     /**
      * let `n` be return value;
@@ -102,16 +104,21 @@ public class HardwareManager {
         frontRightWheel = hardwareMap.dcMotor.get("FrontRightM");
         backLeftWheel = hardwareMap.dcMotor.get("BackLeftM");
         backRightWheel = hardwareMap.dcMotor.get("BackRightM");
-        //testServo = hardwareMap.crservo.get("TestServo");
+
+        // Active Intake
+        intakeWheel = hardwareMap.dcMotor.get("IntakeWheel");
+        intakeServo = hardwareMap.servo.get("IntakeServo");
+        intakeSlide = hardwareMap.dcMotor.get("IntakeSlide");
 
         frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
-        //testServo.setDirection(DcMotorSimple.Direction.FORWARD);
 
         doToAllWheels((wheel) -> wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE));
-        
+
+        intakeWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeSlide.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");
