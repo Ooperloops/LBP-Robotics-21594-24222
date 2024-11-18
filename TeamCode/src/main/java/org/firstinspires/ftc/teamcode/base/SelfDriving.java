@@ -19,6 +19,14 @@ public abstract class SelfDriving extends LinearOpMode {
     protected PIDAutoMove movementPID;
 
     //------------------------------------------------------------------------------------------------
+    // Active Intake Slide
+    //------------------------------------------------------------------------------------------------
+    protected final int COUNTS_PER_ACTIVE_INTAKE_MOTOR_REVOLUTION = 480;
+    protected final double ACTIVE_INTAKE_WHEEL_CIRCUMFERENCE = Math.PI; // Inches
+    protected final double COUNTS_PER_METER_ACTIN_SLIDE =
+            COUNTS_PER_ACTIVE_INTAKE_MOTOR_REVOLUTION / ACTIVE_INTAKE_WHEEL_CIRCUMFERENCE;
+
+    //------------------------------------------------------------------------------------------------
     // Config
     //------------------------------------------------------------------------------------------------
     protected final double MOVEMENT_POWER = 0.5;
@@ -112,6 +120,15 @@ public abstract class SelfDriving extends LinearOpMode {
                 : currentAngle < targetAngle;
     }
 
+    //------------------------------------------------------------------------------------------------
+    // Active Intake
+    //------------------------------------------------------------------------------------------------
+    public void MoveSlide(double slideTravelDistance){
+        //hardwareManager.intakeSlide.
+        while(opModeIsActive() && hardwareManager.intakeSlide.getCurrentPosition() == 1){
+
+        }
+    }
     //------------------------------------------------------------------------------------------------
     // Inheritance
     //------------------------------------------------------------------------------------------------
