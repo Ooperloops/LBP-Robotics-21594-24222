@@ -19,6 +19,8 @@ public class HardwareManager {
     public final DcMotor backLeftWheel;
     public final DcMotor backRightWheel;
 
+    public final DcMotor intakeArm;
+
     /**
      * let `n` be return value;
      *      n < 0 = Motors went reversed.
@@ -94,6 +96,11 @@ public class HardwareManager {
         backRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
 
         doToAllWheels((wheel) -> wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE));
+
+        // Intake
+        intakeArm = hardwareMap.dcMotor.get("IntakeArmMotor");
+
+        intakeArm.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");

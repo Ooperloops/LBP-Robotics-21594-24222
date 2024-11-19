@@ -45,6 +45,21 @@ public abstract class HumanOperated extends OpMode {
     // Defaults
     //------------------------------------------------------------------------------------------------
 
+    public void intakeArmControl() {
+        boolean raiseArm = gamepad1.y;
+        boolean lowerArm = gamepad1.a;
+        if(raiseArm) {
+            hardwareManager.intakeArm.setPower(0.5);
+        }else {
+            hardwareManager.intakeArm.setPower(0);
+        }
+        if(lowerArm) {
+            hardwareManager.intakeArm.setPower(-0.5);
+        }else {
+            hardwareManager.intakeArm.setPower(0);
+        }
+    }
+
     protected void useDefaultMovementControls() {
         // Allow for forward / backward movement command
         // to be receive from left and right joystick.
