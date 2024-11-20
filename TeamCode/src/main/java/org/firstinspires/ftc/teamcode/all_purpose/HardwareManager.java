@@ -102,6 +102,8 @@ public class HardwareManager {
 
         intakeArm.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        intakeArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(
