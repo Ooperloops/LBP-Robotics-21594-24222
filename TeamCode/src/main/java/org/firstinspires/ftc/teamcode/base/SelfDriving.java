@@ -138,7 +138,7 @@ public abstract class SelfDriving extends LinearOpMode {
     }
 
     public void MoveActinArm(double position){
-        double moveTo = Range.clip(position, 0, 1);
+        double moveTo = Range.clip(position, 0, 0.4752);
         hardwareManager.intakeServo.setPosition(moveTo);
     }
 

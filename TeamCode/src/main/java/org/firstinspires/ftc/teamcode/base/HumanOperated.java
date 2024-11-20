@@ -82,17 +82,17 @@ public abstract class HumanOperated extends OpMode {
          *   |      |
          *  0--------0
          */
-        double drive = (controller.left_stick_y != 0)
-                ? controller.left_stick_y
-                : controller.right_stick_y;
+        double drive = (-controller.left_stick_y != 0)
+                ? -controller.left_stick_y
+                : -controller.right_stick_y;
 
         double strafe = controller.left_stick_x;
         double rotate = controller.right_stick_x;
 
-        frontLeftWheelP  = drive - strafe + rotate;
-        frontRightWheelP = drive + strafe - rotate;
-        backLeftWheelP   = drive + strafe + rotate;
-        backRightWheelP  = drive - strafe - rotate;
+        frontLeftWheelP  = drive + strafe + rotate;
+        frontRightWheelP = drive - strafe - rotate;
+        backLeftWheelP   = drive - strafe + rotate;
+        backRightWheelP  = drive + strafe - rotate;
     }
 
     public void ActiveIntake(boolean isPlayerOne){
@@ -112,21 +112,21 @@ public abstract class HumanOperated extends OpMode {
         }
         double spinIntakeForward = controller.right_trigger;
         if(spinIntakeForward == 1){
-            hardwareManager.intakeWheel.setPower(0.8);
+            hardwareManager.intakeWheel.setPower(-0.8);
         }else{
             hardwareManager.intakeWheel.setPower(0);
         }
         double spintIntakeReverse = controller.left_trigger;
         if(spintIntakeReverse == 1){
-            hardwareManager.intakeWheel.setPower(-0.8);
+            hardwareManager.intakeWheel.setPower(0.8);
         }else{
             hardwareManager.intakeWheel.setPower(0);
         }
 
         if(controller.dpad_up){
-            activeIntakeServoPosition = Range.clip(activeIntakeServoPosition + increment, 0, 1);
+            activeIntakeServoPosition = Range.clip(activeIntakeServoPosition - increment, 0, 0.4752);
         } else if (controller.dpad_down){
-            activeIntakeServoPosition = Range.clip(activeIntakeServoPosition - increment, 0, 1);
+            activeIntakeServoPosition = Range.clip(activeIntakeServoPosition + increment, 0, 0.4752);
         }
 
         hardwareManager.intakeServo.setPosition(activeIntakeServoPosition);
@@ -158,6 +158,7 @@ public abstract class HumanOperated extends OpMode {
     @Override
     public void init() {
         hardwareManager = new HardwareManager(hardwareMap);
+        hardwareManager.intakeServo.setPosition(0);
     }
 
     public void setHardwarePower() {
