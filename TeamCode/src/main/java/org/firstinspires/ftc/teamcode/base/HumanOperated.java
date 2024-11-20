@@ -49,12 +49,12 @@ public abstract class HumanOperated extends OpMode {
         boolean raiseArm = gamepad1.y;
         boolean lowerArm = gamepad1.a;
         if(raiseArm) {
-            hardwareManager.intakeArm.setPower(0.5);
+            hardwareManager.intakeArm.setPower(1);
         }else {
             hardwareManager.intakeArm.setPower(0);
         }
         if(lowerArm) {
-            hardwareManager.intakeArm.setPower(-0.5);
+            hardwareManager.intakeArm.setPower(-1);
         }else {
             hardwareManager.intakeArm.setPower(0);
         }
