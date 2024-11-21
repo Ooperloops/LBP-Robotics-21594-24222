@@ -127,7 +127,12 @@ public abstract class SelfDriving extends LinearOpMode {
     // Active Intake
     //------------------------------------------------------------------------------------------------
     public void MoveSlide(double slideTravelDistance){
-        int direction = (slideTravelDistance >= 0) ? 1 : -1;
+        if(!opModeIsActive())
+        {
+            return;
+        }
+
+        int direction = (slideTravelDistance >= 0) ? -1 : 1;
         hardwareManager.intakeSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         hardwareManager.intakeSlide.setPower(direction);
         double totalCounts = Math.abs(COUNTS_PER_INCH_ACTIN_SLIDE * slideTravelDistance);
@@ -146,7 +151,7 @@ public abstract class SelfDriving extends LinearOpMode {
         double direction = (intake) ? maxIntakeWheelPower: -maxIntakeWheelPower;
         hardwareManager.intakeWheel.setPower(direction);
         ElapsedTime time = new ElapsedTime();
-        while(opModeIsActive() && time.seconds() < spinTimeInSeconds){ //Keep spinning until n seconds
+        while(opModeIsActive() && time.seconds() <= spinTimeInSeconds){ //Keep spinning until n seconds
             idle();
         }
         hardwareManager.intakeWheel.setPower(0);

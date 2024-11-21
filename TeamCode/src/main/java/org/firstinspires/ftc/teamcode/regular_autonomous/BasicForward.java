@@ -14,7 +14,7 @@ public class BasicForward extends SelfDriving {
      */
     @Override
     public void runAutonomous() {
-        move(3);
+        move(1.5);
         rotate(90);
         MoveSlide(6);
         MoveActinArm(1);

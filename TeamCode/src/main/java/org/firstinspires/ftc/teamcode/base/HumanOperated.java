@@ -98,13 +98,9 @@ public abstract class HumanOperated extends OpMode {
     public void ActiveIntake(boolean isPlayerOne){
         Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
 
-        boolean extendSlide = controller.dpad_right;
+        double extendSlide = controller.right_stick_y;
         boolean retractSlide = controller.dpad_left;
-        if (extendSlide) {
-            hardwareManager.intakeSlide.setPower(0.8);
-        }else{
-            hardwareManager.intakeSlide.setPower(0);
-        }
+        hardwareManager.intakeSlide.setPower(extendSlide);
         if (retractSlide) {
             hardwareManager.intakeSlide.setPower(-0.8);
         }else{
@@ -116,17 +112,19 @@ public abstract class HumanOperated extends OpMode {
         }else{
             hardwareManager.intakeWheel.setPower(0);
         }
-        double spintIntakeReverse = controller.left_trigger;
-        if(spintIntakeReverse == 1){
+        double spinIntakeReverse = controller.left_trigger;
+        if(spinIntakeReverse == 1){
             hardwareManager.intakeWheel.setPower(0.8);
         }else{
             hardwareManager.intakeWheel.setPower(0);
         }
 
-        if(controller.dpad_up){
+        if(controller.left_stick_y > 0){
             activeIntakeServoPosition = Range.clip(activeIntakeServoPosition - increment, 0, 0.4752);
-        } else if (controller.dpad_down){
+        } else if (controller.left_stick_y < 0){
             activeIntakeServoPosition = Range.clip(activeIntakeServoPosition + increment, 0, 0.4752);
+        }else if (controller.left_stick_y == 0){
+
         }
 
         hardwareManager.intakeServo.setPosition(activeIntakeServoPosition);
