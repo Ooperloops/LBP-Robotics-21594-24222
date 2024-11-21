@@ -50,8 +50,7 @@ public abstract class HumanOperated extends OpMode {
     // Defaults
     //------------------------------------------------------------------------------------------------
 
-    protected void useDefaultMovementControls(boolean isPlayerOne) {
-        Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
+    protected void useDefaultMovementControls() {
 
         // Allow for forward / backward movement command
         // to be receive from left and right joystick.
@@ -95,12 +94,42 @@ public abstract class HumanOperated extends OpMode {
         backRightWheelP  = drive + strafe - rotate;
     }
 
-    public void ActiveIntake(boolean isPlayerOne){
-        Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
+    public void  ActiveIntakeTwoPlaye(){
 
         double extendSlide = controller.right_stick_y;
-        boolean retractSlide = controller.dpad_left;
         hardwareManager.intakeSlide.setPower(extendSlide);
+        
+        double spinIntakeForward = controller.right_trigger;
+        if(spinIntakeForward == 1){
+            hardwareManager.intakeWheel.setPower(-0.8);
+        }else{
+            hardwareManager.intakeWheel.setPower(0);
+        }
+        double spinIntakeReverse = controller.left_trigger;
+        if(spinIntakeReverse == 1){
+            hardwareManager.intakeWheel.setPower(0.8);
+        }else{
+            hardwareManager.intakeWheel.setPower(0);
+        }
+
+        if(controller.left_stick_y > 0){
+            activeIntakeServoPosition = Range.clip(activeIntakeServoPosition - increment, 0, 0.4752);
+        } else if (controller.left_stick_y < 0){
+            activeIntakeServoPosition = Range.clip(activeIntakeServoPosition + increment, 0, 0.4752);
+        }
+
+        hardwareManager.intakeServo.setPosition(activeIntakeServoPosition);
+
+    }
+
+    public void ActiveIntake(){
+        double extendSlide = controller.dpad_right;
+        boolean retractSlide = controller.dpad_left;
+        if (extendSlide) {
+            hardwareManager.intakeSlide.setPower(0.8);
+        }else{
+            hardwareManager.intakeSlide.setPower(0);
+        }
         if (retractSlide) {
             hardwareManager.intakeSlide.setPower(-0.8);
         }else{
@@ -119,16 +148,13 @@ public abstract class HumanOperated extends OpMode {
             hardwareManager.intakeWheel.setPower(0);
         }
 
-        if(controller.left_stick_y > 0){
+        if(controller.dpad_up){
             activeIntakeServoPosition = Range.clip(activeIntakeServoPosition - increment, 0, 0.4752);
-        } else if (controller.left_stick_y < 0){
+        } else if (controller.dpad_down < 0){
             activeIntakeServoPosition = Range.clip(activeIntakeServoPosition + increment, 0, 0.4752);
-        }else if (controller.left_stick_y == 0){
-
         }
 
         hardwareManager.intakeServo.setPosition(activeIntakeServoPosition);
-
     }
 
     public void liftControl(boolean isPlayerOne){
@@ -137,12 +163,12 @@ public abstract class HumanOperated extends OpMode {
         boolean raiseLift = controller.a;
         boolean lowerLift = controller.x;
         if(raiseLift){
-            hardwareManager.liftMotor.setPower(0.8);
+            hardwareManager.liftMotor.setPower(1);
         }else{
             hardwareManager.liftMotor.setPower(0);
         }
         if(lowerLift){
-            hardwareManager.liftMotor.setPower(-0.8);
+            hardwareManager.liftMotor.setPower(-1);
         }else{
             hardwareManager.liftMotor.setPower(0);
         }
