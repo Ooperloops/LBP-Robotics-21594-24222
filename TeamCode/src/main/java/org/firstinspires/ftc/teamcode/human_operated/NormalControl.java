@@ -15,5 +15,6 @@ public class NormalControl extends HumanOperated {
         useDefaultMovementControls();
         setHardwarePower();
         intakeArmControl();
+
     }
 }

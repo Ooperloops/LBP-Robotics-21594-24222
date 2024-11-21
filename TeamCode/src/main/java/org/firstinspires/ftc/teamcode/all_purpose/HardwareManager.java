@@ -18,8 +18,11 @@ public class HardwareManager {
     public final DcMotor frontRightWheel;
     public final DcMotor backLeftWheel;
     public final DcMotor backRightWheel;
-
+    //------------------------------------------------------------------------------------------------
+    // Intake
+    //------------------------------------------------------------------------------------------------
     public final DcMotor intakeArm;
+    public final CRServo intakeServo;
 
     /**
      * let `n` be return value;
@@ -99,8 +102,10 @@ public class HardwareManager {
 
         // Intake
         intakeArm = hardwareMap.dcMotor.get("IntakeArmMotor");
+        intakeServo = hardwareMap.crservo.get("IntakeServo");
 
         intakeArm.setDirection(DcMotorSimple.Direction.FORWARD);
+        intakeServo.setDirection(DcMotorSimple.Direction.FORWARD);
 
         intakeArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
