@@ -51,7 +51,6 @@ public abstract class HumanOperated extends OpMode {
     //------------------------------------------------------------------------------------------------
 
     protected void useDefaultMovementControls() {
-
         // Allow for forward / backward movement command
         // to be receive from left and right joystick.
 
@@ -81,12 +80,12 @@ public abstract class HumanOperated extends OpMode {
          *   |      |
          *  0--------0
          */
-        double drive = (-controller.left_stick_y != 0)
-                ? -controller.left_stick_y
-                : -controller.right_stick_y;
+        double drive = (-gamepad1.left_stick_y != 0)
+                ? -gamepad1.left_stick_y
+                : -gamepad1.right_stick_y;
 
-        double strafe = controller.left_stick_x;
-        double rotate = controller.right_stick_x;
+        double strafe = gamepad1.left_stick_x;
+        double rotate = gamepad1.right_stick_x;
 
         frontLeftWheelP  = drive + strafe + rotate;
         frontRightWheelP = drive - strafe - rotate;
@@ -94,27 +93,27 @@ public abstract class HumanOperated extends OpMode {
         backRightWheelP  = drive + strafe - rotate;
     }
 
-    public void  ActiveIntakeTwoPlaye(){
+    public void  ActiveIntakeTwoPlayer(){
 
-        double extendSlide = controller.right_stick_y;
+        double extendSlide = gamepad2.right_stick_y;
         hardwareManager.intakeSlide.setPower(extendSlide);
         
-        double spinIntakeForward = controller.right_trigger;
+        double spinIntakeForward = gamepad2.right_trigger;
         if(spinIntakeForward == 1){
             hardwareManager.intakeWheel.setPower(-0.8);
         }else{
             hardwareManager.intakeWheel.setPower(0);
         }
-        double spinIntakeReverse = controller.left_trigger;
+        double spinIntakeReverse = gamepad2.left_trigger;
         if(spinIntakeReverse == 1){
             hardwareManager.intakeWheel.setPower(0.8);
         }else{
             hardwareManager.intakeWheel.setPower(0);
         }
 
-        if(controller.left_stick_y > 0){
+        if(gamepad2.left_stick_y > 0){
             activeIntakeServoPosition = Range.clip(activeIntakeServoPosition - increment, 0, 0.4752);
-        } else if (controller.left_stick_y < 0){
+        } else if (gamepad2.left_stick_y < 0){
             activeIntakeServoPosition = Range.clip(activeIntakeServoPosition + increment, 0, 0.4752);
         }
 
@@ -123,8 +122,8 @@ public abstract class HumanOperated extends OpMode {
     }
 
     public void ActiveIntake(){
-        double extendSlide = controller.dpad_right;
-        boolean retractSlide = controller.dpad_left;
+        boolean extendSlide = gamepad1.dpad_right;
+        boolean retractSlide = gamepad1.dpad_left;
         if (extendSlide) {
             hardwareManager.intakeSlide.setPower(0.8);
         }else{
@@ -135,22 +134,22 @@ public abstract class HumanOperated extends OpMode {
         }else{
             hardwareManager.intakeSlide.setPower(0);
         }
-        double spinIntakeForward = controller.right_trigger;
+        double spinIntakeForward = gamepad1.right_trigger;
         if(spinIntakeForward == 1){
-            hardwareManager.intakeWheel.setPower(-0.8);
+            hardwareManager.intakeWheel.setPower(-1);
         }else{
             hardwareManager.intakeWheel.setPower(0);
         }
-        double spinIntakeReverse = controller.left_trigger;
+        double spinIntakeReverse = gamepad1.left_trigger;
         if(spinIntakeReverse == 1){
-            hardwareManager.intakeWheel.setPower(0.8);
+            hardwareManager.intakeWheel.setPower(1);
         }else{
             hardwareManager.intakeWheel.setPower(0);
         }
 
-        if(controller.dpad_up){
+        if(gamepad1.dpad_up){
             activeIntakeServoPosition = Range.clip(activeIntakeServoPosition - increment, 0, 0.4752);
-        } else if (controller.dpad_down < 0){
+        } else if (gamepad1.dpad_down){
             activeIntakeServoPosition = Range.clip(activeIntakeServoPosition + increment, 0, 0.4752);
         }
 

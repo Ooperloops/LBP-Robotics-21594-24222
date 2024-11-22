@@ -134,6 +134,7 @@ public abstract class SelfDriving extends LinearOpMode {
 
         int direction = (slideTravelDistance >= 0) ? -1 : 1;
         hardwareManager.intakeSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        hardwareManager.intakeSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         hardwareManager.intakeSlide.setPower(direction);
         double totalCounts = Math.abs(COUNTS_PER_INCH_ACTIN_SLIDE * slideTravelDistance);
         while(opModeIsActive() && Math.abs(hardwareManager.intakeSlide.getCurrentPosition()) <= totalCounts){

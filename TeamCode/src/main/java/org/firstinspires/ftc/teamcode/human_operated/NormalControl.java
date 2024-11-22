@@ -12,7 +12,7 @@ public class NormalControl extends HumanOperated {
      */
     @Override
     public void loop() {
-        useDefaultMovementControls(true);
+        useDefaultMovementControls();
         ActiveIntake();
         liftControl(true);
         setHardwarePower();
