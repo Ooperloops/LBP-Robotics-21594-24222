@@ -159,8 +159,8 @@ public abstract class HumanOperated extends OpMode {
     public void liftControl(boolean isPlayerOne){
         Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
 
-        boolean raiseLift = controller.a;
-        boolean lowerLift = controller.x;
+        boolean raiseLift = controller.y;
+        boolean lowerLift = controller.a;
         if(raiseLift){
             hardwareManager.liftMotor.setPower(1);
         }else{
@@ -170,6 +170,18 @@ public abstract class HumanOperated extends OpMode {
             hardwareManager.liftMotor.setPower(-1);
         }else{
             hardwareManager.liftMotor.setPower(0);
+        }
+        boolean spinServo = controller.x;
+        boolean reverseServo = controller.b;
+        if(spinServo){
+            hardwareManager.liftServo.setPower(1);
+        }else{
+            hardwareManager.liftServo.setPower(0);
+        }
+        if(reverseServo){
+            hardwareManager.liftServo.setPower(-1);
+        }else{
+            hardwareManager.liftServo.setPower(0);
         }
     }
 
