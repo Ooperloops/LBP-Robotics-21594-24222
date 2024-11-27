@@ -182,9 +182,9 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.liftServo.setPosition(liftServoPosition);\ */
 
         if(controller.x){
-            liftServoPosition = Range.clip(liftServoPosition - increment, 0, 1);
+            liftServoPosition = 1;
         } else if (controller.b){
-            liftServoPosition = Range.clip(liftServoPosition + increment, 0, 1);
+            liftServoPosition = 0;
         }
 
         hardwareManager.liftServo.setPosition(liftServoPosition);
