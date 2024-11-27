@@ -172,20 +172,14 @@ public abstract class HumanOperated extends OpMode {
         } else {
             hardwareManager.liftMotor.setPower(0);
         }
-        /*boolean spinServo = controller.x;
-        boolean reverseServo = controller.b;
-        if (spinServo) {
-            liftServoPosition = Range.clip(liftServoPosition - increment, 0, 0.4752);
-        } else if (reverseServo) {
-            liftServoPosition = Range.clip(liftServoPosition + increment, 0, 0.4752);
-        }
-        hardwareManager.liftServo.setPosition(liftServoPosition);\ */
 
         if(controller.x){
             liftServoPosition = Range.clip(liftServoPosition - increment, 0, 1);
         } else if (controller.b){
             liftServoPosition = Range.clip(liftServoPosition + increment, 0, 1);
         }
+        telemetry.addLine().addData("Lift Motor Count", hardwareManager.liftMotor.getCurrentPosition());
+        telemetry.update();
 
         hardwareManager.liftServo.setPosition(liftServoPosition);
     }

@@ -161,8 +161,15 @@ public abstract class SelfDriving extends LinearOpMode {
     //------------------------------------------------------------------------------------------------
     // Outake Slide
     //------------------------------------------------------------------------------------------------
-    public void MoveUpwardSlide(){
+    public void MoveUpwardSlide(boolean rise, int amntOfMS){
+        double direction = (rise) ? 1 : -1;
+        hardwareManager.liftMotor.setPower(direction);
+        ElapsedTime time = new ElapsedTime();
+        while(opModeIsActive() && time.milliseconds() <= amntOfMS){
+            idle();
+        }
 
+        hardwareManager.liftMotor.setPower(0);
     }
     //------------------------------------------------------------------------------------------------
     // Inheritance
