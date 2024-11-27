@@ -35,6 +35,7 @@ public abstract class HumanOperated extends OpMode {
     protected double backRightWheelP = 0;
 
     protected double activeIntakeServoPosition = 0;
+    protected double liftServoPosition = 0;
     protected double increment = 0.0027;
 
     //------------------------------------------------------------------------------------------------
@@ -156,33 +157,37 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.intakeServo.setPosition(activeIntakeServoPosition);
     }
 
-    public void liftControl(boolean isPlayerOne){
+    public void liftControl(boolean isPlayerOne) {
         Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
 
         boolean raiseLift = controller.y;
         boolean lowerLift = controller.a;
-        if(raiseLift){
+        if (raiseLift) {
             hardwareManager.liftMotor.setPower(1);
-        }else{
+        } else {
             hardwareManager.liftMotor.setPower(0);
         }
-        if(lowerLift){
+        if (lowerLift) {
             hardwareManager.liftMotor.setPower(-1);
-        }else{
+        } else {
             hardwareManager.liftMotor.setPower(0);
         }
-        boolean spinServo = controller.x;
+        /*boolean spinServo = controller.x;
         boolean reverseServo = controller.b;
-        if(spinServo){
-            hardwareManager.liftServo.setPower(1);
-        }else{
-            hardwareManager.liftServo.setPower(0);
+        if (spinServo) {
+            liftServoPosition = Range.clip(liftServoPosition - increment, 0, 0.4752);
+        } else if (reverseServo) {
+            liftServoPosition = Range.clip(liftServoPosition + increment, 0, 0.4752);
         }
-        if(reverseServo){
-            hardwareManager.liftServo.setPower(-1);
-        }else{
-            hardwareManager.liftServo.setPower(0);
+        hardwareManager.liftServo.setPosition(liftServoPosition);\ */
+
+        if(controller.x){
+            liftServoPosition = Range.clip(liftServoPosition - increment, 0, 1);
+        } else if (controller.b){
+            liftServoPosition = Range.clip(liftServoPosition + increment, 0, 1);
         }
+
+        hardwareManager.liftServo.setPosition(liftServoPosition);
     }
 
 

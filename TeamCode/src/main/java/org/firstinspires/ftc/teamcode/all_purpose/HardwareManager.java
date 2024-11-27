@@ -20,7 +20,7 @@ public class HardwareManager {
 
     public final DcMotor liftMotor;
 
-    public final CRServo liftServo;
+    public final Servo liftServo;
 
     //------------------------------------------------------------------------------------------------
     // Wheels
@@ -107,7 +107,7 @@ public class HardwareManager {
 
         // Lift Control
         liftMotor = hardwareMap.dcMotor.get("LiftMotor");
-        liftServo = hardwareMap.crservo.get("LiftServo");
+        liftServo = hardwareMap.servo.get("LiftServo");
 
         frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -120,7 +120,6 @@ public class HardwareManager {
         intakeSlide.setDirection(DcMotorSimple.Direction.FORWARD);
 
         liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftServo.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");
