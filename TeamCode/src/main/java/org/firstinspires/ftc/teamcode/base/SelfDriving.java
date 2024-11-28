@@ -171,6 +171,15 @@ public abstract class SelfDriving extends LinearOpMode {
 
         hardwareManager.liftMotor.setPower(0);
     }
+
+    public void MoveScoreBasket(){
+        ElapsedTime time = new ElapsedTime();
+        hardwareManager.liftServo.setPosition(1);
+        while(opModeIsActive() && time.milliseconds() <= 1500){
+            idle();
+        }
+        hardwareManager.liftServo.setPosition(0);
+    }
     //------------------------------------------------------------------------------------------------
     // Inheritance
     //------------------------------------------------------------------------------------------------
