@@ -112,9 +112,9 @@ public abstract class HumanOperated extends OpMode {
             hardwareManager.intakeWheel.setPower(0);
         }
 
-        if(gamepad2.left_stick_y > 0){
+        if(gamepad2.dpad_up){
             activeIntakeServoPosition = Range.clip(activeIntakeServoPosition - increment, 0, 0.4752);
-        } else if (gamepad2.left_stick_y < 0){
+        } else if (gamepad2.dpad_down){
             activeIntakeServoPosition = Range.clip(activeIntakeServoPosition + increment, 0, 0.4752);
         }
 
@@ -136,15 +136,12 @@ public abstract class HumanOperated extends OpMode {
             hardwareManager.intakeSlide.setPower(0);
         }
         double spinIntakeForward = gamepad1.right_trigger;
+        double spinIntakeReverse = gamepad1.left_trigger;
         if(spinIntakeForward == 1){
             hardwareManager.intakeWheel.setPower(-1);
-        }else{
-            hardwareManager.intakeWheel.setPower(0);
-        }
-        double spinIntakeReverse = gamepad1.left_trigger;
-        if(spinIntakeReverse == 1){
+        }else if (spinIntakeReverse == 1){
             hardwareManager.intakeWheel.setPower(1);
-        }else{
+        } else {
             hardwareManager.intakeWheel.setPower(0);
         }
 
@@ -160,18 +157,7 @@ public abstract class HumanOperated extends OpMode {
     public void liftControl(boolean isPlayerOne) {
         Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
 
-        boolean raiseLift = controller.y;
-        boolean lowerLift = controller.a;
-        if (raiseLift) {
-            hardwareManager.liftMotor.setPower(1);
-        } else {
-            hardwareManager.liftMotor.setPower(0);
-        }
-        if (lowerLift) {
-            hardwareManager.liftMotor.setPower(-1);
-        } else {
-            hardwareManager.liftMotor.setPower(0);
-        }
+            hardwareManager.liftMotor.setPower(controller.left_stick_y);
 
         if(controller.x){
             liftServoPosition = 1;
