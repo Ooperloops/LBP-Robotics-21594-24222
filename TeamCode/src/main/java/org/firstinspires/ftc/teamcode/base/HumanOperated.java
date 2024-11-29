@@ -99,10 +99,10 @@ public abstract class HumanOperated extends OpMode {
         double strafe = gamepad1.left_stick_x;
         double rotate = gamepad1.right_stick_x;
 
-        frontLeftWheelP  = drive + strafe - rotate;
-        frontRightWheelP = drive - strafe + rotate;
-        backLeftWheelP   = drive - strafe - rotate;
-        backRightWheelP  = drive + strafe + rotate;
+        frontLeftWheelP  = drive - strafe - rotate;
+        frontRightWheelP = drive + strafe + rotate;
+        backLeftWheelP   = drive + strafe - rotate;
+        backRightWheelP  = drive - strafe + rotate;
     }
 
     //------------------------------------------------------------------------------------------------
