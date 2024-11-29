@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.base;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
@@ -164,8 +165,6 @@ public abstract class HumanOperated extends OpMode {
         } else if (controller.b){
             liftServoPosition = 0;
         }
-        telemetry.addLine().addData("Lift Motor Count", hardwareManager.liftMotor.getCurrentPosition());
-        telemetry.update();
 
         hardwareManager.liftServo.setPosition(liftServoPosition);
     }
