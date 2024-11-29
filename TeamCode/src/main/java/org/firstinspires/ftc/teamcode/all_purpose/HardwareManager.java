@@ -68,6 +68,7 @@ public class HardwareManager {
     // Arm
     //------------------------------------------------------------------------------------------------
     // Arm code here :)
+    public final DcMotor armMotor2;
     //------------------------------------------------------------------------------------------------
     // Sensors
     //------------------------------------------------------------------------------------------------
@@ -93,6 +94,8 @@ public class HardwareManager {
         backLeftWheel = hardwareMap.dcMotor.get("BackLeftM");
         backRightWheel = hardwareMap.dcMotor.get("BackRightM");
 
+
+
         frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -103,6 +106,7 @@ public class HardwareManager {
         // Intake
         intakeArm = hardwareMap.dcMotor.get("IntakeArmMotor");
         intakeServo = hardwareMap.crservo.get("IntakeServo");
+        armMotor2 = hardwareMap.dcMotor.get("Arm");
 
         intakeArm.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeServo.setDirection(DcMotorSimple.Direction.FORWARD);

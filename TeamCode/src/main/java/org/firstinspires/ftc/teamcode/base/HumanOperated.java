@@ -50,13 +50,17 @@ public abstract class HumanOperated extends OpMode {
         boolean lowerArm = gamepad2.a;
         if(raiseArm) {
             hardwareManager.intakeArm.setPower(1);
+            hardwareManager.armMotor2.setPower(-1);
         }else {
             hardwareManager.intakeArm.setPower(0);
+            hardwareManager.armMotor2.setPower(0);
         }
         if(lowerArm) {
             hardwareManager.intakeArm.setPower(-1);
+            hardwareManager.armMotor2.setPower(1);
         }else {
             hardwareManager.intakeArm.setPower(0);
+            hardwareManager.armMotor2.setPower(0);
         }
         float rotateIntake = gamepad2.right_trigger;
         float reverseIntake = gamepad2.left_trigger;
