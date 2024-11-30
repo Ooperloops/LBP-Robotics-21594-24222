@@ -121,7 +121,7 @@ public class HardwareManager {
 
         liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");
