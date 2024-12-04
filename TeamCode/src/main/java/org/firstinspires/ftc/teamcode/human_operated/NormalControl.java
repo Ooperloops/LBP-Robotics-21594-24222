@@ -16,5 +16,7 @@ public class NormalControl extends HumanOperated {
         ActiveIntake();
         liftControl(true);
         setHardwarePower();
+
+
     }
 }
