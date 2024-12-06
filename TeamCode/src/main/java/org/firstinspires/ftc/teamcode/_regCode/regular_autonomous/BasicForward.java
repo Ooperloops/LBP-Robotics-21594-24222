@@ -1,10 +1,8 @@
-package org.firstinspires.ftc.teamcode.regular_autonomous;
+package org.firstinspires.ftc.teamcode._regCode.regular_autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.base.HumanOperated;
-import org.firstinspires.ftc.teamcode.base.SelfDriving;
+import org.firstinspires.ftc.teamcode._regCode.base.SelfDriving;
 
 @Autonomous(name = "Basic Forward", group = "autonomous")
 public class BasicForward extends SelfDriving {

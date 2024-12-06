@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.all_purpose;
+package org.firstinspires.ftc.teamcode._regCode.all_purpose;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.*;

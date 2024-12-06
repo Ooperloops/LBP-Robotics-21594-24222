@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.human_operated;
+package org.firstinspires.ftc.teamcode._regCode.human_operated;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.base.HumanOperated;
+import org.firstinspires.ftc.teamcode._regCode.base.HumanOperated;
 
 
 @TeleOp(name = "Normal Two Drivers", group = "TeleOp")

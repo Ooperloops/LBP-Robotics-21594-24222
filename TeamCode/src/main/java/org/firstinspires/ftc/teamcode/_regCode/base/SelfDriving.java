@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.base;
+package org.firstinspires.ftc.teamcode._regCode.base;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.all_purpose.HardwareManager;
+import org.firstinspires.ftc.teamcode._regCode.all_purpose.HardwareManager;
 
 /**
  * Base class for all Self-Driving scripts, a.k.a Autonomous.

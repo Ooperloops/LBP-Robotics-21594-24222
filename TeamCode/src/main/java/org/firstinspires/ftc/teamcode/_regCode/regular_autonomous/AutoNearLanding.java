@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.regular_autonomous;
+package org.firstinspires.ftc.teamcode._regCode.regular_autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.base.SelfDriving;
+import org.firstinspires.ftc.teamcode._regCode.base.SelfDriving;
 
 @Autonomous(name = "Auto Near Landing", group = "autonomous")
 public class AutoNearLanding extends SelfDriving {

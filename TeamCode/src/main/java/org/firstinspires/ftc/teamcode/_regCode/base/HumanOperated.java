@@ -1,12 +1,10 @@
-package org.firstinspires.ftc.teamcode.base;
+package org.firstinspires.ftc.teamcode._regCode.base;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.all_purpose.HardwareManager;
+import org.firstinspires.ftc.teamcode._regCode.all_purpose.HardwareManager;
 
 /**
  * Base class for all human-operated scripts, a.k.a TeleOp.
