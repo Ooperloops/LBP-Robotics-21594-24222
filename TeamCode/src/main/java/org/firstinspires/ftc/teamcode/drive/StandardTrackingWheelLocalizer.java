@@ -36,8 +36,8 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
 
     private Encoder leftEncoder, rightEncoder, frontEncoder;
 
-    public static double X_MULTIPLIER = 1; // Multiplier in the X direction
-    public static double Y_MULTIPLIER = 1; // Multiplier in the Y direction
+    public static double X_MULTIPLIER = (0.1790759); // 60in / 335.0533 teleOp Distance
+    public static double Y_MULTIPLIER = (0.1758710); // 36in / 204.6954 teleOp Distance
 
     private List<Integer> lastEncPositions, lastEncVels;
 
@@ -55,8 +55,15 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "BackRightM"));
         frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "FrontRightM"));
 
-        leftEncoder.setDirection(Encoder.Direction.REVERSE);
-        //rightEncoder.setDirection(Encoder.Direction.REVERSE);
+        //leftEncoder.setDirection(Encoder.Direction.REVERSE);
+        rightEncoder.setDirection(Encoder.Direction.REVERSE);
+        //337.219
+        //333.01
+        //334.9311
+
+        //205.0469
+        //203.2084
+        //205.8311
 
         //frontEncoder.setDirection(Encoder.Direction.REVERSE);
 
