@@ -56,9 +56,9 @@ public class DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
-    public static double kA = 0;
-    public static double kStatic = 0;
+    public static double kV = 0.035; //.0 / rpmToVelocity(MAX_RPM);
+    public static double kA = 0.005;
+    public static double kStatic = 0.08;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -88,15 +88,15 @@ public class DriveConstants {
      * You are free to raise this on your own if you would like. It is best determined through experimentation.
 
      */
-    public static double MAX_VEL = 26.282956839013906;
-    public static double MAX_ACCEL = 26.282956839013906;
-    public static double MAX_ANG_VEL = Math.toRadians(100.39349999999999);
+    public static double MAX_VEL = 16;
+    public static double MAX_ACCEL = 16;
+    public static double MAX_ANG_VEL = 71.74056055384617;
     public static double MAX_ANG_ACCEL = Math.toRadians(100.39349999999999);
 
     public static RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR =
             RevHubOrientationOnRobot.LogoFacingDirection.UP;
     public static RevHubOrientationOnRobot.UsbFacingDirection USB_FACING_DIR =
-            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+            RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
 
     public static double encoderTicksToInches(double ticks) {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;
