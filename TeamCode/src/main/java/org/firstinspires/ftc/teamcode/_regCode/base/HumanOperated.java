@@ -212,6 +212,8 @@ public abstract class HumanOperated extends OpMode {
 
         hardwareManager.leftLiftServo.setPosition(0);
         hardwareManager.rightLiftServo.setPosition(0);
+        hardwareManager.rightClawServo.setPosition(0);
+        hardwareManager.leftClawServo.setPosition(0);
     }
 
     public void setHardwarePower() {
