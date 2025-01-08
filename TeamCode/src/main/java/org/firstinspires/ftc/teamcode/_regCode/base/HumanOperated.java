@@ -33,8 +33,11 @@ public abstract class HumanOperated extends OpMode {
     protected double backLeftWheelP = 0;
     protected double backRightWheelP = 0;
 
-    protected double activeIntakeServoPosition = 0;
-    protected double liftServoPosition = 0;
+    //protected double activeIntakeServoPosition = 0;
+    protected double rightLiftServoPosition = 0;
+    protected double leftLiftServoPosition = 0;
+    protected double rightClawServoPosition = 0;
+    protected double leftClawServoPosition = 0;
     protected double increment = 0.0027;
 
     //------------------------------------------------------------------------------------------------
@@ -93,6 +96,32 @@ public abstract class HumanOperated extends OpMode {
         backRightWheelP  = drive + strafe - rotate;
     }
 
+    public void liftAndClawCodeNoob () {
+        hardwareManager.liftMotor.setPower(gamepad2.right_stick_y);
+        if(gamepad2.left_stick_y > 0){
+            rightLiftServoPosition = Range.clip(rightLiftServoPosition - increment, 0, 0.4752);
+            leftLiftServoPosition = Range.clip(leftLiftServoPosition + increment, 0, 0.4752);
+        }else if(gamepad2.left_stick_y < 0){
+            rightLiftServoPosition = Range.clip(rightLiftServoPosition + increment, 0, 0.4752);
+            leftLiftServoPosition = Range.clip(leftLiftServoPosition - increment, 0, 0.4752);
+        }
+
+        hardwareManager.rightLiftServo.setPosition(rightLiftServoPosition);
+        hardwareManager.leftLiftServo.setPosition(leftLiftServoPosition);
+
+        if(gamepad2.right_trigger > 0.3){
+            rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.4752);
+            leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.4752);
+        }else if(gamepad2.left_trigger > 0.3){
+            rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.4752);
+            leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.4752);
+        }
+
+        hardwareManager.rightClawServo.setPosition(rightClawServoPosition);
+        hardwareManager.leftClawServo.setPosition(leftClawServoPosition);
+    }
+
+    /*
     public void  ActiveIntakeTwoPlayer(){
 
         double extendSlide = gamepad2.right_stick_y;
@@ -112,7 +141,8 @@ public abstract class HumanOperated extends OpMode {
         }
 
         if(gamepad2.dpad_up){
-            activeIntakeServoPosition = Range.clip(activeIntakeServoPosition - increment, 0, 0.4752);
+            rightLiftServoPosition = Range.clip(rightLiftServoPosition - increment, 0, 0.4752);
+            leftLiftServoPosition = Range.clip(leftLiftServoPosition + increment, 0, 0.4752);
         } else if (gamepad2.dpad_down){
             activeIntakeServoPosition = Range.clip(activeIntakeServoPosition + increment, 0, 0.4752);
         }
@@ -159,13 +189,16 @@ public abstract class HumanOperated extends OpMode {
             hardwareManager.liftMotor.setPower(controller.left_stick_y);
 
         if(controller.x){
-            liftServoPosition = 1;
+            //liftServoPosition = 1;
         } else if (controller.b){
-            liftServoPosition = 0;
+            //liftServoPosition = 0;
         }
 
-        hardwareManager.liftServo.setPosition(liftServoPosition);
+        //hardwareManager.liftServo.setPosition(liftServoPosition);
     }
+
+    */
+
 
 
     //------------------------------------------------------------------------------------------------
@@ -175,7 +208,10 @@ public abstract class HumanOperated extends OpMode {
     @Override
     public void init() {
         hardwareManager = new HardwareManager(hardwareMap);
-        hardwareManager.intakeServo.setPosition(0);
+        //hardwareManager.intakeServo.setPosition(0);
+
+        hardwareManager.leftLiftServo.setPosition(0);
+        hardwareManager.rightLiftServo.setPosition(0);
     }
 
     public void setHardwarePower() {

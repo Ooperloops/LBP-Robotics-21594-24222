@@ -126,6 +126,7 @@ public abstract class SelfDriving extends LinearOpMode {
     //------------------------------------------------------------------------------------------------
     // Active Intake
     //------------------------------------------------------------------------------------------------
+    /*
     public void MoveSlide(double slideTravelDistance){
         if(!opModeIsActive())
         {
@@ -143,6 +144,8 @@ public abstract class SelfDriving extends LinearOpMode {
         hardwareManager.intakeSlide.setPower(0);
     }
 
+
+
     public void MoveActinArm(double position){
         double moveTo = Range.clip(position, 0, 0.4752);
         hardwareManager.intakeServo.setPosition(moveTo);
@@ -158,6 +161,8 @@ public abstract class SelfDriving extends LinearOpMode {
         hardwareManager.intakeWheel.setPower(0);
 
     }
+    */
+
     //------------------------------------------------------------------------------------------------
     // Outake Slide
     //------------------------------------------------------------------------------------------------
@@ -174,11 +179,11 @@ public abstract class SelfDriving extends LinearOpMode {
 
     public void MoveScoreBasket(){
         ElapsedTime time = new ElapsedTime();
-        hardwareManager.liftServo.setPosition(1);
+        //hardwareManager.liftServo.setPosition(1);
         while(opModeIsActive() && time.milliseconds() <= 1500){
             idle();
         }
-        hardwareManager.liftServo.setPosition(0);
+        //hardwareManager.liftServo.setPosition(0);
     }
     //------------------------------------------------------------------------------------------------
     // Tools

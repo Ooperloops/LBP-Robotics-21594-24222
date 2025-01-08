@@ -14,13 +14,13 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     // Active Intake
     //------------------------------------------------------------------------------------------------
-    public final DcMotor intakeWheel;
-    public final Servo intakeServo;
-    public final DcMotor intakeSlide;
 
     public final DcMotor liftMotor;
+    public final Servo leftLiftServo;
+    public final Servo rightLiftServo;
+    public final Servo leftClawServo;
+    public final Servo rightClawServo;
 
-    public final Servo liftServo;
 
     //------------------------------------------------------------------------------------------------
     // Wheels
@@ -101,13 +101,20 @@ public class HardwareManager {
         backRightWheel = hardwareMap.dcMotor.get("BackRightM");
 
         // Active Intake
-        intakeWheel = hardwareMap.dcMotor.get("IntakeWheel");
-        intakeServo = hardwareMap.servo.get("IntakeServo");
-        intakeSlide = hardwareMap.dcMotor.get("IntakeSlide");
+        //intakeWheel = hardwareMap.dcMotor.get("IntakeWheel");
+        //intakeServo = hardwareMap.servo.get("IntakeServo");
+        //intakeSlide = hardwareMap.dcMotor.get("IntakeSlide");
 
         // Lift Control
         liftMotor = hardwareMap.dcMotor.get("LiftMotor");
-        liftServo = hardwareMap.servo.get("LiftServo");
+
+        rightLiftServo = hardwareMap.servo.get("RightLiftServo");
+        leftLiftServo = hardwareMap.servo.get("LeftLiftServo");
+
+        leftLiftServo.setDirection(Servo.Direction.REVERSE);
+
+        leftClawServo = hardwareMap.servo.get("LeftClawServo");
+        rightClawServo = hardwareMap.servo.get("RightClawServo");
 
         frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -116,8 +123,6 @@ public class HardwareManager {
 
         doToAllWheels((wheel) -> wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE));
 
-        intakeWheel.setDirection(DcMotorSimple.Direction.FORWARD);
-        intakeSlide.setDirection(DcMotorSimple.Direction.FORWARD);
 
         liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 

@@ -17,8 +17,8 @@ public class NormalControlTwoDrivers extends HumanOperated {
 
 
         );
-        ActiveIntakeTwoPlayer();
-        liftControl(false);
+        //ActiveIntakeTwoPlayer();
+        //liftControl(false);
         setHardwarePower();
     }
 }

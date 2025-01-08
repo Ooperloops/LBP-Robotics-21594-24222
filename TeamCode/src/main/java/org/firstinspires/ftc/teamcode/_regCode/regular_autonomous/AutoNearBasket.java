@@ -12,7 +12,7 @@ public class AutoNearBasket extends SelfDriving {
      */
     @Override
     public void runAutonomous() {
-        hardwareManager.intakeServo.setPosition(0);
+        //hardwareManager.intakeServo.setPosition(0);
         move(0.2);
         rotate(-90);
         move(2);
