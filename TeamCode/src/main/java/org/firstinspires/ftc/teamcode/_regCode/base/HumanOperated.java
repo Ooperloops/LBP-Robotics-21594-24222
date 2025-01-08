@@ -99,11 +99,11 @@ public abstract class HumanOperated extends OpMode {
     public void liftAndClawCodeNoob () {
         hardwareManager.liftMotor.setPower(gamepad2.right_stick_y);
         if(gamepad2.left_stick_y > 0){
-            rightLiftServoPosition = Range.clip(rightLiftServoPosition - increment, 0, 0.4752);
+            rightLiftServoPosition = Range.clip(rightLiftServoPosition + increment, 0, 0.4752);
             leftLiftServoPosition = Range.clip(leftLiftServoPosition + increment, 0, 0.4752);
         }else if(gamepad2.left_stick_y < 0){
             rightLiftServoPosition = Range.clip(rightLiftServoPosition + increment, 0, 0.4752);
-            leftLiftServoPosition = Range.clip(leftLiftServoPosition - increment, 0, 0.4752);
+            leftLiftServoPosition = Range.clip(leftLiftServoPosition + increment, 0, 0.4752);
         }
 
         hardwareManager.rightLiftServo.setPosition(rightLiftServoPosition);
