@@ -110,11 +110,11 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.leftLiftServo.setPosition(leftLiftServoPosition);
 
         if(gamepad2.right_trigger > 0.3){
-            rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.4752);
-            leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.4752);
+            rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
+            leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
         }else if(gamepad2.left_trigger > 0.3){
-            rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.4752);
-            leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.4752);
+            rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
+            leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
         }
 
         hardwareManager.rightClawServo.setPosition(rightClawServoPosition);
