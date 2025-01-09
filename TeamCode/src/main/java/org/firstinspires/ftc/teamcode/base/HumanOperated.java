@@ -74,6 +74,18 @@ public abstract class HumanOperated extends OpMode {
         }else{
             hardwareManager.intakeServo.setPower(0);
         }
+        boolean extendIntake = gamepad2.x;
+        boolean retractIntake = gamepad2.b;
+        if(extendIntake) {
+            hardwareManager.liftServo.setPower(1);
+        }else{
+            hardwareManager.liftServo.setPower(0);
+        }
+        if(retractIntake) {
+            hardwareManager.liftServo.setPower(-1);
+        }else{
+            hardwareManager.liftServo.setPower(0);
+        }
     }
 
     protected void useDefaultMovementControls() {
