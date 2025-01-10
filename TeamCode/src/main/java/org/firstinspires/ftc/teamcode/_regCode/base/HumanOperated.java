@@ -99,11 +99,11 @@ public abstract class HumanOperated extends OpMode {
     public void liftAndClawCodeNoob () {
         hardwareManager.liftMotor.setPower(gamepad2.right_stick_y);
         if(gamepad2.left_stick_y > 0){
-            rightLiftServoPosition = Range.clip(rightLiftServoPosition + increment, 0, 0.4752);
-            leftLiftServoPosition = Range.clip(leftLiftServoPosition + increment, 0, 0.4752);
+            rightLiftServoPosition = Range.clip(rightLiftServoPosition + increment, 0, 0.55);
+            leftLiftServoPosition = Range.clip(leftLiftServoPosition + increment, 0, 0.55);
         }else if(gamepad2.left_stick_y < 0){
-            rightLiftServoPosition = Range.clip(rightLiftServoPosition - increment, 0, 0.4752);
-            leftLiftServoPosition = Range.clip(leftLiftServoPosition - increment, 0, 0.4752);
+            rightLiftServoPosition = Range.clip(rightLiftServoPosition - increment, 0, 0.55);
+            leftLiftServoPosition = Range.clip(leftLiftServoPosition - increment, 0, 0.55);
         }
 
         hardwareManager.rightLiftServo.setPosition(rightLiftServoPosition);
@@ -112,13 +112,13 @@ public abstract class HumanOperated extends OpMode {
         if(gamepad2.right_trigger > 0.3){
             //rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
             //leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
-            hardwareManager.rightClawServo.setPosition(0.25);
-            hardwareManager.leftClawServo.setPosition(0.25);
+            hardwareManager.rightClawServo.setPosition(0);
+            hardwareManager.leftClawServo.setPosition(0);
         }else if(gamepad2.left_trigger > 0.3){
             //rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
             //leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
             hardwareManager.rightClawServo.setPosition(0);
-            hardwareManager.leftClawServo.setPosition(0);
+            hardwareManager.leftClawServo.setPosition(0.25);
         }
         /*
         //seperate claws
