@@ -48,7 +48,7 @@ public class DriveConstants {
      */
     public static double WHEEL_RADIUS = 1.9685; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 15; // in
+    public static double TRACK_WIDTH = 13.53; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -56,9 +56,9 @@ public class DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 0.035; //.0 / rpmToVelocity(MAX_RPM);
-    public static double kA = 0.005;
-    public static double kStatic = 0.08;
+    public static double kV = 0.02;
+    public static double kA = 0.003;
+    public static double kStatic = 0.01;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
@@ -88,10 +88,10 @@ public class DriveConstants {
      * You are free to raise this on your own if you would like. It is best determined through experimentation.
 
      */
-    public static double MAX_VEL = 16;
-    public static double MAX_ACCEL = 16;
-    public static double MAX_ANG_VEL = 71.74056055384617;
-    public static double MAX_ANG_ACCEL = Math.toRadians(100.39349999999999);
+    public static double MAX_VEL = 25.23217263620446;
+    public static double MAX_ACCEL = 25.23217263620446;
+    public static double MAX_ANG_VEL =  2.5800252013708844; //Math.toRadians(80.31649999999999);
+    public static double MAX_ANG_ACCEL = Math.toRadians(80.31649999999999);
 
     public static RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR =
             RevHubOrientationOnRobot.LogoFacingDirection.UP;
