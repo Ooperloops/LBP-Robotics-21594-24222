@@ -14,8 +14,8 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     // Wheels
     //------------------------------------------------------------------------------------------------
-    public final DcMotor frontLeftWheel;
-    public final DcMotor frontRightWheel;
+    //public final DcMotor frontLeftWheel;
+    //public final DcMotor frontRightWheel;
     public final DcMotor backLeftWheel;
     public final DcMotor backRightWheel;
     //------------------------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     public final DcMotor intakeArm;
     public final CRServo intakeServo;
-    public final CRServo liftServo;
+    //public final CRServo liftServo;
 
     /**
      * let `n` be return value;
@@ -32,8 +32,8 @@ public class HardwareManager {
      */
 
     public double getAverageWheelCounts() {
-        return (frontLeftWheel.getCurrentPosition() +
-                frontRightWheel.getCurrentPosition() +
+        return (//frontLeftWheel.getCurrentPosition() +
+                //frontRightWheel.getCurrentPosition() +
                 backLeftWheel.getCurrentPosition() +
                 backRightWheel.getCurrentPosition()) / 4.0;
     }
@@ -55,8 +55,8 @@ public class HardwareManager {
      *      doToAllWheels((wheel) -> wheel.doTheSameCommand());
      */
     public void doToAllWheels(WheelCallback callback) {
-        callback.run(frontLeftWheel);
-        callback.run(frontRightWheel);
+        //callback.run(frontLeftWheel);
+        //callback.run(frontRightWheel);
         callback.run(backLeftWheel);
         callback.run(backRightWheel);
     }
@@ -90,15 +90,15 @@ public class HardwareManager {
 
     public HardwareManager(HardwareMap hardwareMap) {
         // Wheels
-        frontLeftWheel = hardwareMap.dcMotor.get("FrontLeftM");
-        frontRightWheel = hardwareMap.dcMotor.get("FrontRightM");
+        //frontLeftWheel = hardwareMap.dcMotor.get("FrontLeftM");
+        //frontRightWheel = hardwareMap.dcMotor.get("FrontRightM");
         backLeftWheel = hardwareMap.dcMotor.get("BackLeftM");
         backRightWheel = hardwareMap.dcMotor.get("BackRightM");
 
 
 
-        frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        //frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        //frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
 
@@ -108,11 +108,11 @@ public class HardwareManager {
         intakeArm = hardwareMap.dcMotor.get("IntakeArmMotor");
         intakeServo = hardwareMap.crservo.get("IntakeServo");
         armMotor2 = hardwareMap.dcMotor.get("Arm");
-        liftServo = hardwareMap.crservo.get("LiftServo");
+        //liftServo = hardwareMap.crservo.get("LiftServo");
 
         intakeArm.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeServo.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftServo.setDirection(DcMotorSimple.Direction.FORWARD);
+        //liftServo.setDirection(DcMotorSimple.Direction.FORWARD);
 
         intakeArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 

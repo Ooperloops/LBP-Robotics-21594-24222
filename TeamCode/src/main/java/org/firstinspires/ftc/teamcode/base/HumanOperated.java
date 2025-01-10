@@ -27,8 +27,8 @@ import org.firstinspires.ftc.teamcode.all_purpose.HardwareManager;
 public abstract class HumanOperated extends OpMode {
     protected HardwareManager hardwareManager;
 
-    protected double frontLeftWheelP = 0;
-    protected double frontRightWheelP = 0;
+    //protected double frontLeftWheelP = 0;
+    //protected double frontRightWheelP = 0;
     protected double backLeftWheelP = 0;
     protected double backRightWheelP = 0;
 
@@ -74,7 +74,7 @@ public abstract class HumanOperated extends OpMode {
         }else{
             hardwareManager.intakeServo.setPower(0);
         }
-        boolean extendIntake = gamepad2.x;
+        /*boolean extendIntake = gamepad2.x;
         boolean retractIntake = gamepad2.b;
         if(extendIntake) {
             hardwareManager.liftServo.setPower(1);
@@ -86,6 +86,7 @@ public abstract class HumanOperated extends OpMode {
         }else{
             hardwareManager.liftServo.setPower(0);
         }
+         */
     }
 
     protected void useDefaultMovementControls() {
@@ -108,13 +109,13 @@ public abstract class HumanOperated extends OpMode {
          */
         double drive = gamepad1.left_stick_y;
 
-        double strafe = gamepad1.left_stick_x;
+        //double strafe = gamepad1.left_stick_x;
         double rotate = gamepad1.right_stick_x;
 
-        frontLeftWheelP  = drive - strafe - rotate;
-        frontRightWheelP = drive + strafe + rotate;
-        backLeftWheelP   = drive + strafe - rotate;
-        backRightWheelP  = drive - strafe + rotate;
+        //frontLeftWheelP  = drive /* - strafe */ - rotate;
+        //frontRightWheelP = drive /* + strafe */ + rotate;
+        backLeftWheelP   = drive /* + strafe */ - rotate;
+        backRightWheelP  = drive /* - strafe */ + rotate;
     }
 
     //------------------------------------------------------------------------------------------------
@@ -127,8 +128,8 @@ public abstract class HumanOperated extends OpMode {
     }
 
     public void setHardwarePower() {
-        hardwareManager.frontLeftWheel.setPower(limitMotorPower(frontLeftWheelP));
-        hardwareManager.frontRightWheel.setPower(limitMotorPower(frontRightWheelP));
+        //hardwareManager.frontLeftWheel.setPower(limitMotorPower(frontLeftWheelP));
+        //hardwareManager.frontRightWheel.setPower(limitMotorPower(frontRightWheelP));
         hardwareManager.backLeftWheel.setPower(limitMotorPower(backLeftWheelP));
         hardwareManager.backRightWheel.setPower(limitMotorPower(backRightWheelP));
 
