@@ -111,7 +111,7 @@ public class HardwareManager {
         rightLiftServo = hardwareMap.servo.get("RightLiftServo");
         leftLiftServo = hardwareMap.servo.get("LeftLiftServo");
 
-        leftLiftServo.setDirection(Servo.Direction.REVERSE);
+        rightLiftServo.setDirection(Servo.Direction.REVERSE);
 
         leftClawServo = hardwareMap.servo.get("LeftClawServo");
         rightClawServo = hardwareMap.servo.get("RightClawServo");

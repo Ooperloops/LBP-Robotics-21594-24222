@@ -145,7 +145,13 @@ public abstract class HumanOperated extends OpMode {
             hardwareManager.leftClawServo.setPosition(0);
         }
          */
-
+        if(gamepad2.dpad_left){
+            rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
+            leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
+        }else if(gamepad2.dpad_right){
+            rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
+            leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
+        }
         //hardwareManager.rightClawServo.setPosition(rightClawServoPosition);
         //hardwareManager.leftClawServo.setPosition(leftClawServoPosition);
     }
