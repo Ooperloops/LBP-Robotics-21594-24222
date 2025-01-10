@@ -110,15 +110,44 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.leftLiftServo.setPosition(leftLiftServoPosition);
 
         if(gamepad2.right_trigger > 0.3){
-            rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
-            leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
+            //rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
+            //leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
+            hardwareManager.rightClawServo.setPosition(0.25);
+            hardwareManager.leftClawServo.setPosition(0.25);
         }else if(gamepad2.left_trigger > 0.3){
-            rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
-            leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
+            //rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
+            //leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
+            hardwareManager.rightClawServo.setPosition(0);
+            hardwareManager.leftClawServo.setPosition(0);
         }
+        /*
+        //seperate claws
+        if(gamepad2.right_trigger > 0.3){
+            hardwareManager.rightClawServo.setPosition(0.25);
+        }else{
+            hardwareManager.rightClawServo.setPosition(0);
+        }
+        if(gamepad2.left_trigger > 0.3){
+            hardwareManager.leftClawServo.setPosition(0.25);
+        }else if(gamepad2.left_trigger > 0.3){
+            hardwareManager.leftClawServo.setPosition(0);
+        }
+        //close both at same time
+        if(gamepad2.x){
+            //rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
+            //leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
+            hardwareManager.rightClawServo.setPosition(0.25);
+            hardwareManager.leftClawServo.setPosition(0.25);
+        }else if(gamepad2.b){
+            //rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
+            //leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
+            hardwareManager.rightClawServo.setPosition(0);
+            hardwareManager.leftClawServo.setPosition(0);
+        }
+         */
 
-        hardwareManager.rightClawServo.setPosition(rightClawServoPosition);
-        hardwareManager.leftClawServo.setPosition(leftClawServoPosition);
+        //hardwareManager.rightClawServo.setPosition(rightClawServoPosition);
+        //hardwareManager.leftClawServo.setPosition(leftClawServoPosition);
     }
 
     /*
