@@ -27,17 +27,24 @@ import java.util.List;
  */
 @Config
 public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer {
-    public static double TICKS_PER_REV = 960;
-    public static double WHEEL_RADIUS = 2; // in
+    public static double TICKS_PER_REV = 2048;
+    public static double WHEEL_RADIUS = 0.74803; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
     public static double LATERAL_DISTANCE = 8.125; // in; distance between the left and right wheels
-    public static double FORWARD_OFFSET = 5.875; // in; offset of the lateral wheel
+    public static double FORWARD_OFFSET = -5.8525; // in; offset of the lateral wheel
 
     private Encoder leftEncoder, rightEncoder, frontEncoder;
 
-    public static double X_MULTIPLIER = (0.1790759); // 60in / 335.0533 teleOp Distance
-    public static double Y_MULTIPLIER = (0.1758710); // 36in / 204.6954 teleOp Distance
+    public static double X_MULTIPLIER = (1.00377642999); // 60in / 335.0533 teleOp Distance
+    // 59.86
+    // 59.5309
+    // 59.9319
+    public static double Y_MULTIPLIER = (1.00713198651); // 36in / 204.6954 teleOp Distance
+
+    // 35.5861
+    // 35.341
+    // 36.3081
 
     private List<Integer> lastEncPositions, lastEncVels;
 
@@ -51,12 +58,13 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         lastEncPositions = lastTrackingEncPositions;
         lastEncVels = lastTrackingEncVels;
 
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "BackLeftM"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "FrontE"));
         rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "BackRightM"));
         frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "FrontRightM"));
 
         //leftEncoder.setDirection(Encoder.Direction.REVERSE);
         rightEncoder.setDirection(Encoder.Direction.REVERSE);
+        //frontEncoder.setDirection(Encoder.Direction.REVERSE);
         //337.219
         //333.01
         //334.9311
