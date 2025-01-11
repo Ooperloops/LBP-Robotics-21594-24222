@@ -118,7 +118,7 @@ public abstract class HumanOperated extends OpMode {
         } else if(gamepad2.b ){ // Full Close
             rightClawServoPosition = 0;
             leftClawServoPosition = 0.25;
-        } else if(gamepad2.x){ // Full Openr
+        } else if(gamepad2.x){ // Full Open
             rightClawServoPosition = 0.25;
             leftClawServoPosition = 0;
         }

@@ -14,7 +14,7 @@ public class BasicForward extends SelfDriving {
     public void runAutonomous() {
 
         //MoveWheel(false, 2);
-        MoveUpwardSlide(true);
-        MoveScoreBasket();
+        //MoveUpwardSlide(true);
+        //MoveScoreBasket();
     }
 }

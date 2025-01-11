@@ -23,12 +23,10 @@ public abstract class SelfDriving extends LinearOpMode {
     //------------------------------------------------------------------------------------------------
     // Active Intake
     //------------------------------------------------------------------------------------------------
-    protected final int COUNTS_PER_ACTIVE_INTAKE_MOTOR_REVOLUTION = 480;
-    protected final double ACTIVE_INTAKE_WHEEL_CIRCUMFERENCE = Math.PI; // Inches
-    protected final double COUNTS_PER_INCH_ACTIN_SLIDE =
-            COUNTS_PER_ACTIVE_INTAKE_MOTOR_REVOLUTION / ACTIVE_INTAKE_WHEEL_CIRCUMFERENCE;
-
-    protected final double maxIntakeWheelPower = 0.9;
+    protected double COUNTS_LIFT_OUTPUT = 1;
+    protected double LIFT_INCH_DIFFERENCE = 1;
+    protected double COUNTS_PER_INCH =
+            COUNTS_LIFT_OUTPUT / LIFT_INCH_DIFFERENCE;
 
     //------------------------------------------------------------------------------------------------
     // Config
@@ -56,10 +54,10 @@ public abstract class SelfDriving extends LinearOpMode {
             );
 
             double powerMultiplier = (PIDoutput/180);
-            hardwareManager.frontLeftWheel.setPower(1*(1 - powerMultiplier));
-            hardwareManager.backLeftWheel.setPower(1*(1 - powerMultiplier));
-            hardwareManager.frontRightWheel.setPower(1*(1 + powerMultiplier));
-            hardwareManager.backRightWheel.setPower(1*(1 + powerMultiplier));
+            hardwareManager.frontLeftWheel.setPower(1 - powerMultiplier);
+            hardwareManager.backLeftWheel.setPower(1 - powerMultiplier);
+            hardwareManager.frontRightWheel.setPower(1 + powerMultiplier);
+            hardwareManager.backRightWheel.setPower(1 + powerMultiplier);
             idle();
         }
 
@@ -124,75 +122,58 @@ public abstract class SelfDriving extends LinearOpMode {
     }
 
     //------------------------------------------------------------------------------------------------
-    // Active Intake
+    // Intake
     //------------------------------------------------------------------------------------------------
-    /*
-    public void MoveSlide(double slideTravelDistance){
-        if(!opModeIsActive())
-        {
-            return;
-        }
-
-        int direction = (slideTravelDistance >= 0) ? -1 : 1;
-        hardwareManager.intakeSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        hardwareManager.intakeSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        hardwareManager.intakeSlide.setPower(direction);
-        double totalCounts = Math.abs(COUNTS_PER_INCH_ACTIN_SLIDE * slideTravelDistance);
-        while(opModeIsActive() && Math.abs(hardwareManager.intakeSlide.getCurrentPosition()) <= totalCounts){
-            idle();
-        }
-        hardwareManager.intakeSlide.setPower(0);
+    public void Claw(boolean open){
+        hardwareManager.leftClawServo.setPosition((open) ? 0.25 : 0);
+        hardwareManager.rightClawServo.setPosition((open) ? 0 : 0.25);
     }
 
-
-
-    public void MoveActinArm(double position){
-        double moveTo = Range.clip(position, 0, 0.4752);
-        hardwareManager.intakeServo.setPosition(moveTo);
+    public void Arm(double angle){
+        double angleToPos = angle * (1.0/360.0);
+        double filteredAngle = Range.clip(angleToPos, 0, 0.55);
+        hardwareManager.rightLiftServo.setPosition(filteredAngle);
+        hardwareManager.leftLiftServo.setPosition(filteredAngle);
     }
 
-    public void MoveWheel(boolean intake, double spinTimeInSeconds){
-        double direction = (intake) ? maxIntakeWheelPower: -maxIntakeWheelPower;
-        hardwareManager.intakeWheel.setPower(direction);
-        ElapsedTime time = new ElapsedTime();
-        while(opModeIsActive() && time.seconds() <= spinTimeInSeconds){ //Keep spinning until n seconds
-            idle();
-        }
-        hardwareManager.intakeWheel.setPower(0);
-
-    }
-    */
-
     //------------------------------------------------------------------------------------------------
-    // Outake Slide
+    // Outtake Slide
     //------------------------------------------------------------------------------------------------
-    public void MoveUpwardSlide(boolean rise){
-        double direction = (rise) ? 1 : -1;
+    public void MoveUpwardSlide(double GoToInch){
+        double direction = (GoToInch > 0) ? 1 : -1;
         hardwareManager.liftMotor.setPower(direction);
-        ElapsedTime time = new ElapsedTime();
-        while(opModeIsActive() && time.milliseconds() <= 1150){
+
+        double totalCounts = Math.abs(GoToInch * COUNTS_PER_INCH);
+        while(opModeIsActive() && Math.abs(hardwareManager.liftMotor.getCurrentPosition()) <= totalCounts){
             idle();
         }
-
         hardwareManager.liftMotor.setPower(0);
     }
-
-    public void MoveScoreBasket(){
-        ElapsedTime time = new ElapsedTime();
-        //hardwareManager.liftServo.setPosition(1);
-        while(opModeIsActive() && time.milliseconds() <= 1500){
-            idle();
-        }
-        //hardwareManager.liftServo.setPosition(0);
+    //------------------------------------------------------------------------------------------------
+    // Auto Macros
+    //------------------------------------------------------------------------------------------------
+    public void ScoreHighBasket(){
+        MoveUpwardSlide(LIFT_INCH_DIFFERENCE);
+        Arm(159);
+        sleep(1500);
+        Claw(true);
+        sleep(1000);
+        Claw(false);
+        sleep(1000);
+        Arm(0);
+        sleep(1500);
+        MoveUpwardSlide(-LIFT_INCH_DIFFERENCE);
     }
-    //------------------------------------------------------------------------------------------------
-    // Tools
-    //------------------------------------------------------------------------------------------------
-    public void Delay(int milliseconds){
-        ElapsedTime time = new ElapsedTime();
-        while(opModeIsActive() && time.milliseconds() <= milliseconds){
-            idle();
-        }
+
+    public void GrabLow(){
+        Claw(true);
+        sleep(1000);
+        Arm(170);
+        sleep(2000);
+        Claw(false);
+        sleep(1000);
+        Arm(0);
+        sleep(1000);
     }
 
     //------------------------------------------------------------------------------------------------
