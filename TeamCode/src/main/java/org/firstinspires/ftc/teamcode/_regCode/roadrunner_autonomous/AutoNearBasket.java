@@ -22,9 +22,12 @@ public class AutoNearBasket extends SelfDriving {
 
         if (isStopRequested()) return;
 
-        TrajectorySequence traj = drive.trajectorySequenceBuilder(new Pose2d(-12.98, -61.59, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(-51.31, -52.84), Math.toRadians(224.22))
+        TrajectorySequence traj = drive.trajectorySequenceBuilder(new Pose2d(-12.15, -62.84, Math.toRadians(90.00)))
+                .splineTo(new Vector2d(-61.45, -68.67), Math.toRadians(224.01))
                 .build();
+
+
+        drive.setPoseEstimate(traj.start());
 
         drive.followTrajectorySequence(traj);
         sleep(1000);

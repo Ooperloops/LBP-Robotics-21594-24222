@@ -105,7 +105,7 @@ public class HardwareManager {
         liftMotor = hardwareMap.dcMotor.get("LiftMotor");
         lowerLiftMotor = hardwareMap.dcMotor.get("LowerLiftM");
 
-        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lowerLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         rightLiftServo = hardwareMap.servo.get("RightLiftServo");
@@ -132,7 +132,8 @@ public class HardwareManager {
 
         liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        //liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");

@@ -143,24 +143,12 @@ public abstract class SelfDriving extends LinearOpMode {
     public void MoveUpwardSlide(double GoToInch){
         hardwareManager.resetWheelCounts();
 
-        double mainDirection = (GoToInch > 0) ? 0.5 : -0.1;
-        /*
-        double lowerDirection = (GoToInch > 0) ? -0.3 : -0.6;
-        if(GoToInch > 0){
-            hardwareManager.lowerLiftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        } else {
-            hardwareManager.lowerLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        }
-         */
+        double mainDirection = (GoToInch > 0) ? 0.5 : -0.5;
         hardwareManager.liftMotor.setPower(mainDirection);
         //hardwareManager.lowerLiftMotor.setPower(lowerDirection);
 
         double totalCounts = Math.abs(GoToInch * COUNTS_PER_INCH);
-        double prevPos;
-        while(opModeIsActive() && Math.abs(hardwareManager.liftMotor.getCurrentPosition()) <= totalCounts){
-            prevPos = Math.abs(hardwareManager.liftMotor.getCurrentPosition());
-            sleep(2000);
-            if(prevPos == Math.abs(hardwareManager.liftMotor.getCurrentPosition())) break;
+        while(opModeIsActive() && (double) Math.abs(hardwareManager.liftMotor.getCurrentPosition()) <= totalCounts){
             idle();
         }
         hardwareManager.liftMotor.setPower(0);
@@ -173,9 +161,10 @@ public abstract class SelfDriving extends LinearOpMode {
     //------------------------------------------------------------------------------------------------
     public void ScoreHighBasket(){
         Arm(0);
-        sleep(1000);
-        MoveUpwardSlide(22);
-        Arm(159);
+        sleep(1500);
+        MoveUpwardSlide(23);
+        sleep(1500);
+        Arm(100);
         sleep(1500);
         Claw(true);
         sleep(1000);
@@ -183,7 +172,7 @@ public abstract class SelfDriving extends LinearOpMode {
         sleep(1000);
         Arm(0);
         sleep(1500);
-        MoveUpwardSlide(-22);
+        MoveUpwardSlide(-23);
     }
 
     public void GrabLow(){

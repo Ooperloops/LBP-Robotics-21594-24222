@@ -136,8 +136,8 @@ public abstract class HumanOperated extends OpMode {
 
     public void liftControl(boolean isPlayerOne) {
         Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
-        hardwareManager.liftMotor.setPower(-controller.right_stick_y);
-        hardwareManager.lowerLiftMotor.setPower(controller.right_stick_y);
+        hardwareManager.liftMotor.setPower(controller.right_stick_y);
+        hardwareManager.lowerLiftMotor.setPower(-controller.right_stick_y);
 
 
         //hardwareManager.liftServo.setPosition(liftServoPosition);
