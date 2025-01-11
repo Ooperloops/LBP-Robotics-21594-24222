@@ -26,9 +26,6 @@ import org.firstinspires.ftc.teamcode.all_purpose.HardwareManager;
  */
 public abstract class HumanOperated extends OpMode {
     protected HardwareManager hardwareManager;
-
-    //protected double frontLeftWheelP = 0;
-    //protected double frontRightWheelP = 0;
     protected double backLeftWheelP = 0;
     protected double backRightWheelP = 0;
 
@@ -74,19 +71,6 @@ public abstract class HumanOperated extends OpMode {
         }else{
             hardwareManager.intakeServo.setPower(0);
         }
-        /*boolean extendIntake = gamepad2.x;
-        boolean retractIntake = gamepad2.b;
-        if(extendIntake) {
-            hardwareManager.liftServo.setPower(1);
-        }else{
-            hardwareManager.liftServo.setPower(0);
-        }
-        if(retractIntake) {
-            hardwareManager.liftServo.setPower(-1);
-        }else{
-            hardwareManager.liftServo.setPower(0);
-        }
-         */
     }
 
     protected void useDefaultMovementControls() {
@@ -108,14 +92,10 @@ public abstract class HumanOperated extends OpMode {
          *
          */
         double drive = gamepad1.left_stick_y;
-
-        //double strafe = gamepad1.left_stick_x;
         double rotate = gamepad1.right_stick_x;
 
-        //frontLeftWheelP  = drive /* - strafe */ - rotate;
-        //frontRightWheelP = drive /* + strafe */ + rotate;
-        backLeftWheelP   = drive /* + strafe */ - rotate;
-        backRightWheelP  = drive /* - strafe */ + rotate;
+        backLeftWheelP   = drive - rotate;
+        backRightWheelP  = drive + rotate;
     }
 
     //------------------------------------------------------------------------------------------------
@@ -128,20 +108,16 @@ public abstract class HumanOperated extends OpMode {
     }
 
     public void setHardwarePower() {
-        //hardwareManager.frontLeftWheel.setPower(limitMotorPower(frontLeftWheelP));
-        //hardwareManager.frontRightWheel.setPower(limitMotorPower(frontRightWheelP));
         hardwareManager.backLeftWheel.setPower(limitMotorPower(backLeftWheelP));
         hardwareManager.backRightWheel.setPower(limitMotorPower(backRightWheelP));
 
     }
 
     protected double limitMotorPower(double input){
-        // Limits the DcMotor output power with a certain interval
         return Range.clip(input, MOTOR_LOWER_POWER_LIMIT, MOTOR_UPPER_POWER_LIMIT);
     }
 
     protected double limitServoPower(double input) {
-        // Limits the Servo output power with a certain interval
         return Range.clip(input, SERVO_LOWER_POWER_LIMIT, SERVO_UPPER_POWER_LIMIT);
     }
 }
