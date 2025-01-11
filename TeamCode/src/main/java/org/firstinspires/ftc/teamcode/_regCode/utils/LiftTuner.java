@@ -23,7 +23,7 @@ public class LiftTuner extends OpMode{
     @Override
     public void init() {
         hardwareManager = new HardwareManager(hardwareMap); // Initialize HardwareManager
-        ResetLiftWheelCount(); // Reset the count of the lift motor encoder
+        //ResetLiftWheelCount(); // Reset the count of the lift motor encoder
     }
     @Override
     public void loop() {
@@ -47,9 +47,6 @@ public class LiftTuner extends OpMode{
     //----------------------------------------------------------------------
     // Private Methods
     //----------------------------------------------------------------------
-    private void ResetLiftWheelCount(){
-        hardwareManager.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //Reset motor ticks
-        hardwareManager.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Run motor by power
-    }
+
 
 }

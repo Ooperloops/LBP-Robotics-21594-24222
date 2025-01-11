@@ -141,7 +141,7 @@ public abstract class SelfDriving extends LinearOpMode {
     // Outtake Slide
     //------------------------------------------------------------------------------------------------
     public void MoveUpwardSlide(double GoToInch){
-        hardwareManager.resetWheelCounts();
+        ResetLiftWheelCount();
 
         double mainDirection = (GoToInch > 0) ? 0.5 : -0.5;
         hardwareManager.liftMotor.setPower(mainDirection);
@@ -162,9 +162,9 @@ public abstract class SelfDriving extends LinearOpMode {
     public void ScoreHighBasket(){
         Arm(0);
         sleep(1500);
-        MoveUpwardSlide(23);
+        MoveUpwardSlide(30);
         sleep(1500);
-        Arm(100);
+        Arm(120);
         sleep(1500);
         Claw(true);
         sleep(1000);
@@ -172,7 +172,7 @@ public abstract class SelfDriving extends LinearOpMode {
         sleep(1000);
         Arm(0);
         sleep(1500);
-        MoveUpwardSlide(-23);
+        MoveUpwardSlide(-30);
     }
 
     public void GrabLow(){
@@ -184,6 +184,11 @@ public abstract class SelfDriving extends LinearOpMode {
         sleep(1000);
         Arm(0);
         sleep(1000);
+    }
+
+    protected void ResetLiftWheelCount(){
+        hardwareManager.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //Reset motor ticks
+        hardwareManager.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Run motor by power
     }
 
     //------------------------------------------------------------------------------------------------
