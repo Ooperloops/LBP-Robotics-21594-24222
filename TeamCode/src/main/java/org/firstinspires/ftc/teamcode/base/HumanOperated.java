@@ -88,8 +88,8 @@ public abstract class HumanOperated extends OpMode {
         double drive = -gamepad1.left_stick_y;
         double rotate = gamepad1.right_stick_x;
 
-        backLeftWheelP   = drive - rotate;
-        backRightWheelP  = drive + rotate;
+        backLeftWheelP   = drive + rotate;
+        backRightWheelP  = drive - rotate;
     }
 
     //------------------------------------------------------------------------------------------------

@@ -100,8 +100,8 @@ public class HardwareManager {
 
         //frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         //frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeftWheel.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRightWheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
 
         doToAllWheels((wheel) -> wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE));
 
@@ -112,6 +112,7 @@ public class HardwareManager {
         intakeServo.setDirection(DcMotorSimple.Direction.FORWARD);
 
         intakeArmLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeArmLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeArmRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Sensors
