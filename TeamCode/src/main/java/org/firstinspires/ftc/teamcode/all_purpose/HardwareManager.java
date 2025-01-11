@@ -21,7 +21,8 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     // Intake
     //------------------------------------------------------------------------------------------------
-    public final DcMotor intakeArm;
+    public final DcMotor intakeArmLeft;
+    public final DcMotor intakeArmRight;
     public final CRServo intakeServo;
     //public final CRServo liftServo;
 
@@ -69,7 +70,7 @@ public class HardwareManager {
     // Arm
     //------------------------------------------------------------------------------------------------
     // Arm code here :)
-    public final DcMotor armMotor2;
+
     //------------------------------------------------------------------------------------------------
     // Sensors
     //------------------------------------------------------------------------------------------------
@@ -99,22 +100,19 @@ public class HardwareManager {
 
         //frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         //frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRightWheel.setDirection(DcMotorSimple.Direction.REVERSE);
 
         doToAllWheels((wheel) -> wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE));
 
         // Intake
-        intakeArm = hardwareMap.dcMotor.get("IntakeArmMotor");
+        intakeArmLeft = hardwareMap.dcMotor.get("IntakeLeftM");
+        intakeArmRight = hardwareMap.dcMotor.get("IntakeRightM");
         intakeServo = hardwareMap.crservo.get("IntakeServo");
-        armMotor2 = hardwareMap.dcMotor.get("Arm");
-        //liftServo = hardwareMap.crservo.get("LiftServo");
-
-        intakeArm.setDirection(DcMotorSimple.Direction.FORWARD);
         intakeServo.setDirection(DcMotorSimple.Direction.FORWARD);
-        //liftServo.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        intakeArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeArmLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeArmRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");

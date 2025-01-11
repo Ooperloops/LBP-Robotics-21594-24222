@@ -43,31 +43,25 @@ public abstract class HumanOperated extends OpMode {
     //------------------------------------------------------------------------------------------------
 
     public void intakeArmControl() {
-        boolean raiseArm = gamepad2.y;
-        boolean lowerArm = gamepad2.a;
-        if(raiseArm) {
-            hardwareManager.intakeArm.setPower(1);
-            hardwareManager.armMotor2.setPower(-1);
-        }else {
-            hardwareManager.intakeArm.setPower(0);
-            hardwareManager.armMotor2.setPower(0);
+        if(gamepad2.y) {
+            hardwareManager.intakeArmRight.setPower(1);
+            hardwareManager.intakeArmLeft.setPower(-1);
+        }else if(gamepad2.a) {
+            hardwareManager.intakeArmRight.setPower(-1);
+            hardwareManager.intakeArmLeft.setPower(1);
+        } else {
+            hardwareManager.intakeArmRight.setPower(0);
+            hardwareManager.intakeArmLeft.setPower(0);
         }
-        if(lowerArm) {
-            hardwareManager.intakeArm.setPower(-1);
-            hardwareManager.armMotor2.setPower(1);
-        }else {
-            hardwareManager.intakeArm.setPower(0);
-            hardwareManager.armMotor2.setPower(0);
-        }
-        float rotateIntake = gamepad2.right_trigger;
-        float reverseIntake = gamepad2.left_trigger;
-        if(rotateIntake > 0) {
-            hardwareManager.intakeServo.setPower(rotateIntake);
+        boolean rotateIntake = gamepad2.x;
+        boolean reverseIntake = gamepad2.b;
+        if(gamepad2.x) {
+            hardwareManager.intakeServo.setPower(1);
         }else{
             hardwareManager.intakeServo.setPower(0);
         }
-        if(reverseIntake > 0) {
-            hardwareManager.intakeServo.setPower(-reverseIntake);
+        if(gamepad2.b) {
+            hardwareManager.intakeServo.setPower(-1);
         }else{
             hardwareManager.intakeServo.setPower(0);
         }
@@ -91,7 +85,7 @@ public abstract class HumanOperated extends OpMode {
          * of the y-axis value of the gamepad's left joystick
          *
          */
-        double drive = gamepad1.left_stick_y;
+        double drive = -gamepad1.left_stick_y;
         double rotate = gamepad1.right_stick_x;
 
         backLeftWheelP   = drive - rotate;
