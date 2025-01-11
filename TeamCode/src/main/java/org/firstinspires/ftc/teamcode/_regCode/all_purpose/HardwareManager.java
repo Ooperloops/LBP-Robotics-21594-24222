@@ -100,11 +100,6 @@ public class HardwareManager {
         backLeftWheel = hardwareMap.dcMotor.get("BackLeftM");
         backRightWheel = hardwareMap.dcMotor.get("BackRightM");
 
-        // Active Intake
-        //intakeWheel = hardwareMap.dcMotor.get("IntakeWheel");
-        //intakeServo = hardwareMap.servo.get("IntakeServo");
-        //intakeSlide = hardwareMap.dcMotor.get("IntakeSlide");
-
         // Lift Control
         liftMotor = hardwareMap.dcMotor.get("LiftMotor");
 

@@ -37,7 +37,7 @@ public abstract class HumanOperated extends OpMode {
     protected double rightLiftServoPosition = 0;
     protected double leftLiftServoPosition = 0;
     protected double rightClawServoPosition = 0;
-    protected double leftClawServoPosition = 0;
+    protected double leftClawServoPosition = 0.25;
     protected double increment = 0.0027;
 
     //------------------------------------------------------------------------------------------------
@@ -109,42 +109,20 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.rightLiftServo.setPosition(rightLiftServoPosition);
         hardwareManager.leftLiftServo.setPosition(leftLiftServoPosition);
 
-        if(gamepad2.right_trigger > 0.3){
-            //rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
-            //leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
-            hardwareManager.rightClawServo.setPosition(0);
-            hardwareManager.leftClawServo.setPosition(0);
-        }else if(gamepad2.left_trigger > 0.3){
-            //rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
-            //leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
-            hardwareManager.rightClawServo.setPosition(0);
-            hardwareManager.leftClawServo.setPosition(0.25);
+        if(gamepad2.right_trigger > 0.3){ // Right Open
+            //rightClawServoPosition = 0.25;
+            leftClawServoPosition = 0.25;
+        }else if(gamepad2.left_trigger > 0.3){ // Left Open
+            rightClawServoPosition = 0;
+            //leftClawServoPosition = 0;
+        } else if(gamepad2.b ){ // Full Close
+            rightClawServoPosition = 0;
+            leftClawServoPosition = 0.25;
+        } else if(gamepad2.x){ // Full Openr
+            rightClawServoPosition = 0.25;
+            leftClawServoPosition = 0;
         }
-        /*
-        //seperate claws
-        if(gamepad2.right_trigger > 0.3){
-            hardwareManager.rightClawServo.setPosition(0.25);
-        }else{
-            hardwareManager.rightClawServo.setPosition(0);
-        }
-        if(gamepad2.left_trigger > 0.3){
-            hardwareManager.leftClawServo.setPosition(0.25);
-        }else if(gamepad2.left_trigger > 0.3){
-            hardwareManager.leftClawServo.setPosition(0);
-        }
-        //close both at same time
-        if(gamepad2.x){
-            //rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
-            //leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
-            hardwareManager.rightClawServo.setPosition(0.25);
-            hardwareManager.leftClawServo.setPosition(0.25);
-        }else if(gamepad2.b){
-            //rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
-            //leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
-            hardwareManager.rightClawServo.setPosition(0);
-            hardwareManager.leftClawServo.setPosition(0);
-        }
-         */
+
         if(gamepad2.dpad_left){
             rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
             leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
@@ -152,8 +130,8 @@ public abstract class HumanOperated extends OpMode {
             rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
             leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
         }
-        //hardwareManager.rightClawServo.setPosition(rightClawServoPosition);
-        //hardwareManager.leftClawServo.setPosition(leftClawServoPosition);
+        hardwareManager.rightClawServo.setPosition(rightClawServoPosition);
+        hardwareManager.leftClawServo.setPosition(leftClawServoPosition);
     }
 
     /*
@@ -218,21 +196,17 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.intakeServo.setPosition(activeIntakeServoPosition);
     }
 
+     */
+
     public void liftControl(boolean isPlayerOne) {
         Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
+        hardwareManager.liftMotor.setPower(controller.right_stick_y);
 
-            hardwareManager.liftMotor.setPower(controller.left_stick_y);
-
-        if(controller.x){
-            //liftServoPosition = 1;
-        } else if (controller.b){
-            //liftServoPosition = 0;
-        }
 
         //hardwareManager.liftServo.setPosition(liftServoPosition);
     }
 
-    */
+
 
 
 
@@ -248,7 +222,7 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.leftLiftServo.setPosition(0);
         hardwareManager.rightLiftServo.setPosition(0);
         hardwareManager.rightClawServo.setPosition(0);
-        hardwareManager.leftClawServo.setPosition(0);
+        hardwareManager.leftClawServo.setPosition(0.25);
     }
 
     public void setHardwarePower() {
