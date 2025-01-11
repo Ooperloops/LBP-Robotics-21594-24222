@@ -16,6 +16,7 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
 
     public final DcMotor liftMotor;
+    public final DcMotor lowerLiftMotor;
     public final Servo leftLiftServo;
     public final Servo rightLiftServo;
     public final Servo leftClawServo;
@@ -102,9 +103,15 @@ public class HardwareManager {
 
         // Lift Control
         liftMotor = hardwareMap.dcMotor.get("LiftMotor");
+        lowerLiftMotor = hardwareMap.dcMotor.get("LowerLiftM");
+
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lowerLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         rightLiftServo = hardwareMap.servo.get("RightLiftServo");
         leftLiftServo = hardwareMap.servo.get("LeftLiftServo");
+
+
 
         leftLiftServo.setDirection(Servo.Direction.REVERSE);
 

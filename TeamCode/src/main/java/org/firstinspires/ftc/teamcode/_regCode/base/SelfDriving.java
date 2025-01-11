@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode._regCode.base;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -23,8 +24,8 @@ public abstract class SelfDriving extends LinearOpMode {
     //------------------------------------------------------------------------------------------------
     // Active Intake
     //------------------------------------------------------------------------------------------------
-    protected double COUNTS_LIFT_OUTPUT = 1;
-    protected double LIFT_INCH_DIFFERENCE = 1;
+    protected double COUNTS_LIFT_OUTPUT = 4800; // TODO: must change
+    protected double LIFT_INCH_DIFFERENCE = 25.25; // TODO: must change
     protected double COUNTS_PER_INCH =
             COUNTS_LIFT_OUTPUT / LIFT_INCH_DIFFERENCE;
 
@@ -140,20 +141,40 @@ public abstract class SelfDriving extends LinearOpMode {
     // Outtake Slide
     //------------------------------------------------------------------------------------------------
     public void MoveUpwardSlide(double GoToInch){
-        double direction = (GoToInch > 0) ? 1 : -1;
-        hardwareManager.liftMotor.setPower(direction);
+        hardwareManager.resetWheelCounts();
+
+        double mainDirection = (GoToInch > 0) ? 0.5 : -0.1;
+        /*
+        double lowerDirection = (GoToInch > 0) ? -0.3 : -0.6;
+        if(GoToInch > 0){
+            hardwareManager.lowerLiftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        } else {
+            hardwareManager.lowerLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
+         */
+        hardwareManager.liftMotor.setPower(mainDirection);
+        //hardwareManager.lowerLiftMotor.setPower(lowerDirection);
 
         double totalCounts = Math.abs(GoToInch * COUNTS_PER_INCH);
+        double prevPos;
         while(opModeIsActive() && Math.abs(hardwareManager.liftMotor.getCurrentPosition()) <= totalCounts){
+            prevPos = Math.abs(hardwareManager.liftMotor.getCurrentPosition());
+            sleep(2000);
+            if(prevPos == Math.abs(hardwareManager.liftMotor.getCurrentPosition())) break;
             idle();
         }
         hardwareManager.liftMotor.setPower(0);
+        //hardwareManager.lowerLiftMotor.setPower(0);
     }
+
+
     //------------------------------------------------------------------------------------------------
     // Auto Macros
     //------------------------------------------------------------------------------------------------
     public void ScoreHighBasket(){
-        MoveUpwardSlide(LIFT_INCH_DIFFERENCE);
+        Arm(0);
+        sleep(1000);
+        MoveUpwardSlide(22);
         Arm(159);
         sleep(1500);
         Claw(true);
@@ -162,7 +183,7 @@ public abstract class SelfDriving extends LinearOpMode {
         sleep(1000);
         Arm(0);
         sleep(1500);
-        MoveUpwardSlide(-LIFT_INCH_DIFFERENCE);
+        MoveUpwardSlide(-22);
     }
 
     public void GrabLow(){

@@ -134,73 +134,10 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.leftClawServo.setPosition(leftClawServoPosition);
     }
 
-    /*
-    public void  ActiveIntakeTwoPlayer(){
-
-        double extendSlide = gamepad2.right_stick_y;
-        hardwareManager.intakeSlide.setPower(extendSlide);
-        
-        double spinIntakeForward = gamepad2.right_trigger;
-        if(spinIntakeForward == 1){
-            hardwareManager.intakeWheel.setPower(-0.8);
-        }else{
-            hardwareManager.intakeWheel.setPower(0);
-        }
-        double spinIntakeReverse = gamepad2.left_trigger;
-        if(spinIntakeReverse == 1){
-            hardwareManager.intakeWheel.setPower(0.8);
-        }else{
-            hardwareManager.intakeWheel.setPower(0);
-        }
-
-        if(gamepad2.dpad_up){
-            rightLiftServoPosition = Range.clip(rightLiftServoPosition - increment, 0, 0.4752);
-            leftLiftServoPosition = Range.clip(leftLiftServoPosition + increment, 0, 0.4752);
-        } else if (gamepad2.dpad_down){
-            activeIntakeServoPosition = Range.clip(activeIntakeServoPosition + increment, 0, 0.4752);
-        }
-
-        hardwareManager.intakeServo.setPosition(activeIntakeServoPosition);
-
-    }
-
-    public void ActiveIntake(){
-        boolean extendSlide = gamepad1.dpad_right;
-        boolean retractSlide = gamepad1.dpad_left;
-        if (extendSlide) {
-            hardwareManager.intakeSlide.setPower(0.8);
-        }else{
-            hardwareManager.intakeSlide.setPower(0);
-        }
-        if (retractSlide) {
-            hardwareManager.intakeSlide.setPower(-0.8);
-        }else{
-            hardwareManager.intakeSlide.setPower(0);
-        }
-        double spinIntakeForward = gamepad1.right_trigger;
-        double spinIntakeReverse = gamepad1.left_trigger;
-        if(spinIntakeForward == 1){
-            hardwareManager.intakeWheel.setPower(-1);
-        }else if (spinIntakeReverse == 1){
-            hardwareManager.intakeWheel.setPower(1);
-        } else {
-            hardwareManager.intakeWheel.setPower(0);
-        }
-
-        if(gamepad1.dpad_up){
-            activeIntakeServoPosition = Range.clip(activeIntakeServoPosition - increment, 0, 0.4752);
-        } else if (gamepad1.dpad_down){
-            activeIntakeServoPosition = Range.clip(activeIntakeServoPosition + increment, 0, 0.4752);
-        }
-
-        hardwareManager.intakeServo.setPosition(activeIntakeServoPosition);
-    }
-
-     */
-
     public void liftControl(boolean isPlayerOne) {
         Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
-        hardwareManager.liftMotor.setPower(controller.right_stick_y);
+        hardwareManager.liftMotor.setPower(-controller.right_stick_y);
+        hardwareManager.lowerLiftMotor.setPower(controller.right_stick_y);
 
 
         //hardwareManager.liftServo.setPosition(liftServoPosition);
