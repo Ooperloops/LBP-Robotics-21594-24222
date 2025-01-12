@@ -96,7 +96,7 @@ public abstract class HumanOperated extends OpMode {
         backRightWheelP  = drive + strafe - rotate;
     }
 
-    public void liftAndClawCodeNoob () {
+    public void liftControls () {
         hardwareManager.liftMotor.setPower(gamepad2.right_stick_y);
         if(gamepad2.left_stick_y > 0){
             rightLiftServoPosition = Range.clip(rightLiftServoPosition + increment, 0, 0.55);
@@ -108,13 +108,17 @@ public abstract class HumanOperated extends OpMode {
 
         hardwareManager.rightLiftServo.setPosition(rightLiftServoPosition);
         hardwareManager.leftLiftServo.setPosition(leftLiftServoPosition);
+    }
 
-        if(gamepad2.right_trigger > 0.3){ // Right Open
-            //rightClawServoPosition = 0.25;
+    public void clawControls(){
+        /*
+            Macros,
+            Right Trigger = ca
+         */
+        if(gamepad2.right_trigger > 0.3){ // Right Close
             leftClawServoPosition = 0.25;
-        }else if(gamepad2.left_trigger > 0.3){ // Left Open
+        }else if(gamepad2.left_trigger > 0.3){ // Left Close
             rightClawServoPosition = 0;
-            //leftClawServoPosition = 0;
         } else if(gamepad2.b ){ // Full Close
             rightClawServoPosition = 0;
             leftClawServoPosition = 0.25;
@@ -138,9 +142,6 @@ public abstract class HumanOperated extends OpMode {
         Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
         hardwareManager.liftMotor.setPower(controller.right_stick_y);
         hardwareManager.lowerLiftMotor.setPower(-controller.right_stick_y);
-
-
-        //hardwareManager.liftServo.setPosition(liftServoPosition);
     }
 
 

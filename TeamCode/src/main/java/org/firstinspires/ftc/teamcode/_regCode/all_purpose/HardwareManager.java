@@ -11,10 +11,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
  * be able to do synchronized commands.
  */
 public class HardwareManager {
+
     //------------------------------------------------------------------------------------------------
     // Active Intake
     //------------------------------------------------------------------------------------------------
-
     public final DcMotor liftMotor;
     public final DcMotor lowerLiftMotor;
     public final Servo leftLiftServo;
@@ -31,13 +31,6 @@ public class HardwareManager {
     public final DcMotor backLeftWheel;
     public final DcMotor backRightWheel;
 
-
-    /**
-     * let `n` be return value;
-     *      n < 0 = Motors went reversed.
-     *      n > 0 = Motors went forward.
-     */
-
     public double getAverageWheelCounts() {
         return (Math.abs(frontLeftWheel.getCurrentPosition())) +
                 Math.abs(frontRightWheel.getCurrentPosition()) +
@@ -50,6 +43,7 @@ public class HardwareManager {
         doToAllWheels((wheel) -> wheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER));
     }
 
+
     /**
      * For each wheel motor run that specific callback.
      * Converting this:
@@ -61,15 +55,12 @@ public class HardwareManager {
      * To this:
      *      doToAllWheels((wheel) -> wheel.doTheSameCommand());
      */
-
-
     public void doToAllWheels(WheelCallback callback) {
         callback.run(frontLeftWheel);
         callback.run(frontRightWheel);
         callback.run(backLeftWheel);
         callback.run(backRightWheel);
     }
-
 
     public interface WheelCallback {
         void run(DcMotor motor);
@@ -79,7 +70,6 @@ public class HardwareManager {
     // Sensors
     //------------------------------------------------------------------------------------------------
     public IMU imu;
-
     /**
      * Returns a normalized robot yaw orientation in Degrees (°)
      *
@@ -89,6 +79,7 @@ public class HardwareManager {
      *                 -180/180
      *                 BACKWARD
      */
+
     public double getCurrentDegreeHeading() {
         return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
     }
@@ -102,25 +93,19 @@ public class HardwareManager {
         backRightWheel = hardwareMap.dcMotor.get("BackRightM");
 
         // Lift Control
-        liftMotor = hardwareMap.dcMotor.get("LiftMotor");
-        lowerLiftMotor = hardwareMap.dcMotor.get("LowerLiftM");
+        liftMotor = hardwareMap.dcMotor.get("LiftM"); // changed to LiftM, please delete this comment
+        //lowerLiftMotor = hardwareMap.dcMotor.get("LowerLiftM");
 
-        //liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lowerLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //lowerLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         rightLiftServo = hardwareMap.servo.get("RightLiftServo");
         leftLiftServo = hardwareMap.servo.get("LeftLiftServo");
-
-
 
         leftLiftServo.setDirection(Servo.Direction.REVERSE);
 
         leftClawServo = hardwareMap.servo.get("LeftClawServo");
         rightClawServo = hardwareMap.servo.get("RightClawServo");
-
-        //rightClawServo.setDirection(Servo.Direction.REVERSE);
-
-        //rightClawServo.setDirection(Servo.Direction.REVERSE);
 
         frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -131,8 +116,6 @@ public class HardwareManager {
 
 
         liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-
-
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Sensors
