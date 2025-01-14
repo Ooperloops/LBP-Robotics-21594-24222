@@ -174,7 +174,9 @@ public abstract class HumanOperated extends OpMode {
          */
         if(gamepad2.left_stick_y > 0){
             liftServoPosition = Range.clip(liftServoPosition + increment, 0, 0.55);
-            initActive = false;
+            if (initActive == true){
+                initActive = false;
+            }
         }else if(gamepad2.left_stick_y < 0){
             liftServoPosition = Range.clip(liftServoPosition - increment, 0, 0.55);
         }
@@ -187,6 +189,8 @@ public abstract class HumanOperated extends OpMode {
             hardwareManager.clawRotationServo.setPosition(0.27777777777);
         } else if (liftServoPosition == 0.45) {
             hardwareManager.clawRotationServo.setPosition(0.5);
+        } else if (liftServoPosition < 0.45) {
+            hardwareManager.clawRotationServo.setPosition(0.27777777777);
         }
       }
     }
@@ -246,6 +250,7 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.liftServo.setPosition(0);
         hardwareManager.rightClawServo.setPosition(0);
         hardwareManager.leftClawServo.setPosition(0.25);
+        hardwareManager.clawRotationServo.setPosition(0.5);
     }
 
     public void setHardwarePower() {
