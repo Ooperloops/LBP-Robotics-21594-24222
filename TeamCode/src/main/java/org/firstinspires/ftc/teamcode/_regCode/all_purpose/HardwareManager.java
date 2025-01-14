@@ -21,6 +21,7 @@ public class HardwareManager {
     public final Servo rightLiftServo;
     public final Servo leftClawServo;
     public final Servo rightClawServo;
+    public final Servo clawRotationServo;
 
 
     //------------------------------------------------------------------------------------------------
@@ -111,6 +112,7 @@ public class HardwareManager {
 
         leftClawServo = hardwareMap.servo.get("LeftClawServo");
         rightClawServo = hardwareMap.servo.get("RightClawServo");
+        clawRotationServo = hardwareMap.servo.get("ClawRotationServo");
 
         frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);

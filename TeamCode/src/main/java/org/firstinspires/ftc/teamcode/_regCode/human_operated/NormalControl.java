@@ -14,6 +14,7 @@ public class NormalControl extends HumanOperated {
     @Override
     public void loop() {
         useDefaultMovementControls();
-        liftControl(true);
+        //liftControl(true);
+        liftControlPID(true);
     }
 }

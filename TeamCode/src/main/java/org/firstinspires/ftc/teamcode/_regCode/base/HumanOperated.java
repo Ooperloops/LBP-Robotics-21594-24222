@@ -53,6 +53,8 @@ public abstract class HumanOperated extends OpMode {
 
     long lastTime = System.currentTimeMillis();
 
+    boolean initActive;
+
     //------------------------------------------------------------------------------------------------
     // Config
     //------------------------------------------------------------------------------------------------
@@ -110,9 +112,10 @@ public abstract class HumanOperated extends OpMode {
     }
 
     //@Override
-    public void liftMotorPID() {
+    public void liftControlPID(boolean isPlayerOne) {
+        Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
         // Get gamepad input for lift control
-        double userPower = gamepad2.right_stick_y;
+        double userPower = controller.right_stick_y;
 
         // Get encoder positions
         int leftPosition = hardwareManager.liftMotorLeft.getCurrentPosition();
@@ -155,8 +158,8 @@ public abstract class HumanOperated extends OpMode {
         telemetry.update();
     }
 
-
     public void liftControls () {
+        /*
         hardwareManager.liftMotorLeft.setPower(gamepad2.right_stick_y);
         if(gamepad2.left_stick_y > 0){
             rightLiftServoPosition = Range.clip(rightLiftServoPosition + increment, 0, 0.55);
@@ -168,6 +171,24 @@ public abstract class HumanOperated extends OpMode {
 
         hardwareManager.rightLiftServo.setPosition(rightLiftServoPosition);
         hardwareManager.leftLiftServo.setPosition(leftLiftServoPosition);
+         */
+        if(gamepad2.left_stick_y > 0){
+            rightLiftServoPosition = Range.clip(rightLiftServoPosition + increment, 0, 0.55);
+            initActive = false;
+        }else if(gamepad2.left_stick_y < 0){
+            rightLiftServoPosition = Range.clip(rightLiftServoPosition - increment, 0, 0.55);
+        }
+
+        hardwareManager.rightLiftServo.setPosition(rightLiftServoPosition);
+    if(initActive == false) {
+        if (rightLiftServoPosition == 0 || rightLiftServoPosition <= 0.075) {
+            hardwareManager.clawRotationServo.setPosition(0);
+        } else if (rightLiftServoPosition == 0.175) {
+            hardwareManager.clawRotationServo.setPosition(0.27777777777);
+        } else if (rightLiftServoPosition == 0.45) {
+            hardwareManager.clawRotationServo.setPosition(0);
+        }
+      }
     }
 
     public void clawControls(){
@@ -198,11 +219,13 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.leftClawServo.setPosition(leftClawServoPosition);
     }
 
+    /*
     public void liftControl(boolean isPlayerOne) {
         Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
         hardwareManager.liftMotorLeft.setPower(controller.right_stick_y);
         hardwareManager.liftMotorRight.setPower(-controller.right_stick_y);
     }
+     */
 
 
 
@@ -216,6 +239,8 @@ public abstract class HumanOperated extends OpMode {
     public void init() {
         hardwareManager = new HardwareManager(hardwareMap);
         //hardwareManager.intakeServo.setPosition(0);
+
+        initActive = true;
 
         hardwareManager.leftLiftServo.setPosition(0);
         hardwareManager.rightLiftServo.setPosition(0);
