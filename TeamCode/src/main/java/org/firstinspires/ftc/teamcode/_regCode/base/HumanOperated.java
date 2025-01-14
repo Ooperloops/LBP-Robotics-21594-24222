@@ -158,7 +158,7 @@ public abstract class HumanOperated extends OpMode {
         telemetry.update();
     }
 
-    public void liftControls () {
+    public void armServos () {
         /*
         hardwareManager.liftMotorLeft.setPower(gamepad2.right_stick_y);
         if(gamepad2.left_stick_y > 0){
