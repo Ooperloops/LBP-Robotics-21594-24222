@@ -39,17 +39,17 @@ public abstract class HumanOperated extends OpMode {
     protected double rightClawServoPosition = 0;
     protected double leftClawServoPosition = 0.25;
     protected double increment = 0.0027;
-    double motor1Power = 0.5;  // Initial power for motor1
-    double motor2Power = 0.5;  // Initial power for motor2
+    double leftPower = 0;  // Power for left motor
+    double rightPower = 0; // Power for right motor
 
+    // PID constants
     double kP = 0.1;  // Proportional gain
     double kI = 0.01; // Integral gain
     double kD = 0.01; // Derivative gain
 
-    double motor1PrevError = 0;
-    double motor2PrevError = 0;
-    double motor1Integral = 0;
-    double motor2Integral = 0;
+    // PID state variables
+    double prevError = 0;
+    double integral = 0;
 
     long lastTime = System.currentTimeMillis();
 
@@ -111,45 +111,48 @@ public abstract class HumanOperated extends OpMode {
 
     //@Override
     public void liftMotorPID() {
-        // Get encoder counts (current positions)
-        int motor1Position = hardwareManager.liftMotorLeft.getCurrentPosition();
-        int motor2Position = hardwareManager.liftMotorRight.getCurrentPosition();
+        // Get gamepad input for lift control
+        double userPower = gamepad2.right_stick_y;
 
-        // Calculate speed (change in position over time)
+        // Get encoder positions
+        int leftPosition = hardwareManager.liftMotorLeft.getCurrentPosition();
+        int rightPosition = hardwareManager.liftMotorRight.getCurrentPosition();
+
+        // Calculate the error (difference in encoder positions)
+        double error = leftPosition - rightPosition;
+
+        // Get current time and calculate delta time
         long currentTime = System.currentTimeMillis();
         double deltaTime = (currentTime - lastTime) / 1000.0;  // Convert to seconds
 
-        double motor1Speed = motor1Position / deltaTime;
-        double motor2Speed = motor2Position / deltaTime;
-
-        // Calculate error (difference in speeds)
-        double error = motor1Speed - motor2Speed;
-
         // PID calculations
-        motor1Integral += error * deltaTime;
-        motor2Integral -= error * deltaTime;
+        integral += error * deltaTime;
+        double derivative = (error - prevError) / deltaTime;
 
-        double motor1Derivative = (error - motor1PrevError) / deltaTime;
-        double motor2Derivative = (motor2PrevError - error) / deltaTime;
+        double correction = kP * error + kI * integral + kD * derivative;
 
-        double correction = kP * error + kI * motor1Integral + kD * motor1Derivative;
-
-        // Adjust motor power
-        motor1Power -= correction;
-        motor2Power += correction;
+        // Adjust power for each motor
+        leftPower = userPower - correction;  // Reduce power to correct overspeed
+        rightPower = userPower + correction; // Increase power to catch up
 
         // Limit motor power to valid range [-1, 1]
-        motor1Power = Math.max(-1, Math.min(1, motor1Power));
-        motor2Power = Math.max(-1, Math.min(1, motor2Power));
+        leftPower = Math.max(-1, Math.min(1, leftPower));
+        rightPower = Math.max(-1, Math.min(1, rightPower));
 
         // Set motor power
-        hardwareManager.liftMotorLeft.setPower(motor1Power);
-        hardwareManager.liftMotorRight.setPower(motor2Power);
+        hardwareManager.liftMotorLeft.setPower(leftPower);
+        hardwareManager.liftMotorRight.setPower(rightPower);
 
         // Update previous error and time
-        motor1PrevError = error;
-        motor2PrevError = -error;
+        prevError = error;
         lastTime = currentTime;
+
+        // Telemetry for debugging
+        telemetry.addData("User Power", userPower);
+        telemetry.addData("Left Power", leftPower);
+        telemetry.addData("Right Power", rightPower);
+        telemetry.addData("Error", error);
+        telemetry.update();
     }
 
 
