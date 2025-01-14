@@ -17,8 +17,8 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     public final DcMotor liftMotorLeft;
     public final DcMotor liftMotorRight;
-    public final Servo leftLiftServo;
-    public final Servo rightLiftServo;
+    //public final Servo leftLiftServo;
+    public final Servo liftServo;
     public final Servo leftClawServo;
     public final Servo rightClawServo;
     public final Servo clawRotationServo;
@@ -105,10 +105,10 @@ public class HardwareManager {
         liftMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        rightLiftServo = hardwareMap.servo.get("RightLiftServo");
-        leftLiftServo = hardwareMap.servo.get("LeftLiftServo");
+        liftServo = hardwareMap.servo.get("LiftServo");
+        //leftLiftServo = hardwareMap.servo.get("LeftLiftServo");
 
-        leftLiftServo.setDirection(Servo.Direction.REVERSE);
+        //leftLiftServo.setDirection(Servo.Direction.REVERSE);
 
         leftClawServo = hardwareMap.servo.get("LeftClawServo");
         rightClawServo = hardwareMap.servo.get("RightClawServo");

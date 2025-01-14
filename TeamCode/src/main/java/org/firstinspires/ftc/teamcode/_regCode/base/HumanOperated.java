@@ -34,8 +34,8 @@ public abstract class HumanOperated extends OpMode {
     protected double backRightWheelP = 0;
 
     //protected double activeIntakeServoPosition = 0;
-    protected double rightLiftServoPosition = 0;
-    protected double leftLiftServoPosition = 0;
+    protected double liftServoPosition = 0;
+    //protected double leftLiftServoPosition = 0;
     protected double rightClawServoPosition = 0;
     protected double leftClawServoPosition = 0.25;
     protected double increment = 0.0027;
@@ -173,20 +173,20 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.leftLiftServo.setPosition(leftLiftServoPosition);
          */
         if(gamepad2.left_stick_y > 0){
-            rightLiftServoPosition = Range.clip(rightLiftServoPosition + increment, 0, 0.55);
+            liftServoPosition = Range.clip(liftServoPosition + increment, 0, 0.55);
             initActive = false;
         }else if(gamepad2.left_stick_y < 0){
-            rightLiftServoPosition = Range.clip(rightLiftServoPosition - increment, 0, 0.55);
+            liftServoPosition = Range.clip(liftServoPosition - increment, 0, 0.55);
         }
 
-        hardwareManager.rightLiftServo.setPosition(rightLiftServoPosition);
+        hardwareManager.liftServo.setPosition(liftServoPosition);
     if(initActive == false) {
-        if (rightLiftServoPosition == 0 || rightLiftServoPosition <= 0.075) {
+        if (liftServoPosition == 0 || liftServoPosition <= 0.075) {
             hardwareManager.clawRotationServo.setPosition(0);
-        } else if (rightLiftServoPosition == 0.175) {
+        } else if (liftServoPosition == 0.175) {
             hardwareManager.clawRotationServo.setPosition(0.27777777777);
-        } else if (rightLiftServoPosition == 0.45) {
-            hardwareManager.clawRotationServo.setPosition(0);
+        } else if (liftServoPosition == 0.45) {
+            hardwareManager.clawRotationServo.setPosition(0.5);
         }
       }
     }
@@ -242,8 +242,8 @@ public abstract class HumanOperated extends OpMode {
 
         initActive = true;
 
-        hardwareManager.leftLiftServo.setPosition(0);
-        hardwareManager.rightLiftServo.setPosition(0);
+        //hardwareManager.leftLiftServo.setPosition(0);
+        hardwareManager.liftServo.setPosition(0);
         hardwareManager.rightClawServo.setPosition(0);
         hardwareManager.leftClawServo.setPosition(0.25);
     }
