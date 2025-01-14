@@ -97,7 +97,7 @@ public abstract class HumanOperated extends OpMode {
     }
 
     public void liftControls () {
-        hardwareManager.liftMotor.setPower(gamepad2.right_stick_y);
+        hardwareManager.liftMotorLeft.setPower(gamepad2.right_stick_y);
         if(gamepad2.left_stick_y > 0){
             rightLiftServoPosition = Range.clip(rightLiftServoPosition + increment, 0, 0.55);
             leftLiftServoPosition = Range.clip(leftLiftServoPosition + increment, 0, 0.55);
@@ -140,7 +140,7 @@ public abstract class HumanOperated extends OpMode {
 
     public void liftControl(boolean isPlayerOne) {
         Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
-        hardwareManager.liftMotor.setPower(controller.right_stick_y);
+        hardwareManager.liftMotorLeft.setPower(controller.right_stick_y);
         hardwareManager.lowerLiftMotor.setPower(-controller.right_stick_y);
     }
 

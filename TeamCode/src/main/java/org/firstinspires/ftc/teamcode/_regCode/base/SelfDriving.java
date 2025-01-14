@@ -144,14 +144,14 @@ public abstract class SelfDriving extends LinearOpMode {
         ResetLiftWheelCount();
 
         double mainDirection = (GoToInch > 0) ? 0.5 : -0.5;
-        hardwareManager.liftMotor.setPower(mainDirection);
+        hardwareManager.liftMotorLeft.setPower(mainDirection);
         //hardwareManager.lowerLiftMotor.setPower(lowerDirection);
 
         double totalCounts = Math.abs(GoToInch * COUNTS_PER_INCH);
-        while(opModeIsActive() && (double) Math.abs(hardwareManager.liftMotor.getCurrentPosition()) <= totalCounts){
+        while(opModeIsActive() && (double) Math.abs(hardwareManager.liftMotorLeft.getCurrentPosition()) <= totalCounts){
             idle();
         }
-        hardwareManager.liftMotor.setPower(0);
+        hardwareManager.liftMotorLeft.setPower(0);
         //hardwareManager.lowerLiftMotor.setPower(0);
     }
 
@@ -187,8 +187,8 @@ public abstract class SelfDriving extends LinearOpMode {
     }
 
     protected void ResetLiftWheelCount(){
-        hardwareManager.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //Reset motor ticks
-        hardwareManager.liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Run motor by power
+        hardwareManager.liftMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //Reset motor ticks
+        hardwareManager.liftMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Run motor by power
     }
 
     //------------------------------------------------------------------------------------------------

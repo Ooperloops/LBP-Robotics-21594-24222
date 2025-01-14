@@ -28,19 +28,19 @@ public class LiftTuner extends OpMode{
     @Override
     public void loop() {
         if(gamepad1.a){ //Raise the lift
-            hardwareManager.liftMotor.setPower(0.5);
+            hardwareManager.liftMotorLeft.setPower(0.5);
             //hardwareManager.lowerLiftMotor.setPower(-0.1);
         } else if (gamepad1.b){ //Lower the lift
-            hardwareManager.liftMotor.setPower(-0.1);
+            hardwareManager.liftMotorLeft.setPower(-0.1);
             //hardwareManager.lowerLiftMotor.setPower(0.5);
         } else { // Do nothing
-            hardwareManager.liftMotor.setPower(0);
+            hardwareManager.liftMotorLeft.setPower(0);
             //hardwareManager.lowerLiftMotor.setPower(0);
         }
 
         // Print the current ticks on the lift motor via telemetry
         telemetry
-            .addData("Current Lift Ticks: ", hardwareManager.liftMotor.getCurrentPosition());
+            .addData("Current Lift Ticks: ", hardwareManager.liftMotorLeft.getCurrentPosition());
         telemetry.update();
     }
 
