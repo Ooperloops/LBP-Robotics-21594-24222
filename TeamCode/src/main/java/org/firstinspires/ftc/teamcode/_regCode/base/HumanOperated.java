@@ -39,6 +39,19 @@ public abstract class HumanOperated extends OpMode {
     protected double rightClawServoPosition = 0;
     protected double leftClawServoPosition = 0.25;
     protected double increment = 0.0027;
+    double motor1Power = 0.5;  // Initial power for motor1
+    double motor2Power = 0.5;  // Initial power for motor2
+
+    double kP = 0.1;  // Proportional gain
+    double kI = 0.01; // Integral gain
+    double kD = 0.01; // Derivative gain
+
+    double motor1PrevError = 0;
+    double motor2PrevError = 0;
+    double motor1Integral = 0;
+    double motor2Integral = 0;
+
+    long lastTime = System.currentTimeMillis();
 
     //------------------------------------------------------------------------------------------------
     // Config
@@ -96,6 +109,50 @@ public abstract class HumanOperated extends OpMode {
         backRightWheelP  = drive + strafe - rotate;
     }
 
+    //@Override
+    public void liftMotorPID() {
+        // Get encoder counts (current positions)
+        int motor1Position = hardwareManager.liftMotorLeft.getCurrentPosition();
+        int motor2Position = hardwareManager.liftMotorRight.getCurrentPosition();
+
+        // Calculate speed (change in position over time)
+        long currentTime = System.currentTimeMillis();
+        double deltaTime = (currentTime - lastTime) / 1000.0;  // Convert to seconds
+
+        double motor1Speed = motor1Position / deltaTime;
+        double motor2Speed = motor2Position / deltaTime;
+
+        // Calculate error (difference in speeds)
+        double error = motor1Speed - motor2Speed;
+
+        // PID calculations
+        motor1Integral += error * deltaTime;
+        motor2Integral -= error * deltaTime;
+
+        double motor1Derivative = (error - motor1PrevError) / deltaTime;
+        double motor2Derivative = (motor2PrevError - error) / deltaTime;
+
+        double correction = kP * error + kI * motor1Integral + kD * motor1Derivative;
+
+        // Adjust motor power
+        motor1Power -= correction;
+        motor2Power += correction;
+
+        // Limit motor power to valid range [-1, 1]
+        motor1Power = Math.max(-1, Math.min(1, motor1Power));
+        motor2Power = Math.max(-1, Math.min(1, motor2Power));
+
+        // Set motor power
+        hardwareManager.liftMotorLeft.setPower(motor1Power);
+        hardwareManager.liftMotorRight.setPower(motor2Power);
+
+        // Update previous error and time
+        motor1PrevError = error;
+        motor2PrevError = -error;
+        lastTime = currentTime;
+    }
+
+
     public void liftControls () {
         hardwareManager.liftMotorLeft.setPower(gamepad2.right_stick_y);
         if(gamepad2.left_stick_y > 0){
@@ -141,7 +198,7 @@ public abstract class HumanOperated extends OpMode {
     public void liftControl(boolean isPlayerOne) {
         Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
         hardwareManager.liftMotorLeft.setPower(controller.right_stick_y);
-        hardwareManager.lowerLiftMotor.setPower(-controller.right_stick_y);
+        hardwareManager.liftMotorRight.setPower(-controller.right_stick_y);
     }
 
 

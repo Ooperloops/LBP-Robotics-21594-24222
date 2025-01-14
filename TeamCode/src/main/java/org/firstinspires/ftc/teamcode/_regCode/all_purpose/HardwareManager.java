@@ -16,7 +16,7 @@ public class HardwareManager {
     // Active Intake
     //------------------------------------------------------------------------------------------------
     public final DcMotor liftMotorLeft;
-    public final DcMotor lowerLiftMotor;
+    public final DcMotor liftMotorRight;
     public final Servo leftLiftServo;
     public final Servo rightLiftServo;
     public final Servo leftClawServo;
@@ -93,11 +93,16 @@ public class HardwareManager {
         backRightWheel = hardwareMap.dcMotor.get("BackRightM");
 
         // Lift Control
-        liftMotorLeft = hardwareMap.dcMotor.get("LiftM"); // changed to LiftM, please delete this comment
-        //lowerLiftMotor = hardwareMap.dcMotor.get("LowerLiftM");
+        liftMotorLeft = hardwareMap.dcMotor.get("LiftMLeft"); // changed to LiftM, please delete this comment
+        liftMotorRight = hardwareMap.dcMotor.get("LiftMRight");
 
         liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //lowerLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        liftMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         rightLiftServo = hardwareMap.servo.get("RightLiftServo");
         leftLiftServo = hardwareMap.servo.get("LeftLiftServo");
