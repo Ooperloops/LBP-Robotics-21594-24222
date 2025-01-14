@@ -133,8 +133,8 @@ public abstract class SelfDriving extends LinearOpMode {
     public void Arm(double angle){
         double angleToPos = angle * (1.0/360.0);
         double filteredAngle = Range.clip(angleToPos, 0, 0.55);
-        hardwareManager.rightLiftServo.setPosition(filteredAngle);
-        hardwareManager.leftLiftServo.setPosition(filteredAngle);
+        //hardwareManager.rightLiftServo.setPosition(filteredAngle);
+        //hardwareManager.leftLiftServo.setPosition(filteredAngle);
     }
 
     //------------------------------------------------------------------------------------------------

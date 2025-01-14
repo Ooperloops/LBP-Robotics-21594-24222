@@ -106,6 +106,7 @@ public class HardwareManager {
         liftMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         liftServo = hardwareMap.servo.get("LiftServo");
+        liftServo.setDirection(Servo.Direction.REVERSE);
         //leftLiftServo = hardwareMap.servo.get("LeftLiftServo");
 
         //leftLiftServo.setDirection(Servo.Direction.REVERSE);
