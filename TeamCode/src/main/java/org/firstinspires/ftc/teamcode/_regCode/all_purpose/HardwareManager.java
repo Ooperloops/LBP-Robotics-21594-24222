@@ -97,6 +97,8 @@ public class HardwareManager {
         liftMotorLeft = hardwareMap.dcMotor.get("LiftMLeft"); // changed to LiftM, please delete this comment
         liftMotorRight = hardwareMap.dcMotor.get("LiftMRight");
 
+        liftMotorRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
         liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
