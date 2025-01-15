@@ -222,13 +222,12 @@ public abstract class HumanOperated extends OpMode {
             liftServoPosition = Range.clip(liftServoPosition - increment, 0, 0.55);
         }
 
-        hardwareManager.liftServo.setPosition(liftServoPosition);
     if(initActive == false) {
         if (liftServoPosition == 0 || liftServoPosition <= 0.075) {
             hardwareManager.clawRotationServo.setPosition(0);
-        } else if (liftServoPosition == 0.175) {
+        } else if (liftServoPosition >= 0.175) {
             hardwareManager.clawRotationServo.setPosition(0.27777777777);
-        } else if (liftServoPosition == 0.45) {
+        } else if (liftServoPosition >= 0.45) {
             hardwareManager.clawRotationServo.setPosition(0.5);
         } else if (liftServoPosition < 0.45) {
             hardwareManager.clawRotationServo.setPosition(0.27777777777);
@@ -236,6 +235,7 @@ public abstract class HumanOperated extends OpMode {
             hardwareManager.clawRotationServo.setPosition(0);
         }
       }
+        hardwareManager.liftServo.setPosition(liftServoPosition);
     }
 
     public void clawControls(){
