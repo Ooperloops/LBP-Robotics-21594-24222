@@ -40,8 +40,6 @@ public abstract class HumanOperated extends OpMode {
     protected double leftClawServoPosition = 0.25;
     protected double increment = 0.0027;
 
-    /*
-
     double leftPower = 0;  // Power for left motor
     double rightPower = 0; // Power for right motor
 
@@ -56,20 +54,7 @@ public abstract class HumanOperated extends OpMode {
 
     long lastTime = System.currentTimeMillis();
 
-    */
-
     boolean initActive;
-
-    // PID controller variables
-    private double kp = 1.0; // Proportional coefficient
-    private double ki = 0.0; // Integral coefficient
-    private double kd = 0.0; // Derivative coefficient
-    private double previousError = 0.0;
-    private double integral = 0.0;
-
-    // Motor encoders
-    private int encoderMotor1 = 0;
-    private int encoderMotor2 = 0;
 
     // Update motor speed
 
@@ -130,9 +115,8 @@ public abstract class HumanOperated extends OpMode {
     }
 
     //@Override
-    public void liftControlPIDCode(double targetPower) {
-        //Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
-        /*
+    public void liftControlPID(boolean isPlayerOne) {
+        Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
 
         // Get gamepad input for lift control
         double userPower = controller.right_stick_y;
@@ -176,27 +160,6 @@ public abstract class HumanOperated extends OpMode {
         telemetry.addData("Right Power", rightPower);
         telemetry.addData("Error", error);
         telemetry.update();
-
-         */
-        double error = encoderMotor1 - encoderMotor2; // Speed difference
-        integral += error;
-        double derivative = error - previousError;
-        double correction = kp * error + ki * integral + kd * derivative;
-        previousError = error;
-
-        // Apply power with correction
-        hardwareManager.liftMotorLeft.setPower(targetPower - correction);
-        hardwareManager.liftMotorRight.setPower(targetPower + correction);
-    }
-
-    public void liftControlPID() {
-        double targetPower = gamepad2.right_stick_y;
-        if (Math.abs(targetPower) > 0.1) { // Dead zone threshold
-            liftControlPIDCode(targetPower);
-        } else {
-            hardwareManager.liftMotorLeft.setPower(0);
-            hardwareManager.liftMotorRight.setPower(0);
-        }
     }
 
     public void armServos () {

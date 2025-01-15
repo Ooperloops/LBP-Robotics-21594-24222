@@ -16,7 +16,7 @@ public class NormalControlTwoDrivers extends HumanOperated {
         useDefaultMovementControls();
         //ActiveIntakeTwoPlayer();
         //liftControl(false);
-        liftControlPID();
+        liftControlPID(false);
         armServos();
         clawControls();
         setHardwarePower();
