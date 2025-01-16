@@ -46,7 +46,7 @@ public abstract class HumanOperated extends OpMode {
     protected double spdDelta = 0.01; // In seconds
 
     //Initialize PID controller
-    private PIDControl pidControl = new PIDControl(0.1, 0, 0, spdDelta);
+    private PIDControl pidControl = new PIDControl(3000, 0.00, 0.5, spdDelta);
 
     // Variables to store previous lift motor position
     protected double prevLeftMotorPos = 0;
@@ -54,6 +54,8 @@ public abstract class HumanOperated extends OpMode {
 
     // Time elapsed class for correction
     protected ElapsedTime timeElapsed;
+    protected double prevTime = 0;
+    protected double powerPerSpeed = 1.0/12000.0;
 
     //------------------------------------------------------------------------------------------------
     // Lift servo position values
@@ -132,34 +134,41 @@ public abstract class HumanOperated extends OpMode {
         //-----------------------------------
         // Set PID
         //-----------------------------------
-
         // convert time elapsed in milliseconds to seconds
         double elapsedTImeToSeconds = timeElapsed.milliseconds() / 1000;
 
-        if(elapsedTImeToSeconds % spdDelta == 0) { // if spdDelta amount has pass then start PID correction.
+        if(elapsedTImeToSeconds - prevTime >= spdDelta) { // if spdDelta amount has pass then start PID correction.
+            telemetry.addData("Time: ", elapsedTImeToSeconds);
 
             // Get speed of left and right motor
-            double currentLeftMotorPos = hardwareManager.liftMotorLeft.getCurrentPosition();
-            double currentRightMotorPos = hardwareManager.liftMotorRight.getCurrentPosition();
+            double currentLeftMotorPos = (double)hardwareManager.liftMotorLeft.getCurrentPosition();
+            double currentRightMotorPos = (double)hardwareManager.liftMotorRight.getCurrentPosition();
 
             //Get the speed of both motors
             double leftMotorSpeed = // Get speed...
-                    (currentLeftMotorPos - prevLeftMotorPos) / spdDelta; // ...through difference in position
+                    (double)(currentLeftMotorPos - prevLeftMotorPos) / spdDelta; // ...through difference in position
             double rightMotorSpeed = // Repeat for rightMotorSpeed
-                    (currentRightMotorPos - prevRightMotorPos) / spdDelta;
+                    (double)(currentRightMotorPos - prevRightMotorPos) / spdDelta;
 
             // Add PID correction to motor power
-            leftLiftP += pidControl.OnUpdatePower(leftMotorSpeed /* current speed */, rightMotorSpeed /* target speed */);
+            leftLiftP += powerPerSpeed * pidControl.OnUpdatePower(Shrink(leftMotorSpeed) /* current speed */, Shrink(rightMotorSpeed) /* target speed */);
+
+            telemetry.addData("Left Motor Speed: ", (double)leftMotorSpeed)
+                    .addData("Right Motor Speed: ", (double)rightMotorSpeed);
 
             // Set previous position values for next iteration of the Set PID section
             prevLeftMotorPos = currentLeftMotorPos;
             prevRightMotorPos = currentRightMotorPos;
+
+            prevTime = elapsedTImeToSeconds;
         }
         //-----------------------------------
 
         //Set the power of both motors
         hardwareManager.liftMotorLeft.setPower(leftLiftP);
         hardwareManager.liftMotorRight.setPower(rightLiftP);
+
+        telemetry.update();
 
     }
 
@@ -239,8 +248,13 @@ public abstract class HumanOperated extends OpMode {
      */
 
 
+    //------------------------------------------------------------------------------------------------
+    // Utils
+    //------------------------------------------------------------------------------------------------
 
-
+    public double Shrink(double x){
+        return Math.tanh(x/10000.00);
+    }
 
     //------------------------------------------------------------------------------------------------
     // Inheritance

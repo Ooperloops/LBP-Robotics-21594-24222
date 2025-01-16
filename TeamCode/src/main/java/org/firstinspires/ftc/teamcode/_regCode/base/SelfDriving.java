@@ -36,7 +36,7 @@ public abstract class SelfDriving extends LinearOpMode {
     protected final double TURN_POWER  = 0.3;
 
     //------------------------------------------------------------------------------------------------
-    // Movement (Deprecate: unusable)
+    // Movement (Deprecated: unusable)
     //------------------------------------------------------------------------------------------------
 
     protected void move(double metersDistance) {
@@ -66,7 +66,7 @@ public abstract class SelfDriving extends LinearOpMode {
     }
 
     //------------------------------------------------------------------------------------------------
-    // Strafing (Deprecate: unusable)
+    // Strafing (Deprecated: unusable)
     //------------------------------------------------------------------------------------------------
     protected void strafe(double metersDistance) {
         if(!opModeIsActive())
@@ -88,7 +88,7 @@ public abstract class SelfDriving extends LinearOpMode {
     }
 
     //------------------------------------------------------------------------------------------------
-    // Rotation (Deprecate: unusable)
+    // Rotation (Deprecated: unusable)
     //------------------------------------------------------------------------------------------------
     protected void rotate(double degreeAngle) {
         if (!opModeIsActive())

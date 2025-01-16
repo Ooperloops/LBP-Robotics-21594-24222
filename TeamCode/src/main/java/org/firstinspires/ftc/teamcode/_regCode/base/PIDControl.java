@@ -46,11 +46,9 @@ public class PIDControl {
      */
     public double OnUpdatePower(double currentTheta, double targetTheta){
         double error = (targetTheta - currentTheta);
-        if(elapsedTime.milliseconds() % deltaTimeSeconds * 1000 == 0) { // when [deltaTimeSeconds] pass...
-            P = Proportion(error); // Set proportion val to current error
-            D = Derivative(error); // Set derivative of error with respect to time
-            I = Integral(error); // return the sum of all errors
-        }
+        P = Proportion(error); // Set proportion val to current error
+        D = Derivative(error); // Set derivative of error with respect to time
+        I = Integral(error); // return the sum of all errors
 
         return (P * Kp) + (I * Ki) + (D * Kd);
     }

@@ -94,8 +94,8 @@ public class HardwareManager {
         backRightWheel = hardwareMap.dcMotor.get("BackRightM");
 
         // Lift Control
-        liftMotorLeft = hardwareMap.dcMotor.get("LiftMLeft"); // changed to LiftM, please delete this comment
-        liftMotorRight = hardwareMap.dcMotor.get("LiftMRight");
+        liftMotorLeft = hardwareMap.dcMotor.get("LeftLiftM");
+        liftMotorRight = hardwareMap.dcMotor.get("RightLiftM");
 
         liftMotorRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
