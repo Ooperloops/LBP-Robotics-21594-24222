@@ -19,7 +19,7 @@ public abstract class SelfDriving extends LinearOpMode {
             COUNTS_PER_MOTOR_REVOLUTION / WHEEL_CIRCUMFERENCE;
 
     protected HardwareManager hardwareManager;
-    protected PIDAutoMove movementPID;
+    protected PIDControl movementPID;
 
     //------------------------------------------------------------------------------------------------
     // Active Intake
@@ -36,13 +36,13 @@ public abstract class SelfDriving extends LinearOpMode {
     protected final double TURN_POWER  = 0.3;
 
     //------------------------------------------------------------------------------------------------
-    // Movement
+    // Movement (Deprecate: unusable)
     //------------------------------------------------------------------------------------------------
 
     protected void move(double metersDistance) {
         if (!opModeIsActive())
             return;
-        movementPID = new PIDAutoMove(5, 0, 5, 0.05);
+        movementPID = new PIDControl(5, 0, 5, 0.05);
 
         hardwareManager.resetWheelCounts();
         double totalCounts = Math.abs(COUNTS_PER_METER * metersDistance);
@@ -66,7 +66,7 @@ public abstract class SelfDriving extends LinearOpMode {
     }
 
     //------------------------------------------------------------------------------------------------
-    // Strafing
+    // Strafing (Deprecate: unusable)
     //------------------------------------------------------------------------------------------------
     protected void strafe(double metersDistance) {
         if(!opModeIsActive())
@@ -88,7 +88,7 @@ public abstract class SelfDriving extends LinearOpMode {
     }
 
     //------------------------------------------------------------------------------------------------
-    // Rotation
+    // Rotation (Deprecate: unusable)
     //------------------------------------------------------------------------------------------------
     protected void rotate(double degreeAngle) {
         if (!opModeIsActive())

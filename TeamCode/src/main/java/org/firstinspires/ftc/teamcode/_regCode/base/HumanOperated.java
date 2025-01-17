@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode._regCode.base;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode._regCode.all_purpose.HardwareManager;
@@ -27,36 +28,42 @@ import org.firstinspires.ftc.teamcode._regCode.all_purpose.HardwareManager;
  */
 public abstract class HumanOperated extends OpMode {
     protected HardwareManager hardwareManager;
-
+    //------------------------------------------------------------------------------------------------
+    // Wheel power values
+    //------------------------------------------------------------------------------------------------
     protected double frontLeftWheelP = 0;
     protected double frontRightWheelP = 0;
     protected double backLeftWheelP = 0;
     protected double backRightWheelP = 0;
+    //------------------------------------------------------------------------------------------------
+    // Lift power values
+    //------------------------------------------------------------------------------------------------
+    // Variables for lift motor power
+    protected double leftLiftP = 0;
+    protected double rightLiftP = 0;
 
-    //protected double activeIntakeServoPosition = 0;
+    // Speed update delta variable
+    protected double spdDelta = 0.01; // In seconds
+
+    //Initialize PID controller
+    private PIDControl pidControl = new PIDControl(0.1, 0, 0, spdDelta);
+
+    // Variables to store previous lift motor position
+    protected double prevLeftMotorPos = 0;
+    protected double prevRightMotorPos = 0;
+
+    // Time elapsed class for correction
+    protected ElapsedTime timeElapsed;
+
+    //------------------------------------------------------------------------------------------------
+    // Lift servo position values
+    //------------------------------------------------------------------------------------------------
     protected double liftServoPosition = 0;
-    //protected double leftLiftServoPosition = 0;
     protected double rightClawServoPosition = 0;
     protected double leftClawServoPosition = 0.25;
     protected double increment = 0.0027;
 
-    double leftPower = 0;  // Power for left motor
-    double rightPower = 0; // Power for right motor
-
-    // PID constants
-    double kP = 0.1;  // Proportional gain
-    double kI = 0.01; // Integral gain
-    double kD = 0.01; // Derivative gain
-
-    // PID state variables
-    double prevError = 0;
-    double integral = 0;
-
-    long lastTime = System.currentTimeMillis();
-
     boolean initActive;
-
-    // Update motor speed
 
     //------------------------------------------------------------------------------------------------
     // Config
@@ -113,53 +120,47 @@ public abstract class HumanOperated extends OpMode {
         backLeftWheelP   = drive - strafe + rotate;
         backRightWheelP  = drive + strafe - rotate;
     }
-
-    //@Override
     public void liftControlPID(boolean isPlayerOne) {
-        Gamepad controller = (isPlayerOne) ? gamepad1 : gamepad2;
+        // If isPlayerOne, then set the active gamepad to controller 1
+        Gamepad activeGamepad = (isPlayerOne) ? gamepad1 : gamepad2;
 
-        // Get gamepad input for lift control
-        double userPower = controller.right_stick_y;
+        //-----------------------------------
+        // Regular lift control
+        //-----------------------------------
+        rightLiftP = activeGamepad.left_stick_y;
 
-        // Get encoder positions
-        int leftPosition = hardwareManager.liftMotorLeft.getCurrentPosition();
-        int rightPosition = hardwareManager.liftMotorRight.getCurrentPosition();
+        //-----------------------------------
+        // Set PID
+        //-----------------------------------
 
-        // Calculate the error (difference in encoder positions)
-        double error = leftPosition - rightPosition;
+        // convert time elapsed in milliseconds to seconds
+        double elapsedTImeToSeconds = timeElapsed.milliseconds() / 1000;
 
-        // Get current time and calculate delta time
-        long currentTime = System.currentTimeMillis();
-        double deltaTime = (currentTime - lastTime) / 1000.0;  // Convert to seconds
+        if(elapsedTImeToSeconds % spdDelta == 0) { // if spdDelta amount has pass then start PID correction.
 
-        // PID calculations
-        integral += error * deltaTime;
-        double derivative = (error - prevError) / deltaTime;
+            // Get speed of left and right motor
+            double currentLeftMotorPos = hardwareManager.liftMotorLeft.getCurrentPosition();
+            double currentRightMotorPos = hardwareManager.liftMotorRight.getCurrentPosition();
 
-        double correction = kP * error + kI * integral + kD * derivative;
+            //Get the speed of both motors
+            double leftMotorSpeed = // Get speed...
+                    (currentLeftMotorPos - prevLeftMotorPos) / spdDelta; // ...through difference in position
+            double rightMotorSpeed = // Repeat for rightMotorSpeed
+                    (currentRightMotorPos - prevRightMotorPos) / spdDelta;
 
-        // Adjust power for each motor
-        leftPower = userPower - correction;  // Reduce power to correct overspeed
-        rightPower = userPower + correction; // Increase power to catch up
+            // Add PID correction to motor power
+            leftLiftP += pidControl.OnUpdatePower(leftMotorSpeed /* current speed */, rightMotorSpeed /* target speed */);
 
-        // Limit motor power to valid range [-1, 1]
-        leftPower = Math.max(-1, Math.min(1, leftPower));
-        rightPower = Math.max(-1, Math.min(1, rightPower));
+            // Set previous position values for next iteration of the Set PID section
+            prevLeftMotorPos = currentLeftMotorPos;
+            prevRightMotorPos = currentRightMotorPos;
+        }
+        //-----------------------------------
 
-        // Set motor power
-        hardwareManager.liftMotorLeft.setPower(leftPower);
-        hardwareManager.liftMotorRight.setPower(rightPower);
+        //Set the power of both motors
+        hardwareManager.liftMotorLeft.setPower(leftLiftP);
+        hardwareManager.liftMotorRight.setPower(rightLiftP);
 
-        // Update previous error and time
-        prevError = error;
-        lastTime = currentTime;
-
-        // Telemetry for debugging
-        telemetry.addData("User Power", userPower);
-        telemetry.addData("Left Power", leftPower);
-        telemetry.addData("Right Power", rightPower);
-        telemetry.addData("Error", error);
-        telemetry.update();
     }
 
     public void armServos () {
@@ -252,11 +253,14 @@ public abstract class HumanOperated extends OpMode {
 
         initActive = true;
 
-        //hardwareManager.leftLiftServo.setPosition(0);
+        //Zero arm and claw servo position
         hardwareManager.liftServo.setPosition(0);
         hardwareManager.rightClawServo.setPosition(0);
         hardwareManager.leftClawServo.setPosition(0.25);
         hardwareManager.clawRotationServo.setPosition(0.5);
+
+        // Start elapsed time class
+        timeElapsed = new ElapsedTime();
     }
 
     public void setHardwarePower() {

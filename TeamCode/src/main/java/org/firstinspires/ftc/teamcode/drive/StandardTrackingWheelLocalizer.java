@@ -32,19 +32,12 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
     public static double LATERAL_DISTANCE = 8.125; // in; distance between the left and right wheels
-    public static double FORWARD_OFFSET = -5.8525; // in; offset of the lateral wheel
+    public static double FORWARD_OFFSET = 5.8525; // in; offset of the lateral wheel
 
     private Encoder leftEncoder, rightEncoder, frontEncoder;
 
-    public static double X_MULTIPLIER = (1.00377642999); // 60in / 335.0533 teleOp Distance
-    // 59.86
-    // 59.5309
-    // 59.9319
-    public static double Y_MULTIPLIER = (1.00713198651); // 36in / 204.6954 teleOp Distance
-
-    // 35.5861
-    // 35.341
-    // 36.3081
+    public static double X_MULTIPLIER = (60.00/60.39675343815351);
+    public static double Y_MULTIPLIER = (36.00/36.74155440532581);
 
     private List<Integer> lastEncPositions, lastEncVels;
 
@@ -58,24 +51,11 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         lastEncPositions = lastTrackingEncPositions;
         lastEncVels = lastTrackingEncVels;
 
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "FrontE"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "BackLeftM"));
         rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "BackRightM"));
         frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "FrontRightM"));
 
-        //leftEncoder.setDirection(Encoder.Direction.REVERSE);
         rightEncoder.setDirection(Encoder.Direction.REVERSE);
-        //frontEncoder.setDirection(Encoder.Direction.REVERSE);
-        //337.219
-        //333.01
-        //334.9311
-
-        //205.0469
-        //203.2084
-        //205.8311
-
-        //frontEncoder.setDirection(Encoder.Direction.REVERSE);
-
-        // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
     }
 
     public static double encoderTicksToInches(double ticks) {
