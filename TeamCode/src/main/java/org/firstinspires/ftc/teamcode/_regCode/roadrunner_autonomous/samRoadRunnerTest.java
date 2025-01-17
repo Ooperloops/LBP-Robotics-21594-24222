@@ -15,9 +15,9 @@ public class samRoadRunnerTest extends SelfDriving {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         // We want to start the bot at x: 10, y: -8, heading: 90 degrees
-        Pose2d startPose = new Pose2d(10, -8, Math.toRadians(90));
+        //Pose2d startPose = new Pose2d(10, -8, Math.toRadians(90));
 
-        drive.setPoseEstimate(startPose);
+
 
 
         //TrajectorySequence myTrajectory = drive.trajectorySequenceBuilder(startPose)
@@ -26,6 +26,7 @@ public class samRoadRunnerTest extends SelfDriving {
         //        .build();
 
         TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(new Pose2d(12.40, -59.08, Math.toRadians(90.00)))
+
                 .splineTo(new Vector2d(34.13, -38.39), Math.toRadians(56.82))
                 .splineTo(new Vector2d(38.39, -28.99), Math.toRadians(33.16))
                 .splineTo(new Vector2d(38.39, 1.83), Math.toRadians(90.00))
@@ -40,8 +41,8 @@ public class samRoadRunnerTest extends SelfDriving {
                 .splineTo(new Vector2d(53.65, -59.96), Math.toRadians(270.00))
                 .build();
 
-
-
+        drive.setPoseEstimate(trajectory0.start());
+        gi
         waitForStart();
 
         if(isStopRequested()) return;
