@@ -42,7 +42,7 @@ public class samRoadRunnerTest extends SelfDriving {
                 .build();
 
         drive.setPoseEstimate(trajectory0.start());
-        gi
+
         waitForStart();
 
         if(isStopRequested()) return;
