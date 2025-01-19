@@ -24,9 +24,21 @@ public class SamRoadRunnerTest extends SelfDriving {
         //        .forward(5)
         //        .build();
 
+        //Zero arm and claw servo position
+        hardwareManager.liftServo.setPosition(0);
+        hardwareManager.rightClawServo.setPosition(0);
+        hardwareManager.leftClawServo.setPosition(0.25);
+        hardwareManager.clawRotationServo.setPosition(0.5);
+
         TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(new Pose2d(12.40, -59.08, Math.toRadians(90.00)))
 
                 .splineTo(new Vector2d(34.13, -38.39), Math.toRadians(56.82))
+                .addDisplacementMarker(() -> {
+                    // This marker runs after the first splineTo()
+
+                    // Run your action in here!
+                    hardwareManager.clawRotationServo.setPosition(0);
+                })
                 .splineTo(new Vector2d(38.39, -28.99), Math.toRadians(33.16))
                 .splineTo(new Vector2d(38.39, 1.83), Math.toRadians(90.00))
                 .splineTo(new Vector2d(36.62, 39.41), Math.toRadians(180.00))
