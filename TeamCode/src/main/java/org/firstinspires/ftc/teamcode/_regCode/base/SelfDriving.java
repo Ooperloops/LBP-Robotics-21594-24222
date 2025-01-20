@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode._regCode.base;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -7,6 +9,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode._regCode.all_purpose.HardwareManager;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 /**
  * Base class for all Self-Driving scripts, a.k.a Autonomous.
@@ -34,6 +38,23 @@ public abstract class SelfDriving extends LinearOpMode {
     //------------------------------------------------------------------------------------------------
     protected final double MOVEMENT_POWER = 0.5;
     protected final double TURN_POWER  = 0.3;
+
+    protected SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+    //------------------------------------------------------------------------------------------------
+    // Weight Variables
+    //------------------------------------------------------------------------------------------------
+
+    protected double time__park = 1;
+    protected double time__push = 1;
+    protected double time__fish = 1;
+    protected double time__specimen = 1;
+
+    protected int s;
+
+    //------------------------------------------------------------------------------------------------
+    // Input Variables
+    //------------------------------------------------------------------------------------------------
 
     //------------------------------------------------------------------------------------------------
     // Movement (Deprecated: unusable)
@@ -192,6 +213,41 @@ public abstract class SelfDriving extends LinearOpMode {
     }
 
     //------------------------------------------------------------------------------------------------
+    // Actions
+    //------------------------------------------------------------------------------------------------
+
+    private void Park(){
+
+    }
+    private void Push(){
+
+    }
+    private void GoToSub(){
+
+    }
+    private void HangSpecimenLow(Pose2d prevPose){
+        TrajectorySequence GoToHangingStation = drive.trajectorySequenceBuilder(prevPose)
+                .addDisplacementMarker(0, () -> {
+                    Arm(180);
+                })
+                .splineTo(new Vector2d(6.32, -42.70), Math.toRadians(90.49))
+                .addDisplacementMarker(() -> {
+                    Arm(160);
+                })
+                .lineTo(new Vector2d(6.32, -44.12))
+                .addDisplacementMarker(() -> {
+                    Claw(false);
+                })
+                .build();
+        drive.setPoseEstimate(GoToHangingStation.start());
+        drive.followTrajectorySequence(GoToHangingStation);
+
+    }
+    private void HangSpecimenHigh(){
+
+    }
+
+    //------------------------------------------------------------------------------------------------
     // Inheritance
     //------------------------------------------------------------------------------------------------
 
@@ -200,6 +256,10 @@ public abstract class SelfDriving extends LinearOpMode {
         hardwareManager = new HardwareManager(hardwareMap);
         waitForStart();
         runAutonomous();
+
+        for(int i = 0; i < s ;i++){
+            HangSpecimenLow(new Pose2d(11.59, -60.34, Math.toRadians(90.00)));
+        }
     }
 
     protected abstract void runAutonomous();
