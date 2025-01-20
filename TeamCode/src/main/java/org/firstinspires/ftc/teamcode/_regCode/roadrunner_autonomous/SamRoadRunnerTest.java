@@ -42,6 +42,12 @@ public class SamRoadRunnerTest extends SelfDriving {
                 .splineTo(new Vector2d(38.39, -28.99), Math.toRadians(33.16))
                 .splineTo(new Vector2d(38.39, 1.83), Math.toRadians(90.00))
                 .splineTo(new Vector2d(36.62, 39.41), Math.toRadians(180.00))
+                .addDisplacementMarker(() -> {
+                    // This marker runs after the first splineTo()
+
+                    // Run your action in here!
+                    hardwareManager.clawRotationServo.setPosition(0.5);
+                })
                 .splineTo(new Vector2d(6.68, 39.41), Math.toRadians(161.57))
                 .splineTo(new Vector2d(5.50, 55.56), Math.toRadians(-26.57))
                 .splineTo(new Vector2d(34.86, 59.96), Math.toRadians(-60.95))
