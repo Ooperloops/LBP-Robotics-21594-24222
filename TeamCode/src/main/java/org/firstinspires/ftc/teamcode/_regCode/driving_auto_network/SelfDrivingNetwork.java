@@ -1,6 +1,11 @@
 package org.firstinspires.ftc.teamcode._regCode.driving_auto_network;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+
 import org.firstinspires.ftc.teamcode._regCode.base.SelfDriving;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 /*
  * This is a neural-network style autonomous:
@@ -18,7 +23,10 @@ enum Actions{
     SPECIMEN
 }
 
-public class SelfDrivingNetwork extends SelfDriving {
+public abstract class SelfDrivingNetwork extends SelfDriving {
+
+    protected SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
     //------------------------------------------------------------------------------------------------
     // Weight Variables
     //------------------------------------------------------------------------------------------------
@@ -28,8 +36,56 @@ public class SelfDrivingNetwork extends SelfDriving {
     protected double time__fish = 1;
     protected double time__specimen = 1;
 
+    protected int s;
+
+    //------------------------------------------------------------------------------------------------
+    // Input Variables
+    //------------------------------------------------------------------------------------------------
+
     @Override
-    public void runAutonomous(){
+    protected void runAutonomous(){
+        initVariables();
+
+        for(int i = 0; i < s ;i++){
+            HangSpecimenLow(new Pose2d(11.59, -60.34, Math.toRadians(90.00)));
+        }
+    }
+
+    protected abstract void initVariables();
+
+    //------------------------------------------------------------------------------------------------
+    // Actions
+    //------------------------------------------------------------------------------------------------
+
+    private void Park(){
 
     }
+    private void Push(){
+
+    }
+    private void GoToSub(){
+
+    }
+    private void HangSpecimenLow(Pose2d prevPose){
+        TrajectorySequence GoToHangingStation = drive.trajectorySequenceBuilder(prevPose)
+                .addDisplacementMarker(0, () -> {
+                    Arm(180);
+                })
+                .splineTo(new Vector2d(6.32, -42.70), Math.toRadians(90.49))
+                .addDisplacementMarker(() -> {
+                    Arm(160);
+                })
+                .lineTo(new Vector2d(6.32, -44.12))
+                .addDisplacementMarker(() -> {
+                    Claw(false);
+                })
+                .build();
+        drive.setPoseEstimate(GoToHangingStation.start());
+        drive.followTrajectorySequence(GoToHangingStation);
+
+    }
+    private void HangSpecimenHigh(){
+
+    }
+
 }
