@@ -17,8 +17,8 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     public final DcMotor liftMotorLeft;
     public final DcMotor liftMotorRight;
-    //public final Servo leftLiftServo;
-    public final Servo liftServo;
+    public final Servo leftArmServo;
+    public final Servo rightArmServo;
     public final Servo leftClawServo;
     public final Servo rightClawServo;
     public final Servo clawRotationServo;
@@ -107,11 +107,8 @@ public class HardwareManager {
         liftMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        liftServo = hardwareMap.servo.get("LiftServo");
-        liftServo.setDirection(Servo.Direction.REVERSE);
-        //leftLiftServo = hardwareMap.servo.get("LeftLiftServo");
-
-        //leftLiftServo.setDirection(Servo.Direction.REVERSE);
+        leftArmServo = hardwareMap.servo.get("LeftArmS");
+        rightArmServo = hardwareMap.servo.get("RightArmS");
 
         leftClawServo = hardwareMap.servo.get("LeftClawServo");
         rightClawServo = hardwareMap.servo.get("RightClawServo");
@@ -127,6 +124,7 @@ public class HardwareManager {
 
         liftMotorLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftArmServo.setDirection(Servo.Direction.REVERSE);
 
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");

@@ -14,8 +14,6 @@ public class NormalControlTwoDrivers extends HumanOperated {
     @Override
     public void loop() {
         useDefaultMovementControls();
-        //ActiveIntakeTwoPlayer();
-        //liftControl(false);
         liftControlPID(false);
         armServos();
         clawControls();

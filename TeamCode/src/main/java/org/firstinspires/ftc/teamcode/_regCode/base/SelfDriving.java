@@ -155,7 +155,7 @@ public abstract class SelfDriving extends LinearOpMode {
     public void Arm(double angle){
         double angleToPos = angle * (1.0/360.0);
         double filteredAngle = Range.clip(angleToPos, 0, 0.55);
-        hardwareManager.liftServo.setPosition(filteredAngle);
+        //hardwareManager.liftServo.setPosition(filteredAngle);
     }
 
     //------------------------------------------------------------------------------------------------
@@ -192,6 +192,7 @@ public abstract class SelfDriving extends LinearOpMode {
         Arm(0);
         sleep(1500);
         MoveUpwardSlide(-30);
+
     }
 
     public void GrabLow(){
@@ -227,12 +228,18 @@ public abstract class SelfDriving extends LinearOpMode {
         sleep(1000);
         Arm(180);
         TrajectorySequence GoToHangingStation = drive.trajectorySequenceBuilder(prevPose)
-                .splineTo(new Vector2d(6.32, -42.70), Math.toRadians(90.49))
-                //.lineTo(new Vector2d(6.32, -48.12))
+                .strafeTo(new Vector2d(6.32, -42.70))
+                .addDisplacementMarker(()->{
+                    Arm(160);
+                })
+                .lineTo(new Vector2d(6.32, -48.12))
+                .addDisplacementMarker(()->{
+                    Arm(160);
+                })
                 .build();
         drive.setPoseEstimate(GoToHangingStation.start());
         drive.followTrajectorySequence(GoToHangingStation);
-        Arm(160);
+
 
     }
     private void HangSpecimenHigh(){
@@ -243,6 +250,11 @@ public abstract class SelfDriving extends LinearOpMode {
         while(opModeIsActive()){
             //hardwareManager.liftServo.setPosition(liftServoAngle);
         }
+    }
+
+    private void ZeroAllServos(){
+        hardwareManager.leftArmServo.setPosition(0);
+        hardwareManager.rightArmServo.setPosition(0);
     }
 
     //------------------------------------------------------------------------------------------------
