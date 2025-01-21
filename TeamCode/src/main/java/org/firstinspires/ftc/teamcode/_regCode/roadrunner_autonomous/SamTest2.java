@@ -25,7 +25,7 @@ public class SamTest2 extends SelfDriving {
         //        .build();
 
         //Zero arm and claw servo position
-        hardwareManager.liftServo.setPosition(0);
+        //hardwareManager.liftServo.setPosition(0);
         hardwareManager.rightClawServo.setPosition(0);
         hardwareManager.leftClawServo.setPosition(0.25);
         hardwareManager.clawRotationServo.setPosition(0.5);

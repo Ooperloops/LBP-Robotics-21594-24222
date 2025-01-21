@@ -13,6 +13,7 @@ public class NormalControl extends HumanOperated {
      */
     @Override
     public void loop() {
-        liftControlPID(true);
+        hardwareManager.leftArmServo.setPosition(0);
+        hardwareManager.rightArmServo.setPosition(0);
     }
 }

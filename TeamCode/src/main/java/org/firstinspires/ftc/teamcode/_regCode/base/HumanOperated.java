@@ -208,7 +208,7 @@ public abstract class HumanOperated extends OpMode {
             hardwareManager.clawRotationServo.setPosition(0);
         }
       }
-        hardwareManager.liftServo.setPosition(liftServoPosition);
+        //hardwareManager.liftServo.setPosition(liftServoPosition);
     }
 
     public void clawControls(){
@@ -268,10 +268,13 @@ public abstract class HumanOperated extends OpMode {
         initActive = true;
 
         //Zero arm and claw servo position
-        hardwareManager.liftServo.setPosition(0);
+        //hardwareManager.liftServo.setPosition(0);
         hardwareManager.rightClawServo.setPosition(0);
         hardwareManager.leftClawServo.setPosition(0.25);
         hardwareManager.clawRotationServo.setPosition(0.5);
+
+        hardwareManager.leftArmServo.setPosition(0);
+        hardwareManager.rightArmServo.setPosition(0);
 
         // Start elapsed time class
         timeElapsed = new ElapsedTime();

@@ -124,7 +124,6 @@ public class HardwareManager {
 
         liftMotorLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftArmServo.setDirection(Servo.Direction.REVERSE);
 
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");

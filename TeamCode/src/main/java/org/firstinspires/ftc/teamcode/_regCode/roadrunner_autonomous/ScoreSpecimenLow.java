@@ -10,12 +10,13 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous(name = "Score Specimen Low", group = "RoadRunner")
 public class ScoreSpecimenLow extends SelfDriving {
+    @Override
+    protected void runAutonomous() {
+
+    }
 
     /* > The following code overrides the "loop" function
      * > The "loop" function is constantly called as the TeleOp is running
      */
-    @Override
-    protected void runAutonomous(){
-        s = 1;
-    }
+
 }

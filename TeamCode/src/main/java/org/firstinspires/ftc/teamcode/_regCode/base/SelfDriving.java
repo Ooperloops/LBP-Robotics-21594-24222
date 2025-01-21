@@ -43,21 +43,6 @@ public abstract class SelfDriving extends LinearOpMode {
     protected SampleMecanumDrive drive;
 
     //------------------------------------------------------------------------------------------------
-    // Weight Variables
-    //------------------------------------------------------------------------------------------------
-
-    protected double time__park = 1;
-    protected double time__push = 1;
-    protected double time__fish = 1;
-    protected double time__specimen = 1;
-
-    protected int s;
-
-    //------------------------------------------------------------------------------------------------
-    // Input Variables
-    //------------------------------------------------------------------------------------------------
-
-    //------------------------------------------------------------------------------------------------
     // Movement (Deprecated: unusable)
     //------------------------------------------------------------------------------------------------
 
@@ -153,9 +138,10 @@ public abstract class SelfDriving extends LinearOpMode {
     }
 
     public void Arm(double angle){
-        double angleToPos = angle * (1.0/360.0);
-        double filteredAngle = Range.clip(angleToPos, 0, 0.55);
-        //hardwareManager.liftServo.setPosition(filteredAngle);
+        double angleToPosRight = angle * (1.0/360.0);
+        double angleToPosLeft = (380 - angle) * (1.0/360.0);
+        hardwareManager.leftArmServo.setPosition(angleToPosLeft);
+        hardwareManager.rightArmServo.setPosition(angleToPosRight);
     }
 
     //------------------------------------------------------------------------------------------------
@@ -212,52 +198,6 @@ public abstract class SelfDriving extends LinearOpMode {
     }
 
     //------------------------------------------------------------------------------------------------
-    // Actions
-    //------------------------------------------------------------------------------------------------
-
-    private void Park(){
-
-    }
-    private void Push(){
-
-    }
-    private void GoToSub(){
-
-    }
-    private void HangSpecimenLow(Pose2d prevPose){
-        sleep(1000);
-        Arm(180);
-        TrajectorySequence GoToHangingStation = drive.trajectorySequenceBuilder(prevPose)
-                .strafeTo(new Vector2d(6.32, -42.70))
-                .addDisplacementMarker(()->{
-                    Arm(160);
-                })
-                .lineTo(new Vector2d(6.32, -48.12))
-                .addDisplacementMarker(()->{
-                    Arm(160);
-                })
-                .build();
-        drive.setPoseEstimate(GoToHangingStation.start());
-        drive.followTrajectorySequence(GoToHangingStation);
-
-
-    }
-    private void HangSpecimenHigh(){
-
-    }
-
-    private void SetServoPosition(){
-        while(opModeIsActive()){
-            //hardwareManager.liftServo.setPosition(liftServoAngle);
-        }
-    }
-
-    private void ZeroAllServos(){
-        hardwareManager.leftArmServo.setPosition(0);
-        hardwareManager.rightArmServo.setPosition(0);
-    }
-
-    //------------------------------------------------------------------------------------------------
     // Inheritance
     //------------------------------------------------------------------------------------------------
 
@@ -265,13 +205,8 @@ public abstract class SelfDriving extends LinearOpMode {
     public void runOpMode() {
         hardwareManager = new HardwareManager(hardwareMap);
         drive = new SampleMecanumDrive(hardwareMap);
-        SetServoPosition();
         waitForStart();
         runAutonomous();
-
-        for(int i = 0; i < s ;i++){
-            HangSpecimenLow(new Pose2d(11.59, -60.34, Math.toRadians(90.00)));
-        }
     }
 
     protected abstract void runAutonomous();
