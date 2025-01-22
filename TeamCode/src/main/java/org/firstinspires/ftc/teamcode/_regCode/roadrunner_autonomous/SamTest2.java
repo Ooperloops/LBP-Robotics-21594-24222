@@ -54,6 +54,14 @@ public class SamTest2 extends SelfDriving {
                 .lineTo(new Vector2d(63.05, -61.43))
                 .build();
 
+        TrajectorySequence trajectory4 = drive.trajectorySequenceBuilder(new Pose2d(63.05, -61.43, Math.toRadians(90.00)))
+                .splineTo(new Vector2d(1.97, -35.45), Math.toRadians(90.00))
+                .splineTo(new Vector2d(0.07, -57.00), Math.toRadians(253.74))
+                .splineTo(new Vector2d(22.64, -48.70), Math.toRadians(0.00))
+                .splineTo(new Vector2d(38.37, -51.18), Math.toRadians(90.00))
+                .build();
+
+
 
 
 
