@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 public class SamRoadRunnerTest extends SelfDriving {
     @Override
     public void runAutonomous() {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        //SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         // We want to start the bot at x: 10, y: -8, heading: 90 degrees
         //Pose2d startPose = new Pose2d(10, -8, Math.toRadians(90));
