@@ -14,8 +14,6 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     // Wheels
     //------------------------------------------------------------------------------------------------
-    //public final DcMotor frontLeftWheel;
-    //public final DcMotor frontRightWheel;
     public final DcMotor backLeftWheel;
     public final DcMotor backRightWheel;
     //------------------------------------------------------------------------------------------------
@@ -23,8 +21,11 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     public final DcMotor intakeArmLeft;
     public final DcMotor intakeArmRight;
-    public final CRServo intakeServo;
-    //public final CRServo liftServo;
+    public final Servo leftClawServo;
+    public final Servo rightClawServo;
+
+    public final CRServo extenderArm;
+
 
     /**
      * let `n` be return value;
@@ -33,10 +34,9 @@ public class HardwareManager {
      */
 
     public double getAverageWheelCounts() {
-        return (//frontLeftWheel.getCurrentPosition() +
-                //frontRightWheel.getCurrentPosition() +
+        return (
                 backLeftWheel.getCurrentPosition() +
-                backRightWheel.getCurrentPosition()) / 4.0;
+                backRightWheel.getCurrentPosition()) / 2.0;
     }
 
     public void resetWheelCounts() {
@@ -108,12 +108,15 @@ public class HardwareManager {
         // Intake
         intakeArmLeft = hardwareMap.dcMotor.get("IntakeLeftM");
         intakeArmRight = hardwareMap.dcMotor.get("IntakeRightM");
-        intakeServo = hardwareMap.crservo.get("IntakeServo");
-        intakeServo.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftClawServo = hardwareMap.servo.get("leftClaw");
+        rightClawServo = hardwareMap.servo.get("rightClaw");
+        extenderArm = hardwareMap.crservo.get("Extender");
 
         intakeArmLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakeArmLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         intakeArmRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //leftClawServo.setDirection(Servo.Direction.REVERSE);
 
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");

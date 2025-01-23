@@ -33,37 +33,33 @@ public abstract class HumanOperated extends OpMode {
     // Config
     //------------------------------------------------------------------------------------------------
 
-    protected final double MOTOR_UPPER_POWER_LIMIT = 1;
-    protected final double MOTOR_LOWER_POWER_LIMIT = -1;
-    protected final double SERVO_UPPER_POWER_LIMIT = 0.8; // VEX Servos Actual Limitation
-    protected final double SERVO_LOWER_POWER_LIMIT = -0.8; // VEX Servos Actual Limitation
+    protected final double MOTOR_UPPER_POWER_LIMIT = 0.5;
+    protected final double MOTOR_LOWER_POWER_LIMIT = -0.5;
+    protected final double SERVO_UPPER_POWER_LIMIT = 0.5; // VEX Servos Actual Limitation
+    protected final double SERVO_LOWER_POWER_LIMIT = -0.5; // VEX Servos Actual Limitation
 
     //------------------------------------------------------------------------------------------------
     // Defaults
     //------------------------------------------------------------------------------------------------
 
     public void intakeArmControl() {
-        if(gamepad2.y) {
-            hardwareManager.intakeArmRight.setPower(1);
-            hardwareManager.intakeArmLeft.setPower(-1);
-        }else if(gamepad2.a) {
-            hardwareManager.intakeArmRight.setPower(-1);
-            hardwareManager.intakeArmLeft.setPower(1);
+        hardwareManager.intakeArmRight.setPower(limitMotorPower(gamepad2.left_stick_y));
+        hardwareManager.intakeArmLeft.setPower(limitMotorPower(gamepad2.left_stick_y));
+
+        if(gamepad2.right_trigger > 0){
+            hardwareManager.extenderArm.setPower(1);
+        } else if(gamepad2.left_trigger > 0){
+            hardwareManager.extenderArm.setPower(-1);
         } else {
-            hardwareManager.intakeArmRight.setPower(0);
-            hardwareManager.intakeArmLeft.setPower(0);
+            hardwareManager.extenderArm.setPower(0);
         }
-        boolean rotateIntake = gamepad2.x;
-        boolean reverseIntake = gamepad2.b;
-        if(gamepad2.x) {
-            hardwareManager.intakeServo.setPower(1);
-        }else{
-            hardwareManager.intakeServo.setPower(0);
-        }
-        if(gamepad2.b) {
-            hardwareManager.intakeServo.setPower(-1);
-        }else{
-            hardwareManager.intakeServo.setPower(0);
+
+        if(gamepad2.a){
+            hardwareManager.rightClawServo.setPosition(0.150);
+            hardwareManager.leftClawServo.setPosition(0);
+        } else if (gamepad2.b) {
+            hardwareManager.rightClawServo.setPosition(0);
+            hardwareManager.leftClawServo.setPosition(0.150);
         }
     }
 
@@ -99,11 +95,13 @@ public abstract class HumanOperated extends OpMode {
     @Override
     public void init() {
         hardwareManager = new HardwareManager(hardwareMap);
+        hardwareManager.leftClawServo.setPosition(0);
+        hardwareManager.rightClawServo.setPosition(0.15);
     }
 
     public void setHardwarePower() {
-        hardwareManager.backLeftWheel.setPower(limitMotorPower(backLeftWheelP));
-        hardwareManager.backRightWheel.setPower(limitMotorPower(backRightWheelP));
+        hardwareManager.backLeftWheel.setPower(backLeftWheelP);
+        hardwareManager.backRightWheel.setPower(backRightWheelP);
 
     }
 
