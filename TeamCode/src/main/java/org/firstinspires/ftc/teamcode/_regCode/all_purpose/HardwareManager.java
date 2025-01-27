@@ -23,6 +23,10 @@ public class HardwareManager {
     public final Servo rightClawServo;
     public final Servo clawRotationServo;
 
+    public void ResetLiftWheelCount(){
+        liftMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //Reset motor ticks
+        liftMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Run motor by power
+    }
 
     //------------------------------------------------------------------------------------------------
     // Wheels
@@ -93,11 +97,18 @@ public class HardwareManager {
         backLeftWheel = hardwareMap.dcMotor.get("BackLeftM");
         backRightWheel = hardwareMap.dcMotor.get("BackRightM");
 
+        frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        doToAllWheels((wheel) -> wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE));
+
         // Lift Control
         liftMotorLeft = hardwareMap.dcMotor.get("LeftLiftM");
         liftMotorRight = hardwareMap.dcMotor.get("RightLiftM");
 
-        liftMotorRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftMotorLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -107,22 +118,17 @@ public class HardwareManager {
         liftMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        // Arm and Claw
         leftArmServo = hardwareMap.servo.get("LeftArmS");
         rightArmServo = hardwareMap.servo.get("RightArmS");
+
+        //leftArmServo.setDirection(Servo.Direction.REVERSE);
+        //rightArmServo.setDirection(Servo.Direction.REVERSE);
 
         leftClawServo = hardwareMap.servo.get("LeftClawServo");
         rightClawServo = hardwareMap.servo.get("RightClawServo");
         clawRotationServo = hardwareMap.servo.get("ClawRotationServo");
 
-        frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        doToAllWheels((wheel) -> wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE));
-
-
-        liftMotorLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Sensors

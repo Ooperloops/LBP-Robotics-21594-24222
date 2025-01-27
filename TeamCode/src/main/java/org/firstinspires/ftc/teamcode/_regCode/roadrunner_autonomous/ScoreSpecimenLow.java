@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 public class ScoreSpecimenLow extends SelfDriving {
     @Override
     protected void runAutonomous() {
-
+        MoveUpwardSlide(1);
     }
 
     /* > The following code overrides the "loop" function

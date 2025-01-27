@@ -133,13 +133,19 @@ public abstract class SelfDriving extends LinearOpMode {
     // Intake
     //------------------------------------------------------------------------------------------------
     public void Claw(boolean open){
+        // Open or close claw based on boolean
         hardwareManager.leftClawServo.setPosition((open) ? 0.25 : 0);
         hardwareManager.rightClawServo.setPosition((open) ? 0 : 0.25);
     }
 
     public void Arm(double angle){
+        // Inputs an angle that the arm should be at relative to its starting position
+
+        // Convert angle to a servo position (0 deg - 360 deg) = (0.00 - 1.00)
         double angleToPosRight = angle * (1.0/360.0);
         double angleToPosLeft = (380 - angle) * (1.0/360.0);
+
+        // Set position...
         hardwareManager.leftArmServo.setPosition(angleToPosLeft);
         hardwareManager.rightArmServo.setPosition(angleToPosRight);
     }
@@ -147,13 +153,20 @@ public abstract class SelfDriving extends LinearOpMode {
     //------------------------------------------------------------------------------------------------
     // Outtake Slide
     //------------------------------------------------------------------------------------------------
-    public void MoveUpwardSlide(double GoToInch){
-        ResetLiftWheelCount();
+    public void MoveUpwardSlide(double RaiseToPercent){
+        // Input a decimal of the maximum height of the lift
+        // 0 = fully retracted & 1 = fully up
 
-        double mainDirection = (GoToInch > 0) ? 0.5 : -0.5;
+        // limits the value to only be between 0 and 1, representing 0% to 100%
+        double percent = Range.clip(RaiseToPercent, 0.0, 1.0);
+
+        // Reset the encoders for the
+        hardwareManager.ResetLiftWheelCount();
+
+        double mainDirection = (percent * 5650 > hardwareManager.liftMotorLeft.getCurrentPosition()) ? 0.5 : -0.5;
         hardwareManager.liftMotorLeft.setPower(mainDirection);
 
-        double totalCounts = Math.abs(GoToInch * COUNTS_PER_INCH);
+        double totalCounts = Math.abs(percent * 5750);
         while(opModeIsActive() && (double) Math.abs(hardwareManager.liftMotorLeft.getCurrentPosition()) <= totalCounts){
             idle();
         }
@@ -190,11 +203,6 @@ public abstract class SelfDriving extends LinearOpMode {
         sleep(1000);
         Arm(0);
         sleep(1000);
-    }
-
-    protected void ResetLiftWheelCount(){
-        hardwareManager.liftMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //Reset motor ticks
-        hardwareManager.liftMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Run motor by power
     }
 
     //------------------------------------------------------------------------------------------------
