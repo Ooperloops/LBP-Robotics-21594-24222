@@ -54,7 +54,7 @@ public abstract class HumanOperated extends OpMode {
 
     // Time elapsed class for correction
     protected ElapsedTime timeElapsed;
-    protected double prevTime = 0;
+    protected double prevTime = 1;
     protected double powerPerSpeed = 1.0/12000.0;
 
     //------------------------------------------------------------------------------------------------
