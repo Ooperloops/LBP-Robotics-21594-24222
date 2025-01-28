@@ -34,6 +34,11 @@ public abstract class SelfDriving extends LinearOpMode {
             COUNTS_LIFT_OUTPUT / LIFT_INCH_DIFFERENCE;
     protected double liftServoAngle = 0;
 
+    protected enum armPosition{
+        UPSTRAIGHT,
+        SPECIMEN_READY
+    }
+
     //------------------------------------------------------------------------------------------------
     // Config
     //------------------------------------------------------------------------------------------------
@@ -142,12 +147,25 @@ public abstract class SelfDriving extends LinearOpMode {
         // Inputs an angle that the arm should be at relative to its starting position
 
         // Convert angle to a servo position (0 deg - 360 deg) = (0.00 - 1.00)
-        double angleToPosRight = angle * (1.0/360.0);
-        double angleToPosLeft = (380 - angle) * (1.0/360.0);
+        double angleToPosLeft = angle * (1.0/360.0);
 
         // Set position...
-        hardwareManager.leftArmServo.setPosition(angleToPosLeft);
-        hardwareManager.rightArmServo.setPosition(angleToPosRight);
+        hardwareManager.armServo.setPosition(angleToPosLeft);
+    }
+
+    public void ArmToPosition(armPosition armPosition){
+        // Inputs an angle that the arm should be at relative to its starting position
+        switch(armPosition){
+            case UPSTRAIGHT:
+                Arm(75);
+                hardwareManager.clawRotationServo.setPosition(0.25);
+                break;
+            case SPECIMEN_READY:
+                hardwareManager.armServo.setPosition(0);
+                hardwareManager.clawRotationServo.setPosition(0.65);
+                break;
+
+        }
     }
 
     //------------------------------------------------------------------------------------------------
@@ -166,7 +184,7 @@ public abstract class SelfDriving extends LinearOpMode {
         double mainDirection = (percent * 5650 > hardwareManager.liftMotorLeft.getCurrentPosition()) ? 0.5 : -0.5;
         hardwareManager.liftMotorLeft.setPower(mainDirection);
 
-        double totalCounts = Math.abs(percent * 5750);
+        double totalCounts = Range.clip(Math.abs(percent * 5650), 25, 5650);
         while(opModeIsActive() && (double) Math.abs(hardwareManager.liftMotorLeft.getCurrentPosition()) <= totalCounts){
             idle();
         }

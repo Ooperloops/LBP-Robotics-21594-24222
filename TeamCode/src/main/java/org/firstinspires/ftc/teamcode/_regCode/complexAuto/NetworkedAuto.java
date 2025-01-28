@@ -42,6 +42,7 @@ public abstract class NetworkedAuto extends SelfDriving {
 
         for(int i = 0; i < HighBasket; i++){
             // Startscoring HighBasket
+            HangSpecimenHigh();
         }
 
         for(int i = 0; i < HighRung; i++){
@@ -95,6 +96,23 @@ public abstract class NetworkedAuto extends SelfDriving {
 
     }
     private void HangSpecimenHigh(){
+        TrajectorySequence GoToLanding = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                .addDisplacementMarker(()->{
+                    ArmToPosition(armPosition.SPECIMEN_READY);
+                    Claw(true);
+                })
+                .splineTo(new Vector2d(6.18, -38.81), Math.toRadians(90.00))
+                .strafeTo(new Vector2d(43.39, -53.39))
+                .addDisplacementMarker(()-> {
+                    Claw(false);
+                    MoveUpwardSlide(0.08);
+                    MoveUpwardSlide(0);
+                })
+                .strafeTo(new Vector2d(43.39, -53.39))
+                .addDisplacementMarker(()-> {
+                    ArmToPosition(armPosition.UPSTRAIGHT);
+                })
+                .build();
 
     }
 }

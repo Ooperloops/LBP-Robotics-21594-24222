@@ -17,11 +17,14 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     public final DcMotor liftMotorLeft;
     public final DcMotor liftMotorRight;
-    public final Servo leftArmServo;
-    public final Servo rightArmServo;
     public final Servo leftClawServo;
     public final Servo rightClawServo;
-    public final Servo clawRotationServo;
+
+    private final Servo armServoP;
+    public final ReverseServoWrapper armServo;
+
+    private final Servo clawRotationServoP;
+    public final ReverseServoWrapper clawRotationServo;
 
     public void ResetLiftWheelCount(){
         liftMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //Reset motor ticks
@@ -119,16 +122,19 @@ public class HardwareManager {
         liftMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Arm and Claw
-        leftArmServo = hardwareMap.servo.get("LeftArmS");
-        rightArmServo = hardwareMap.servo.get("RightArmS");
+        armServoP = hardwareMap.servo.get("LeftArmS");
+        armServo = new ReverseServoWrapper(armServoP);
 
         //leftArmServo.setDirection(Servo.Direction.REVERSE);
         //rightArmServo.setDirection(Servo.Direction.REVERSE);
 
         leftClawServo = hardwareMap.servo.get("LeftClawServo");
         rightClawServo = hardwareMap.servo.get("RightClawServo");
-        clawRotationServo = hardwareMap.servo.get("ClawRotationServo");
+        clawRotationServoP = hardwareMap.servo.get("ClawRotationServo");
 
+        clawRotationServo = new ReverseServoWrapper(clawRotationServoP);
+
+        //clawRotationServo.setDirection(Servo.Direction.FORWARD);
         liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Sensors

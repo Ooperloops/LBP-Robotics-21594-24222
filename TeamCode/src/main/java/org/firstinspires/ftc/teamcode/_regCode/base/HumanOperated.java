@@ -39,8 +39,8 @@ public abstract class HumanOperated extends OpMode {
     // Lift power values
     //------------------------------------------------------------------------------------------------
     // Variables for lift motor power
-    protected double leftLiftP = 1;
-    protected double rightLiftP = 1;
+    protected double leftLiftP = 0;
+    protected double rightLiftP = 0;
 
     // Speed update delta variable
     protected double spdDelta = 0.01; // In seconds
@@ -60,11 +60,14 @@ public abstract class HumanOperated extends OpMode {
     //------------------------------------------------------------------------------------------------
     // Lift servo position values
     //------------------------------------------------------------------------------------------------
-    protected double liftServoPosition = 1;
+    protected double liftServoPosition = 0.04;
     protected double rightClawServoPosition = 0;
     protected double leftClawServoPosition = 0.25;
     protected double increment = 0.0027;
     boolean initActive;
+
+
+
 
     //------------------------------------------------------------------------------------------------
     // Config
@@ -87,7 +90,7 @@ public abstract class HumanOperated extends OpMode {
         /** [HOW THIS WORKS]
          * DcMotors need a power input between (-1.00 to 1.00)
          * This can be done by calling the .setPower(); method on a DcMotor variable
-         * -----
+=      * -----
          * Each of the joysticks' have two axes (x and y)
          * if a the left joystick of a gamepad is moved up then gamepad#.left_stick_y is positive
          * if a the left joystick of a gamepad is moved down then gamepad#.left_stick_y is negative
@@ -117,13 +120,13 @@ public abstract class HumanOperated extends OpMode {
         // Regular lift control
         //-----------------------------------
 
-        if(activeGamepad.left_stick_y > 0 && hardwareManager.liftMotorLeft.getCurrentPosition() >=  5650){
+        if(-activeGamepad.left_stick_y > 0 && hardwareManager.liftMotorLeft.getCurrentPosition() >=  5650){
             leftLiftP = 0;
-        } else if (activeGamepad.left_stick_y < 0 && hardwareManager.liftMotorLeft.getCurrentPosition() <=  25) {
+        } else if (-activeGamepad.left_stick_y < 0 && hardwareManager.liftMotorLeft.getCurrentPosition() <=  25) {
             leftLiftP = 0;
             hardwareManager.ResetLiftWheelCount();
         }else{
-            leftLiftP = activeGamepad.left_stick_y;
+            leftLiftP = -activeGamepad.left_stick_y;
         }
         //-----------------------------------
         // Set PID (Deprecated)
@@ -170,17 +173,11 @@ public abstract class HumanOperated extends OpMode {
     }
 
     public void armServos () {
-        if(gamepad2.right_stick_y > 0){
-            liftServoPosition = Range.clip(liftServoPosition + increment, 0.6, 1);
-            if (initActive){
-                initActive = false;
-            }
-        }else if(gamepad2.right_stick_y < 0){
-            liftServoPosition = Range.clip(liftServoPosition - increment, 0.6, 1);
-        }
-
-        // ???????????
+        liftServoPosition = liftServoPosition + (increment * -gamepad2.right_stick_y);
+        liftServoPosition = Range.clip(liftServoPosition, 0.06, 0.8);
+        /*
         if(!initActive) {
+
             if (liftServoPosition == 0 || liftServoPosition <= 0.075) {
                 hardwareManager.clawRotationServo.setPosition(0);
             } else if (liftServoPosition >= 0.175) {
@@ -192,11 +189,16 @@ public abstract class HumanOperated extends OpMode {
             } else if (liftServoPosition < 0.175) {
                 hardwareManager.clawRotationServo.setPosition(0);
             }
+        }*/
+
+        if(liftServoPosition >= 0.14){
+            hardwareManager.clawRotationServo.setPosition(0.25);
+        } else {
+            hardwareManager.clawRotationServo.setPosition(0.65);
         }
 
-        telemetry
-                .addData("Current Arm Position: ", liftServoPosition);
-        telemetry.update();
+        if(gamepad2.y) {liftServoPosition = 0.285;}
+
     }
 
     public void clawControls(){
@@ -249,11 +251,10 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.leftClawServo.setPosition(0.25);
 
         // Set wrist all the way back
-        hardwareManager.clawRotationServo.setPosition(0.5);
+        hardwareManager.clawRotationServo.setPosition(0);
 
         //Move arm all the way back
-        hardwareManager.leftArmServo.setPosition(1);
-        hardwareManager.rightArmServo.setPosition(1);
+        hardwareManager.armServo.setPosition(0.0);
 
         //Init ElapsedTime for PID
         timeElapsed = new ElapsedTime();
@@ -262,8 +263,8 @@ public abstract class HumanOperated extends OpMode {
     public void setHardwarePower() {
 
         // Left trigger lowers maximum and minimum power (slow toggle)
-        MOTOR_UPPER_POWER_LIMIT = (gamepad2.left_trigger > 0) ? 0.5 : 1;
-        MOTOR_LOWER_POWER_LIMIT = (gamepad2.left_trigger > 0) ? -0.5 : -1;
+        MOTOR_UPPER_POWER_LIMIT = (gamepad1.left_trigger > 0) ? 0.5 : 1;
+        MOTOR_LOWER_POWER_LIMIT = (gamepad1.left_trigger > 0) ? -0.5 : -1;
 
         // Limit motor powers of all wheels
         hardwareManager.frontLeftWheel.setPower(limitMotorPower(frontLeftWheelP));
@@ -271,7 +272,7 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.backLeftWheel.setPower(limitMotorPower(backLeftWheelP));
         hardwareManager.backRightWheel.setPower(limitMotorPower(backRightWheelP));
 
-        hardwareManager.leftArmServo.setPosition(liftServoPosition);
+        hardwareManager.armServo.setPosition(liftServoPosition);
     }
 
     protected double limitMotorPower(double input){
