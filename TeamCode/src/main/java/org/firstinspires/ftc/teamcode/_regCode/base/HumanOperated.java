@@ -190,8 +190,9 @@ public abstract class HumanOperated extends OpMode {
                 hardwareManager.clawRotationServo.setPosition(0);
             }
         }*/
-
-        if(liftServoPosition >= 0.14){
+        if(liftServoPosition >= 0.47222222222){
+            hardwareManager.clawRotationServo.setPosition(0.30555555555);
+        }else if(liftServoPosition >= 0.14){
             hardwareManager.clawRotationServo.setPosition(0.25);
         } else {
             hardwareManager.clawRotationServo.setPosition(0.65);
