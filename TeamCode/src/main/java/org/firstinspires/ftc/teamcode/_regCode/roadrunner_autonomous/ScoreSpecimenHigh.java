@@ -32,9 +32,12 @@ public class ScoreSpecimenHigh extends SelfDriving {
 
         TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(new Pose2d(15.05, -61.72, Math.toRadians(90.00)))
                 .splineTo(new Vector2d(0.37, -35.60), Math.toRadians(90.00))
+                .addDisplacementMarker(() -> {
+                    // This marker runs after the first splineTo()
+                    // Run your action in here!
+                    Arm(102.6);
+                })
                 .build();
-
-
 
 
 
@@ -50,5 +53,6 @@ public class ScoreSpecimenHigh extends SelfDriving {
 
         //drive.followTrajectorySequence(myTrajectory);
         drive.followTrajectorySequence(trajectory0);
+        scoreHighChamber();
     }
 }
