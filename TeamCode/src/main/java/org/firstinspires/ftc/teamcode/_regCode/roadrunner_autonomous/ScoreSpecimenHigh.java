@@ -40,6 +40,8 @@ public class ScoreSpecimenHigh extends SelfDriving {
 
 
 
+
+
         drive.setPoseEstimate(trajectory0.start());
 
         waitForStart();
