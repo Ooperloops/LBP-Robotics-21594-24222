@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode._regCode.base.SelfDriving;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-@Autonomous(name = "Sam's Test 2", group = "RoadRunner")
+@Autonomous(name = "Score High Chamber", group = "RoadRunner")
 public class ScoreSpecimenHigh extends SelfDriving {
     @Override
     public void runAutonomous() {
@@ -26,17 +26,17 @@ public class ScoreSpecimenHigh extends SelfDriving {
 
         //Zero arm and claw servo position
         //hardwareManager.liftServo.setPosition(0);
-        hardwareManager.rightClawServo.setPosition(0);
-        hardwareManager.leftClawServo.setPosition(0.25);
+        Claw(true);
         hardwareManager.clawRotationServo.setPosition(0.5);
 
         TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(new Pose2d(15.05, -61.72, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(0.37, -35.60), Math.toRadians(90.00))
                 .addDisplacementMarker(() -> {
                     // This marker runs after the first splineTo()
                     // Run your action in here!
                     Arm(102.6);
                 })
+                .splineTo(new Vector2d(0.37, -35.60), Math.toRadians(90.00))
+
                 .build();
 
 
