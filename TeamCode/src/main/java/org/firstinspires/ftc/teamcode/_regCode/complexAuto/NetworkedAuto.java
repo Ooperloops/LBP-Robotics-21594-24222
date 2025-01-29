@@ -20,7 +20,15 @@ public abstract class NetworkedAuto extends SelfDriving {
     protected int HighRung = 0;
     protected boolean Parking = false;
     protected StartPos startPosition;
+    protected LoadedPosition loadedPosition;
 
+    //------------------------------------------------------------------------------------------------
+    // Private enums
+    //------------------------------------------------------------------------------------------------
+    enum LoadedPosition{
+        LOADED_SPECIMEN,
+        LOADED_SAMPLE
+    }
     //------------------------------------------------------------------------------------------------
     // Start Method
     //------------------------------------------------------------------------------------------------
@@ -40,15 +48,25 @@ public abstract class NetworkedAuto extends SelfDriving {
                 break;
         }
 
+        switch(loadedPosition){
+            case LOADED_SAMPLE:
+                break;
+            case LOADED_SPECIMEN:
+                break;
+        }
+
+        if(HighBasket > 0) {}
         for(int i = 0; i < HighBasket; i++){
             // Startscoring HighBasket
             HangSpecimenHigh();
         }
 
+        if(HighRung > 0) {}
         for(int i = 0; i < HighRung; i++){
             // Startscoring HighBasket
         }
 
+        if(Pushing > 0) {}
         for(int i = 0; i < Pushing; i++){
             // Startscoring HighBasket
         }
@@ -67,7 +85,7 @@ public abstract class NetworkedAuto extends SelfDriving {
 
     private void Park(){
         TrajectorySequence parkTraj = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                .strafeTo(new Vector2d(60.34, -61.03)/*, Math.toRadians(90.00)*/)
+                .strafeTo(new Vector2d(60.34, -61.03))
                 .build();
 
         drive.followTrajectorySequence(parkTraj);
@@ -95,6 +113,7 @@ public abstract class NetworkedAuto extends SelfDriving {
         drive.followTrajectorySequence(GoToHangingStation);
 
     }
+
     private void HangSpecimenHigh(){
         TrajectorySequence GoToLanding = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .addDisplacementMarker(()->{
@@ -115,4 +134,10 @@ public abstract class NetworkedAuto extends SelfDriving {
                 .build();
 
     }
+
+    //------------------------------------------------------------------------------------------------
+    // Trajectory Initializers
+    //------------------------------------------------------------------------------------------------
+
+
 }
