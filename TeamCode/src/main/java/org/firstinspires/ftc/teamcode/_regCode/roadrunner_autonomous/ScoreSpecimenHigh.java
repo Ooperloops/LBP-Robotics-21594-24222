@@ -27,7 +27,7 @@ public class ScoreSpecimenHigh extends SelfDriving {
         //Zero arm and claw servo position
         //hardwareManager.liftServo.setPosition(0);
         Claw(true);
-        hardwareManager.clawRotationServo.setPosition(0.5);
+        //hardwareManager.clawRotationServo.setPosition(0.5);
 
         TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(new Pose2d(15.05, -61.72, Math.toRadians(90.00)))
                 .addDisplacementMarker(() -> {
@@ -53,6 +53,6 @@ public class ScoreSpecimenHigh extends SelfDriving {
 
         //drive.followTrajectorySequence(myTrajectory);
         drive.followTrajectorySequence(trajectory0);
-        scoreHighChamber();
+        scoreHighBar();
     }
 }
