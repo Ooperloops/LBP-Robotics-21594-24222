@@ -25,7 +25,7 @@ public abstract class NetworkedAuto extends SelfDriving {
     //------------------------------------------------------------------------------------------------
     // Private enums
     //------------------------------------------------------------------------------------------------
-    enum LoadedPosition{
+    public enum LoadedPosition{
         LOADED_SPECIMEN,
         LOADED_SAMPLE
     }
@@ -123,16 +123,22 @@ public abstract class NetworkedAuto extends SelfDriving {
 
     private void HangSpecimenHigh(){
         drive.followTrajectorySequence(GoToLandingThenHangSpec);
+        scoreHighBar();
     }
 
     private void ScoreLoadedSpecimen(){
-        TrajectorySequence trajectory = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                .splineTo(new Vector2d(0.37, -35.60), Math.toRadians(90.00))
+        Claw(true);
+        hardwareManager.clawRotationServo.setPosition(0.5);
+
+        TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .addDisplacementMarker(() -> {
                     Arm(102.6);
                 })
+                .splineTo(new Vector2d(0.37, -35.60), Math.toRadians(90.00))
+
                 .build();
-        drive.followTrajectorySequence(trajectory);
+        drive.followTrajectorySequence(trajectory0);
+        scoreHighBar();
     }
 
     //------------------------------------------------------------------------------------------------
@@ -142,19 +148,17 @@ public abstract class NetworkedAuto extends SelfDriving {
         GoToLandingThenHangSpec = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .addDisplacementMarker(()->{
                     ArmToPosition(armPosition.SPECIMEN_READY);
-                    Claw(true);                })
+                    Claw(false);                })
                 .splineTo(new Vector2d(6.18, -38.81), Math.toRadians(90.00))
                 .strafeTo(new Vector2d(43.39, -53.39))
                 .addDisplacementMarker(()-> {
-                    Claw(false);
-                    MoveUpwardSlide(0.08);
+                    Claw(true);
+                    MoveUpwardSlide(0.02);
                     MoveUpwardSlide(0);
                 })
                 .strafeTo(new Vector2d(43.39, -53.39))
-                .addDisplacementMarker(()-> {
-                    ArmToPosition(armPosition.UPSTRAIGHT);
-                })
                 .build();
+
     }
 
 }

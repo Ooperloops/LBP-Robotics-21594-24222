@@ -20,10 +20,10 @@ public class AutoNearBasket extends NetworkedAuto {
     @Override
     protected void initVariables() {
         startPosition = StartPos.FARBASKET;
-
+        loadedPosition = LoadedPosition.LOADED_SPECIMEN;
         HighBasket = 0;
         Pushing = 0;
-        HighRung = 0;
+        HighRung = 1;
         Parking = true;
 
     }

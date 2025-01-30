@@ -217,7 +217,7 @@ public abstract class SelfDriving extends LinearOpMode {
         MoveUpwardSlide(-30);
     }
 
-    public void scoreHighChamber(){
+    public void scoreHighBar(){
         MoveUpwardSlide(0.3);
         Claw(false);
         sleep(300);
