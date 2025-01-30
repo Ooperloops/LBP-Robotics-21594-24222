@@ -137,10 +137,10 @@ public abstract class SelfDriving extends LinearOpMode {
     //------------------------------------------------------------------------------------------------
     // Intake
     //------------------------------------------------------------------------------------------------
-    public void Claw(boolean open){
+    public void Claw(boolean closed){
         // Open or close claw based on boolean
-        hardwareManager.leftClawServo.setPosition((open) ? 0.25 : 0);
-        hardwareManager.rightClawServo.setPosition((open) ? 0 : 0.25);
+        hardwareManager.leftClawServo.setPosition((closed) ? 0.25 : 0);
+        hardwareManager.rightClawServo.setPosition((closed) ? 0 : 0.25);
     }
 
     public void Arm(double angle){
@@ -185,9 +185,9 @@ public abstract class SelfDriving extends LinearOpMode {
         double percent = Range.clip(RaiseToPercent, 0.0, 1.0);
 
         // Reset the encoders for the
-        hardwareManager.ResetLiftWheelCount();
+        //hardwareManager.ResetLiftWheelCount();
 
-        double mainDirection = (percent * 5650 > hardwareManager.liftMotorLeft.getCurrentPosition()) ? 0.5 : -0.5;
+        double mainDirection = (percent * 5650 > hardwareManager.liftMotorLeft.getCurrentPosition()) ? 1 : -1;
         hardwareManager.liftMotorLeft.setPower(mainDirection);
 
         double totalCounts = Range.clip(Math.abs(percent * 5650), 25, 5650);
@@ -218,9 +218,10 @@ public abstract class SelfDriving extends LinearOpMode {
     }
 
     public void scoreHighChamber(){
-        MoveUpwardSlide(0.4);
+        MoveUpwardSlide(0.3);
+        Claw(false);
         sleep(300);
-        MoveUpwardSlide(0.4);
+        MoveUpwardSlide(0);
     }
 
     public void GrabLow(){
