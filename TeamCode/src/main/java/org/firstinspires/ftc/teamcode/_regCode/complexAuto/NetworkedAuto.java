@@ -30,6 +30,11 @@ public abstract class NetworkedAuto extends SelfDriving {
         LOADED_SAMPLE
     }
     //------------------------------------------------------------------------------------------------
+    // Trajectory Variables
+    //------------------------------------------------------------------------------------------------
+    private TrajectorySequence GoToLandingThenHangSpec;
+    private TrajectorySequence s;
+    //------------------------------------------------------------------------------------------------
     // Start Method
     //------------------------------------------------------------------------------------------------
 
@@ -52,6 +57,7 @@ public abstract class NetworkedAuto extends SelfDriving {
             case LOADED_SAMPLE:
                 break;
             case LOADED_SPECIMEN:
+                ScoreLoadedSpecimen();
                 break;
         }
 
@@ -61,9 +67,10 @@ public abstract class NetworkedAuto extends SelfDriving {
             HangSpecimenHigh();
         }
 
-        if(HighRung > 0) {}
+        if(HighRung > 0) {InitToBarTrajectory();}
         for(int i = 0; i < HighRung; i++){
-            // Startscoring HighBasket
+            // Start scoring my hanging specimen at high rung
+            HangSpecimenHigh();
         }
 
         if(Pushing > 0) {}
@@ -115,11 +122,27 @@ public abstract class NetworkedAuto extends SelfDriving {
     }
 
     private void HangSpecimenHigh(){
-        TrajectorySequence GoToLanding = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+        drive.followTrajectorySequence(GoToLandingThenHangSpec);
+    }
+
+    private void ScoreLoadedSpecimen(){
+        TrajectorySequence trajectory = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                .splineTo(new Vector2d(0.37, -35.60), Math.toRadians(90.00))
+                .addDisplacementMarker(() -> {
+                    Arm(102.6);
+                })
+                .build();
+        drive.followTrajectorySequence(trajectory);
+    }
+
+    //------------------------------------------------------------------------------------------------
+    // Trajectory Initializers
+    //------------------------------------------------------------------------------------------------
+    private void InitToBarTrajectory(){
+        GoToLandingThenHangSpec = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .addDisplacementMarker(()->{
                     ArmToPosition(armPosition.SPECIMEN_READY);
-                    Claw(true);
-                })
+                    Claw(true);                })
                 .splineTo(new Vector2d(6.18, -38.81), Math.toRadians(90.00))
                 .strafeTo(new Vector2d(43.39, -53.39))
                 .addDisplacementMarker(()-> {
@@ -132,12 +155,6 @@ public abstract class NetworkedAuto extends SelfDriving {
                     ArmToPosition(armPosition.UPSTRAIGHT);
                 })
                 .build();
-
     }
-
-    //------------------------------------------------------------------------------------------------
-    // Trajectory Initializers
-    //------------------------------------------------------------------------------------------------
-
 
 }
