@@ -34,6 +34,7 @@ public class ScoreSpecimenHigh extends SelfDriving {
                     // This marker runs after the first splineTo()
                     // Run your action in here!
                     Arm(102.6);
+                    hardwareManager.clawRotationServo.setPosition(0.5);
                 })
                 .splineTo(new Vector2d(0.37, -35.60), Math.toRadians(90.00))
 

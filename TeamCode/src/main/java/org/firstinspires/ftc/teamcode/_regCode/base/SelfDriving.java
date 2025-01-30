@@ -218,7 +218,6 @@ public abstract class SelfDriving extends LinearOpMode {
     }
 
     public void scoreHighBar(){
-        hardwareManager.clawRotationServo.setPosition(0.5);
         MoveUpwardSlide(0.3);
         Claw(false);
         sleep(300);
