@@ -174,7 +174,7 @@ public abstract class HumanOperated extends OpMode {
 
     public void armServos () {
         liftServoPosition = liftServoPosition + (increment * -gamepad2.right_stick_y);
-        liftServoPosition = Range.clip(liftServoPosition, 0.06, 0.55555555555);
+        liftServoPosition = Range.clip(liftServoPosition, 0.02777777777, 0.59166666666);
         /*
         if(!initActive) {
 
@@ -209,9 +209,9 @@ public abstract class HumanOperated extends OpMode {
 
         // All of these input values are placed in a single if-statement to avoid
         // conflict with multiple button presses
-        if(gamepad2.right_trigger > 0.3){ // Close right claw piece
+        if(gamepad2.left_trigger > 0.3){ // Close right claw piece
             leftClawServoPosition = 0.25;
-        }else if(gamepad2.left_trigger > 0.3){ // Close left claw piece
+        }else if(gamepad2.right_trigger > 0.3){ // Close left claw piece
             rightClawServoPosition = 0;
         } else if(gamepad2.b ){ // Fully close the claw
             rightClawServoPosition = 0;

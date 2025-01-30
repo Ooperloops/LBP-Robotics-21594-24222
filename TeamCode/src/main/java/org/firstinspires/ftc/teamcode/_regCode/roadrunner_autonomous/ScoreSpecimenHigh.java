@@ -37,7 +37,15 @@ public class ScoreSpecimenHigh extends SelfDriving {
                     hardwareManager.clawRotationServo.setPosition(0.5);
                 })
                 .splineTo(new Vector2d(0.37, -35.60), Math.toRadians(90.00))
+                .addDisplacementMarker(() -> {
+                    // This marker runs after the previous splineTo()
+                    // Run your action in here!
+                    MoveUpwardSlide(0.3);
+                })
+                .build();
 
+        TrajectorySequence trajectory1 = drive.trajectorySequenceBuilder(trajectory0.end())
+                .strafeLeft(8)
                 .build();
 
 
@@ -54,6 +62,7 @@ public class ScoreSpecimenHigh extends SelfDriving {
 
         //drive.followTrajectorySequence(myTrajectory);
         drive.followTrajectorySequence(trajectory0);
+        drive.followTrajectorySequence(trajectory1);
         scoreHighBar();
     }
 }
