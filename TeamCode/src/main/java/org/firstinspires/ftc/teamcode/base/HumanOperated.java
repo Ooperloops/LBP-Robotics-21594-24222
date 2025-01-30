@@ -26,6 +26,8 @@ import org.firstinspires.ftc.teamcode.all_purpose.HardwareManager;
  */
 public abstract class HumanOperated extends OpMode {
     protected HardwareManager hardwareManager;
+    protected double frontLeftWheelP = 0;
+    protected double frontRightWheelP = 0;
     protected double backLeftWheelP = 0;
     protected double backRightWheelP = 0;
 
@@ -81,11 +83,17 @@ public abstract class HumanOperated extends OpMode {
          * of the y-axis value of the gamepad's left joystick
          *
          */
-        double drive = -gamepad1.left_stick_y;
+        double drive = (-gamepad1.left_stick_y != 0)
+                ? -gamepad1.left_stick_y
+                : -gamepad1.right_stick_y;
+
+        double strafe = gamepad1.left_stick_x;
         double rotate = gamepad1.right_stick_x;
 
-        backLeftWheelP   = drive + rotate;
-        backRightWheelP  = drive - rotate;
+        frontLeftWheelP  = drive + strafe + rotate;
+        frontRightWheelP = drive - strafe - rotate;
+        backLeftWheelP   = drive - strafe + rotate;
+        backRightWheelP  = drive + strafe - rotate;
     }
 
     //------------------------------------------------------------------------------------------------

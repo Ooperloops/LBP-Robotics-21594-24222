@@ -14,6 +14,8 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     // Wheels
     //------------------------------------------------------------------------------------------------
+    public final DcMotor frontLeftWheel;
+    public final DcMotor frontRightWheel;
     public final DcMotor backLeftWheel;
     public final DcMotor backRightWheel;
     //------------------------------------------------------------------------------------------------
@@ -91,15 +93,15 @@ public class HardwareManager {
 
     public HardwareManager(HardwareMap hardwareMap) {
         // Wheels
-        //frontLeftWheel = hardwareMap.dcMotor.get("FrontLeftM");
-        //frontRightWheel = hardwareMap.dcMotor.get("FrontRightM");
+        frontLeftWheel = hardwareMap.dcMotor.get("FrontLeftM");
+        frontRightWheel = hardwareMap.dcMotor.get("FrontRightM");
         backLeftWheel = hardwareMap.dcMotor.get("BackLeftM");
         backRightWheel = hardwareMap.dcMotor.get("BackRightM");
 
 
 
-        //frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        //frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
 
