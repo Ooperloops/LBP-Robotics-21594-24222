@@ -174,7 +174,7 @@ public abstract class HumanOperated extends OpMode {
 
     public void armServos () {
         liftServoPosition = liftServoPosition + (increment * -gamepad2.right_stick_y);
-        liftServoPosition = Range.clip(liftServoPosition, 0.06, 0.5);
+        liftServoPosition = Range.clip(liftServoPosition, 0.06, 0.55555555555);
         /*
         if(!initActive) {
 
