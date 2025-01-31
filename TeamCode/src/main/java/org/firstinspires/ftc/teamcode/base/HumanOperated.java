@@ -41,6 +41,11 @@ public abstract class HumanOperated extends OpMode {
     protected final double SERVO_LOWER_POWER_LIMIT = -0.5; // VEX Servos Actual Limitation
 
     //------------------------------------------------------------------------------------------------
+    // Intake
+    //------------------------------------------------------------------------------------------------
+    private boolean leftClawOpen = false;
+    private boolean rightClawOpen = false;
+    //------------------------------------------------------------------------------------------------
     // Defaults
     //------------------------------------------------------------------------------------------------
 
@@ -56,12 +61,25 @@ public abstract class HumanOperated extends OpMode {
             hardwareManager.extenderArm.setPower(0);
         }
 
+        // Manually open and close claw servo
+        if(gamepad2.b){
+            if(rightClawOpen){
+                hardwareManager.rightClawServo.setPosition(0.15);
+                rightClawOpen = false;
+            } else {
+                hardwareManager.rightClawServo.setPosition(0);
+                rightClawOpen = true;
+            }
+        }
+
         if(gamepad2.a){
-            hardwareManager.rightClawServo.setPosition(0.150);
-            hardwareManager.leftClawServo.setPosition(0);
-        } else if (gamepad2.b) {
-            hardwareManager.rightClawServo.setPosition(0);
-            hardwareManager.leftClawServo.setPosition(0.150);
+            if(leftClawOpen){
+                hardwareManager.rightClawServo.setPosition(0);
+                leftClawOpen = false;
+            } else {
+                hardwareManager.rightClawServo.setPosition(0.15);
+                leftClawOpen = true;
+            }
         }
     }
 
