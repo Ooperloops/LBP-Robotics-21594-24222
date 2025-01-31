@@ -110,6 +110,8 @@ public abstract class HumanOperated extends OpMode {
     public void setHardwarePower() {
         hardwareManager.backLeftWheel.setPower(backLeftWheelP);
         hardwareManager.backRightWheel.setPower(backRightWheelP);
+        hardwareManager.frontLeftWheel.setPower(frontLeftWheelP);
+        hardwareManager.frontRightWheel.setPower(frontRightWheelP);
 
     }
 

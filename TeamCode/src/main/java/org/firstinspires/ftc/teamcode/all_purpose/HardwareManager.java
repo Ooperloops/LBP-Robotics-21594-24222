@@ -100,8 +100,8 @@ public class HardwareManager {
 
 
 
-        frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeftWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRightWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
 
