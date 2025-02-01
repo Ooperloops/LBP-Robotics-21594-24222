@@ -31,6 +31,7 @@ public abstract class HumanOperated extends OpMode {
     //------------------------------------------------------------------------------------------------
     // Wheel power values
     //------------------------------------------------------------------------------------------------
+    //Preferably initialize your variables here rather than just declaring.
     protected double frontLeftWheelP = 0;
     protected double frontRightWheelP = 0;
     protected double backLeftWheelP = 0;
@@ -107,6 +108,10 @@ public abstract class HumanOperated extends OpMode {
         double strafe = gamepad1.left_stick_x;
         double rotate = gamepad1.right_stick_x;
 
+        /* The plus and minus signs refer to the direction you must move the stick in order for
+        whatever you have programmed to move. This is better than reversing direction in
+        HardwareManager
+        */
         frontLeftWheelP  = drive + strafe + rotate;
         frontRightWheelP = drive - strafe - rotate;
         backLeftWheelP   = drive - strafe + rotate;

@@ -15,6 +15,7 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     // Active Intake
     //------------------------------------------------------------------------------------------------
+    //Initialize/Declaring variables.  Make sure to put which hardware you are using.
     public final DcMotor liftMotorLeft;
     public final DcMotor liftMotorRight;
     public final Servo leftClawServo;
@@ -95,16 +96,19 @@ public class HardwareManager {
     public HardwareManager(HardwareMap hardwareMap) {
 
         // Wheels
+        //The green text is what you want to write on the DriveHub (the tablet thing), it can be anything.
         frontLeftWheel = hardwareMap.dcMotor.get("FrontLeftM");
         frontRightWheel = hardwareMap.dcMotor.get("FrontRightM");
         backLeftWheel = hardwareMap.dcMotor.get("BackLeftM");
         backRightWheel = hardwareMap.dcMotor.get("BackRightM");
 
+        //Set which way it will rotate, make sure to include hardware specific arguements (DcMotorSimple).
         frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        //This brake allows a motor to hold its position when it is not moving.
         doToAllWheels((wheel) -> wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE));
 
         // Lift Control
@@ -116,6 +120,7 @@ public class HardwareManager {
         liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        //Encoder programming for PID on the lift.
         liftMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
