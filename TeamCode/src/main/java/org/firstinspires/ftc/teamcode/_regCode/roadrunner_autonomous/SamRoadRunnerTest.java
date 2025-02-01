@@ -31,6 +31,8 @@ public class SamRoadRunnerTest extends SelfDriving {
         hardwareManager.leftClawServo.setPosition(0.25);
         hardwareManager.clawRotationServo.setPosition(0.5);
 
+        //Make trajectories using RRPathgen, and make sure to use the Roadrunner documentation.
+
         TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(new Pose2d(12.40, -59.08, Math.toRadians(90.00)))
 
                 .splineTo(new Vector2d(34.13, -38.39), Math.toRadians(56.82))
@@ -65,6 +67,7 @@ public class SamRoadRunnerTest extends SelfDriving {
 
         if(isStopRequested()) return;
 
+        //Write all your trajectories here.
         //drive.followTrajectorySequence(myTrajectory);
         drive.followTrajectorySequence(trajectory0);
     }

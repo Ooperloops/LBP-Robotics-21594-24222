@@ -180,6 +180,10 @@ public abstract class HumanOperated extends OpMode {
     public void armServos () {
         liftServoPosition = liftServoPosition + (increment * -gamepad2.right_stick_y);
         liftServoPosition = Range.clip(liftServoPosition, 0.02777777777, 0.68);
+        /* This code for our non-CRServos allows us to adjust the position like a CRServo,
+         however it  allows us to do finer adjustments at the cost of less speed.  Adjusting the
+          max/min values allows you to stop the servo from going any farther than the
+          specified angle. */
         /*
         if(!initActive) {
 
@@ -195,6 +199,8 @@ public abstract class HumanOperated extends OpMode {
                 hardwareManager.clawRotationServo.setPosition(0);
             }
         }*/
+
+        //Adjusts our wrist servo based on our base servo position automatically.
         if(liftServoPosition >= 0.47222222222){
             hardwareManager.clawRotationServo.setPosition(0.30555555555);
         }else if(liftServoPosition >= 0.14){
