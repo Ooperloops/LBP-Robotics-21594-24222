@@ -74,10 +74,10 @@ public abstract class HumanOperated extends OpMode {
 
         if(gamepad2.a){
             if(leftClawOpen){
-                hardwareManager.rightClawServo.setPosition(0);
+                hardwareManager.leftClawServo.setPosition(0);
                 leftClawOpen = false;
             } else {
-                hardwareManager.rightClawServo.setPosition(0.15);
+                hardwareManager.leftClawServo.setPosition(0.15);
                 leftClawOpen = true;
             }
         }
