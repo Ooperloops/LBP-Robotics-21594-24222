@@ -22,32 +22,9 @@ public class AutoNearBasketPersistent extends SelfDriving {
 
     @Override
     public void runAutonomous() {
-        drive = new SampleMecanumDrive(hardwareMap);
-
-        waitForStart();
-
-        if (isStopRequested()) return;
-
-        TrajectorySequence traj = drive.trajectorySequenceBuilder(new Pose2d(-12.98, -61.59, Math.toRadians(90.00)))
-                .splineTo(new Vector2d(-51.31, -52.84), Math.toRadians(224.22))
-                .build();
-
-        drive.followTrajectorySequence(traj);
-        sleep(1000);
-        ScoreHighBasket();
-
-        //Fishing Sequence
-        for(int i = 0; i < NumberOfTriesInSub; i++){
-            TrajectorySequence toSub = GoToSubRandomFromBasket(traj.end());
-            TrajectorySequence toBasket = GoToBasketFromSub(toSub.end());
-
-            drive.followTrajectorySequence(toSub); // Go to Sub
-            GrabLow(); // Try to get specimen
-            drive.followTrajectorySequence(toBasket); // Go to basket
-            ScoreHighBasket(); // Score
-        }
-
-        //Concluding Sequence
+        MoveUpwardSlide(1);
+        sleep(1);
+        MoveUpwardSlide(0);
     }
 
     private TrajectorySequence GoToBasketFromSub(Pose2d currentPos){

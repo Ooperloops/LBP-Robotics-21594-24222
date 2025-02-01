@@ -26,9 +26,9 @@ public class ScoreSpecimenHigh extends SelfDriving {
 
         //Zero arm and claw servo position
         //hardwareManager.liftServo.setPosition(0);
-        Claw(true);
+        //Claw(true);
         //hardwareManager.clawRotationServo.setPosition(0.5);
-
+        /*
         TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(new Pose2d(15.05, -61.72, Math.toRadians(90.00)))
                 .addDisplacementMarker(() -> {
                     // This marker runs after the first splineTo()
@@ -48,21 +48,31 @@ public class ScoreSpecimenHigh extends SelfDriving {
                 .strafeLeft(8)
                 .build();
 
+        */
+
+        drive.setPoseEstimate(new Pose2d(34.51, -59.36, Math.toRadians(90.00)));
+        TrajectorySequence strafeLeft = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                .strafeTo(new Vector2d(-36.73, -58.81))
+                .build();
+
+        TrajectorySequence strafeRight = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                .strafeTo(new Vector2d(34.51, -59.36))
+                .build();
 
 
 
 
 
 
-        drive.setPoseEstimate(trajectory0.start());
 
-        waitForStart();
-
-        if(isStopRequested()) return;
-
+        for(int i = 0; i < 5; i++){
+            drive.followTrajectorySequence(strafeLeft);
+            drive.followTrajectorySequence(strafeRight);
+        }
         //drive.followTrajectorySequence(myTrajectory);
-        drive.followTrajectorySequence(trajectory0);
-        drive.followTrajectorySequence(trajectory1);
-        scoreHighBar();
+        //drive.followTrajectorySequence(trajectory0);
+        //scoreHighBar();
+        //drive.followTrajectorySequence(trajectory1);
+
     }
 }

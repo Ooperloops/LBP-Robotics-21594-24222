@@ -165,10 +165,10 @@ public abstract class SelfDriving extends LinearOpMode {
         // Inputs an angle that the arm should be at relative to its starting position
         switch(armPosition){
             case UPSTRAIGHT:
-                Arm(75);
+                Arm(102);
                 break;
             case SPECIMEN_READY:
-                hardwareManager.armServo.setPosition(0);
+                Arm(15);
                 break;
 
         }
@@ -183,15 +183,20 @@ public abstract class SelfDriving extends LinearOpMode {
 
         // limits the value to only be between 0 and 1, representing 0% to 100%
         double percent = Range.clip(RaiseToPercent, 0.0, 1.0);
+        double targetCount = percent * 5650;
 
         // Reset the encoders for the
         //hardwareManager.ResetLiftWheelCount();
 
         double mainDirection = (percent * 5650 > hardwareManager.liftMotorLeft.getCurrentPosition()) ? 1 : -1;
         hardwareManager.liftMotorLeft.setPower(mainDirection);
-
-        double totalCounts = Range.clip(Math.abs(percent * 5650), 25, 5650);
-        while(opModeIsActive() && (double) Math.abs(hardwareManager.liftMotorLeft.getCurrentPosition()) <= totalCounts){
+        while(opModeIsActive() && targetCount - 15 > hardwareManager.liftMotorLeft.getCurrentPosition() || hardwareManager.liftMotorLeft.getCurrentPosition() > targetCount + 15 ){
+            if(mainDirection > 0 && hardwareManager.liftMotorLeft.getCurrentPosition() >=  5650){
+                break;
+            } else if (mainDirection < 0 && hardwareManager.liftMotorLeft.getCurrentPosition() <=  25) {
+                hardwareManager.ResetLiftWheelCount();
+                break;
+            }
             idle();
         }
         hardwareManager.liftMotorLeft.setPower(0);
@@ -219,9 +224,7 @@ public abstract class SelfDriving extends LinearOpMode {
 
     public void scoreHighBar(){
         MoveUpwardSlide(0.3);
-        Claw(false);
         sleep(300);
-        MoveUpwardSlide(0);
     }
 
     public void GrabLow(){
