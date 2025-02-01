@@ -64,22 +64,35 @@ public abstract class HumanOperated extends OpMode {
         // Manually open and close claw servo
         if(gamepad2.b){
             if(rightClawOpen){
-                hardwareManager.rightClawServo.setPosition(0.15);
+                hardwareManager.rightClawServo.setPosition(0);
                 rightClawOpen = false;
             } else {
-                hardwareManager.rightClawServo.setPosition(0);
+                hardwareManager.rightClawServo.setPosition(0.15);
                 rightClawOpen = true;
             }
         }
 
         if(gamepad2.a){
             if(leftClawOpen){
-                hardwareManager.rightClawServo.setPosition(0);
+                hardwareManager.leftClawServo.setPosition(0.15);
                 leftClawOpen = false;
             } else {
-                hardwareManager.rightClawServo.setPosition(0.15);
+                hardwareManager.leftClawServo.setPosition(0);
                 leftClawOpen = true;
             }
+        }
+
+        if(gamepad2.x){ // close claw
+            hardwareManager.leftClawServo.setPosition(0.15);
+            hardwareManager.rightClawServo.setPosition(0);
+            leftClawOpen = false;
+            rightClawOpen = false;
+        }
+        if(gamepad2.y){ // open claw
+            hardwareManager.leftClawServo.setPosition(0);
+            hardwareManager.rightClawServo.setPosition(0.15);
+            leftClawOpen = true;
+            rightClawOpen = true;
         }
     }
 
