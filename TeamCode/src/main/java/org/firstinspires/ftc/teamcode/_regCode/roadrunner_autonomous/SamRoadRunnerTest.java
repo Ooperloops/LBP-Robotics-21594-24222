@@ -3,11 +3,12 @@ package org.firstinspires.ftc.teamcode._regCode.roadrunner_autonomous;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode._regCode.base.SelfDriving;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-@Autonomous(name = "Sam's Test", group = "RoadRunner")
+@Disabled
 public class SamRoadRunnerTest extends SelfDriving {
     @Override
     public void runAutonomous() {
