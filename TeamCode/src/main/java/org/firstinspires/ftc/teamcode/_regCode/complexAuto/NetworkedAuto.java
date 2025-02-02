@@ -18,7 +18,9 @@ public abstract class NetworkedAuto extends SelfDriving {
     protected int HighBasket = 0;
     protected int Pushing = 0;
     protected int HighRung = 0;
+    protected long startDelayMili = 0;
     protected boolean Parking = false;
+    protected boolean MoveOutOfWay = false;
     protected StartPos startPosition;
     protected LoadedPosition loadedPosition;
 
@@ -42,6 +44,8 @@ public abstract class NetworkedAuto extends SelfDriving {
     protected void runAutonomous(){
         hardwareManager.ResetLiftWheelCount();
         initVariables();
+        sleep(startDelayMili);
+
         switch(startPosition){
             // set enum to specific position where robot starts
             // --> done to improve readability
@@ -61,7 +65,7 @@ public abstract class NetworkedAuto extends SelfDriving {
                 // TODO: create auto to score a loaded sample on the high bucket
                 break;
             case LOADED_SPECIMEN:
-                ScoreLoadedSpecimen(); // scores loaded specimen on the high rung
+                ScoreLoadedSpecimen(0); // scores loaded specimen on the high rung
                 break;
         }
 
@@ -81,6 +85,7 @@ public abstract class NetworkedAuto extends SelfDriving {
         }
 
         if (Parking) { Park();}
+        if (MoveOutOfWay) {MoveOutOfTheWay();}
 
     }
 
@@ -107,7 +112,6 @@ public abstract class NetworkedAuto extends SelfDriving {
                 .splineTo(new Vector2d(-44.00 - (9 * current), -10.07), Math.toRadians(90.00))
                 // ----------------------------------------------------------------------
                 .back(20) // reverse back 20 inches
-                .turn(10) // rotate 10 degrees clockwise
                 .strafeTo(new Vector2d(-60, -60)) // strafe to the push zone below the buckets
                 .build();
 
@@ -119,8 +123,8 @@ public abstract class NetworkedAuto extends SelfDriving {
     }
 
     private void HangSpecimenHigh(){
-        InitPushFirstSamp(); // initialize pushing trajectory
-        drive.followTrajectorySequence(PushSpecFirst); // push coloured sample into observation zone
+        //InitPushFirstSamp(); // initialize pushing trajectory
+        //drive.followTrajectorySequence(PushSpecFirst); // push coloured sample into observation zone
         InitToBarTrajectory(); // initialize grabbing specimen from wall trajectory
         drive.followTrajectorySequence(GetSpec); // bot grabs wall specimen
         sleep(500); // short delay for human player correction
@@ -128,10 +132,10 @@ public abstract class NetworkedAuto extends SelfDriving {
         MoveUpwardSlide(0.02); // move slide up to remove specimen from wall
         sleep(100);
         MoveUpwardSlide(0);
-        ScoreLoadedSpecimen(); // Go to bar and hang specimen
+        ScoreLoadedSpecimen(0.90); // Go to bar and hang specimen
     }
 
-    private void ScoreLoadedSpecimen(){
+    private void ScoreLoadedSpecimen(double displacement){
         Claw(true); // close the claw
 
         TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
@@ -139,9 +143,9 @@ public abstract class NetworkedAuto extends SelfDriving {
                     ArmToPosition(armPosition.UPSTRAIGHT); // make arm perpendicular to drivebase
                     hardwareManager.clawRotationServo.setPosition(0.5); // set wrist to proper position for hanging
                 })
-                .splineTo(new Vector2d(0.37, -34.00), Math.toRadians(90.00)) // go near the sub
+                .splineTo(new Vector2d(0.37, -35.00 + displacement), Math.toRadians(90.00)) // go near the sub
                 .addDisplacementMarker(() -> {
-                    MoveUpwardSlide(0.3); // move slide up to hang specimen
+                    MoveUpwardSlide(0.33); // move slide up to hang specimen
                 })
                 .addDisplacementMarker(() -> {
                     Claw(false); // open the claw
@@ -154,6 +158,13 @@ public abstract class NetworkedAuto extends SelfDriving {
         drive.followTrajectorySequence(trajectory0);
     }
 
+    private void MoveOutOfTheWay(){
+        TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                .strafeTo(new Vector2d(-48, -48))
+                .build();// go near the sub
+        drive.followTrajectorySequence(trajectory0);
+    }
+
     //------------------------------------------------------------------------------------------------
     // Trajectory Initializers
     //------------------------------------------------------------------------------------------------
@@ -161,8 +172,10 @@ public abstract class NetworkedAuto extends SelfDriving {
         GetSpec = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .addDisplacementMarker(()->{
                     ArmToPosition(armPosition.SPECIMEN_READY); // Rotates arm behind itself
+
                     Claw(false);                }) // opens the claw
-                .lineTo(new Vector2d(48.0, -59.5)) // reverses to the wall where the specimen is
+                .splineTo(new Vector2d(47, -38), Math.toRadians(90.00))
+                .lineTo(new Vector2d(48.0, -60)) // reverses to the wall where the specimen is
                 .build();
 
     }
