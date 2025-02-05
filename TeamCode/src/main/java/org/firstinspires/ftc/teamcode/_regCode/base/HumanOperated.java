@@ -274,9 +274,9 @@ public abstract class HumanOperated extends OpMode {
 
     public void setHardwarePower() {
 
-        // Left trigger lowers maximum and minimum power (slow toggle)
-        MOTOR_UPPER_POWER_LIMIT = (gamepad1.left_trigger > 0) ? 0.5 : 1;
-        MOTOR_LOWER_POWER_LIMIT = (gamepad1.left_trigger > 0) ? -0.5 : -1;
+        // Left bumper lowers maximum and minimum power (slow toggle)
+        MOTOR_UPPER_POWER_LIMIT = (gamepad1.left_bumper) ? 0.5 : 1;
+        MOTOR_LOWER_POWER_LIMIT = (gamepad1.left_bumper) ? -0.5 : -1;
 
         // Limit motor powers of all wheels
         hardwareManager.frontLeftWheel.setPower(limitMotorPower(frontLeftWheelP));
