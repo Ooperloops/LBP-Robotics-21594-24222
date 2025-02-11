@@ -78,6 +78,7 @@ public abstract class HumanOperated extends OpMode {
     protected double MOTOR_LOWER_POWER_LIMIT = -1;
     protected final double SERVO_UPPER_POWER_LIMIT = 0.8; // VEX Servos Actual Limitation
     protected final double SERVO_LOWER_POWER_LIMIT = -0.8; // VEX Servos Actual Limitation
+    protected double MOTOR_SHRINK_MULTIPLIER = 1;
 
     //------------------------------------------------------------------------------------------------
     // Defaults
@@ -274,15 +275,14 @@ public abstract class HumanOperated extends OpMode {
 
     public void setHardwarePower() {
 
-        // Left trigger lowers maximum and minimum power (slow toggle)
-        MOTOR_UPPER_POWER_LIMIT = (gamepad1.left_trigger > 0) ? 0.5 : 1;
-        MOTOR_LOWER_POWER_LIMIT = (gamepad1.left_trigger > 0) ? -0.5 : -1;
+        // Left bumper multiplies motor power by a small decimal (slow toggle)
+        MOTOR_SHRINK_MULTIPLIER = (gamepad1.left_bumper) ? 0.4 : 1;
 
         // Limit motor powers of all wheels
-        hardwareManager.frontLeftWheel.setPower(limitMotorPower(frontLeftWheelP));
-        hardwareManager.frontRightWheel.setPower(limitMotorPower(frontRightWheelP));
-        hardwareManager.backLeftWheel.setPower(limitMotorPower(backLeftWheelP));
-        hardwareManager.backRightWheel.setPower(limitMotorPower(backRightWheelP));
+        hardwareManager.frontLeftWheel.setPower(shrinkMotorPower(frontLeftWheelP));
+        hardwareManager.frontRightWheel.setPower(shrinkMotorPower(frontRightWheelP));
+        hardwareManager.backLeftWheel.setPower(shrinkMotorPower(backLeftWheelP));
+        hardwareManager.backRightWheel.setPower(shrinkMotorPower(backRightWheelP));
 
         hardwareManager.armServo.setPosition(liftServoPosition);
     }
@@ -290,6 +290,10 @@ public abstract class HumanOperated extends OpMode {
     protected double limitMotorPower(double input){
         // Limits the DcMotor output power within a certain interval
         return Range.clip(input, MOTOR_LOWER_POWER_LIMIT, MOTOR_UPPER_POWER_LIMIT);
+    }
+
+    protected double shrinkMotorPower(double input){
+        return MOTOR_SHRINK_MULTIPLIER * input;
     }
 
     protected double limitServoPower(double input) {
