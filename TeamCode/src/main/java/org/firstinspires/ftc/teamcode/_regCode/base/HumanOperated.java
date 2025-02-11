@@ -112,10 +112,10 @@ public abstract class HumanOperated extends OpMode {
         whatever you have programmed to move. This is better than reversing direction in
         HardwareManager
         */
-        frontLeftWheelP  = drive + strafe + rotate;
-        frontRightWheelP = drive - strafe - rotate;
-        backLeftWheelP   = drive - strafe + rotate;
-        backRightWheelP  = drive + strafe - rotate;
+        frontLeftWheelP  = - drive - strafe - rotate;
+        frontRightWheelP = - drive + strafe + rotate;
+        backLeftWheelP   = - drive + strafe - rotate;
+        backRightWheelP  = - drive - strafe + rotate;
     }
     public void liftControlPID(boolean isPlayerOne) {
         // If isPlayerOne, then set the active gamepad to controller 1
