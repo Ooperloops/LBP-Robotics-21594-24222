@@ -3,6 +3,10 @@ package org.firstinspires.ftc.teamcode._regCode.all_purpose;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.*;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvPipeline;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 /**
@@ -12,6 +16,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
  */
 public class HardwareManager {
 
+    //------------------------------------------------------------------------------------------------
+    // Computer Vision
+    //------------------------------------------------------------------------------------------------
+    public final WebcamName camera;
     //------------------------------------------------------------------------------------------------
     // Active Intake
     //------------------------------------------------------------------------------------------------
@@ -141,6 +149,9 @@ public class HardwareManager {
 
         //clawRotationServo.setDirection(Servo.Direction.FORWARD);
         liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //Camera
+        camera = hardwareMap.get(WebcamName.class, "Camera");
 
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");
