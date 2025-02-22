@@ -21,12 +21,11 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     // Intake
     //------------------------------------------------------------------------------------------------
-    public final DcMotor intakeArmLeft;
-    public final DcMotor intakeArmRight;
-    public final Servo leftClawServo;
+    public final DcMotor liftMotor;
+    public final ReverseServoWrapper leftClawServo;
     public final Servo rightClawServo;
-
-    public final CRServo extenderArm;
+    public final Servo leftArmServo;
+    public final ReverseServoWrapper rightArmServo;
 
 
     /**
@@ -39,6 +38,11 @@ public class HardwareManager {
         return (
                 backLeftWheel.getCurrentPosition() +
                 backRightWheel.getCurrentPosition()) / 2.0;
+    }
+
+    public void resetLiftMotorCount(){
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void resetWheelCounts() {
@@ -99,7 +103,7 @@ public class HardwareManager {
         backRightWheel = hardwareMap.dcMotor.get("BackRightM");
 
 
-
+        // Set directions of the wheels
         frontLeftWheel.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRightWheel.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -107,18 +111,26 @@ public class HardwareManager {
 
         doToAllWheels((wheel) -> wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE));
 
-        // Intake
-        intakeArmLeft = hardwareMap.dcMotor.get("IntakeLeftM");
-        intakeArmRight = hardwareMap.dcMotor.get("IntakeRightM");
-        leftClawServo = hardwareMap.servo.get("leftClaw");
-        rightClawServo = hardwareMap.servo.get("rightClaw");
-        extenderArm = hardwareMap.crservo.get("Extender");
+        // Claw
+        Servo s = hardwareMap.servo.get("leftClawS");
+        s.setDirection(Servo.Direction.REVERSE);
+        leftClawServo = new ReverseServoWrapper(s);
 
-        intakeArmLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeArmLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        intakeArmRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightClawServo = hardwareMap.servo.get("rightClawS");
 
-        //leftClawServo.setDirection(Servo.Direction.REVERSE);
+        rightClawServo.setDirection(Servo.Direction.REVERSE);
+
+        // Lift
+        liftMotor = hardwareMap.dcMotor.get("liftM");
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // Arm
+        leftArmServo = hardwareMap.servo.get("leftArmS");
+        leftArmServo.setDirection(Servo.Direction.REVERSE);
+        Servo h = hardwareMap.servo.get("rightArmS");
+        h.setDirection(Servo.Direction.REVERSE);
+        rightArmServo = new ReverseServoWrapper(h);
+
 
         // Sensors
         imu = hardwareMap.get(IMU.class, "imu");
