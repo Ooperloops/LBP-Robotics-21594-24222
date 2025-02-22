@@ -42,13 +42,6 @@ public abstract class SelfDriving extends LinearOpMode {
     }
 
     //------------------------------------------------------------------------------------------------
-    // Strafing
-    //------------------------------------------------------------------------------------------------
-    protected void strafe(double metersDistance) {
-        // Do that..
-    }
-
-    //------------------------------------------------------------------------------------------------
     // Rotation
     //------------------------------------------------------------------------------------------------
     protected void rotate(double degreeAngle) {
@@ -62,8 +55,8 @@ public abstract class SelfDriving extends LinearOpMode {
         double leftPower = TURN_POWER * motorOffset;
         double rightPower = TURN_POWER * -motorOffset;
 
-        //hardwareManager.frontLeftWheel.setPower(leftPower);
-        //hardwareManager.frontRightWheel.setPower(rightPower);
+        hardwareManager.frontLeftWheel.setPower(leftPower);
+        hardwareManager.frontRightWheel.setPower(rightPower);
         hardwareManager.backLeftWheel.setPower(leftPower);
         hardwareManager.backRightWheel.setPower(rightPower);
 

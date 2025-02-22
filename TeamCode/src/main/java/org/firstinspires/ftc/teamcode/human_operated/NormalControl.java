@@ -21,5 +21,8 @@ public class NormalControl extends HumanOperated {
         // Arm control
         intakeArmControl();
         setArmPosition();
+
+        // Lift
+        liftControls();
     }
 }
