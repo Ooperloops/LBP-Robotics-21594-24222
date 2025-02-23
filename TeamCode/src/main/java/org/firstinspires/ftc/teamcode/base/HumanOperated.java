@@ -50,6 +50,15 @@ public abstract class HumanOperated extends OpMode {
     //------------------------------------------------------------------------------------------------
 
     public void intakeArmControl() {
+/*
+        if(gamepad2.dpad_left){ // if left Dpad is pressed
+            rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
+            leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
+        }else if(gamepad2.dpad_right){
+            rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
+            leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
+        }
+        */
 
         ArmServoPos = Range.clip(
                 ArmServoPos + (gamepad2.right_stick_y * (1.0/360.0)),
