@@ -91,6 +91,9 @@ public abstract class HumanOperated extends OpMode {
         // Regular lift control
         //-----------------------------------
 
+        liftP = -gamepad2.left_stick_y;
+
+        /*
         if(-gamepad2.left_stick_y > 0 && hardwareManager.liftMotor.getCurrentPosition() >=  5650){
             liftP = 0;
         } else if (-gamepad2.left_stick_y < 0 && hardwareManager.liftMotor.getCurrentPosition() <=  25) {
@@ -99,6 +102,8 @@ public abstract class HumanOperated extends OpMode {
         }else{
             liftP = -gamepad2.left_stick_y;
         }
+
+         */
 
     }
 
