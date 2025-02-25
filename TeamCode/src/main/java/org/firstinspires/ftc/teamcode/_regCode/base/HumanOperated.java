@@ -178,6 +178,21 @@ public abstract class HumanOperated extends OpMode {
 
     }
 
+    public void intakeArmControl() {
+        if(gamepad2.dpad_left){ // if left Dpad is pressed
+            rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
+            leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
+        }else if(gamepad2.dpad_right){
+            rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
+            leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
+        }
+    */
+        ArmServoPos = Range.clip(
+                ArmServoPos + (gamepad2.right_stick_y * (1.0/360.0)),
+                0,
+                1);
+    }
+
     public void armServos () {
         liftServoPosition = liftServoPosition + (increment * -gamepad2.right_stick_y);
         liftServoPosition = Range.clip(liftServoPosition, 0.02777777777, 0.68);
@@ -267,7 +282,7 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.clawRotationServo.setPosition(0);
 
         //Move arm all the way back
-        hardwareManager.armServo.setPosition(0.0);
+        //hardwareManager.armServo.setPosition(0.0);
 
         //Init ElapsedTime for PID
         timeElapsed = new ElapsedTime();
@@ -284,7 +299,7 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.backLeftWheel.setPower(shrinkMotorPower(backLeftWheelP));
         hardwareManager.backRightWheel.setPower(shrinkMotorPower(backRightWheelP));
 
-        hardwareManager.armServo.setPosition(liftServoPosition);
+       // hardwareManager.armServo.setPosition(liftServoPosition);
     }
 
     protected double limitMotorPower(double input){
