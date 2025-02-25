@@ -31,6 +31,8 @@ public class HardwareManager {
 
     private final Servo armServoP;
     public final ReverseServoWrapper armServo;
+    public final Servo leftArmServo;
+    public final ReverseServoWrapper rightArmServo;
 
     private final Servo clawRotationServoP;
     public final ReverseServoWrapper clawRotationServo;
