@@ -29,8 +29,8 @@ public class HardwareManager {
     public final Servo leftClawServo;
     public final Servo rightClawServo;
 
-    private final Servo armServoP;
-    public final ReverseServoWrapper armServo;
+    //private final Servo armServoP;
+   //public final ReverseServoWrapper armServo;
     public final Servo leftArmServo;
     public final ReverseServoWrapper rightArmServo;
 
@@ -137,8 +137,14 @@ public class HardwareManager {
         liftMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Arm and Claw
-        armServoP = hardwareMap.servo.get("LeftArmS");
-        armServo = new ReverseServoWrapper(armServoP);
+       // armServoP = hardwareMap.servo.get("LeftArmS");
+       // armServo = new ReverseServoWrapper(armServoP);
+
+        leftArmServo = hardwareMap.servo.get("leftArmS");
+        leftArmServo.setDirection(Servo.Direction.REVERSE);
+        Servo h = hardwareMap.servo.get("rightArmS");
+        h.setDirection(Servo.Direction.REVERSE);
+        rightArmServo = new ReverseServoWrapper(h);
 
         //leftArmServo.setDirection(Servo.Direction.REVERSE);
         //rightArmServo.setDirection(Servo.Direction.REVERSE);
