@@ -19,6 +19,7 @@ public class NormalControlTwoDrivers extends HumanOperated {
         liftControlPID(false);
         //armServos();
         intakeArmControl();
+        setArmPosition();
         clawControls();
         setHardwarePower();
     }

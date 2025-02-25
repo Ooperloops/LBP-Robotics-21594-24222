@@ -180,6 +180,8 @@ public abstract class HumanOperated extends OpMode {
     }
 
 
+
+
     protected void zeroArmServos(){
         hardwareManager.leftArmServo.setPosition(ArmServoPos);
         hardwareManager.rightArmServo.setPosition(ArmServoPos);
@@ -199,6 +201,11 @@ public abstract class HumanOperated extends OpMode {
                 ArmServoPos + (gamepad2.right_stick_y * (1.0/360.0)),
                 0,
                 1);
+    }
+
+    public void setArmPosition(){
+        hardwareManager.leftArmServo.setPosition(ArmServoPos);
+        hardwareManager.rightArmServo.setPosition(ArmServoPos);
     }
 
    /* public void armServos () {
