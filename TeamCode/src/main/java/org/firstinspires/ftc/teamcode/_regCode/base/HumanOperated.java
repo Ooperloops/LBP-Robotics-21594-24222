@@ -229,8 +229,12 @@ public abstract class HumanOperated extends OpMode {
 
         hardwareManager.wristServo.setPosition(wristPosition);
         if(gamepad2.right_bumper){
-            selfDriving.scoreHighBar();
+            scoreHighBarTeleOP();
         }
+    }
+
+    public void scoreHighBarTeleOP(){
+
     }
 
     public void setArmPosition(){
