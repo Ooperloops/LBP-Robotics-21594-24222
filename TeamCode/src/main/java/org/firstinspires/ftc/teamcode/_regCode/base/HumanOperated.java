@@ -66,6 +66,7 @@ public abstract class HumanOperated extends OpMode {
     protected double leftClawServoPosition = 0.25;
     protected double increment = 0.0027;
     boolean initActive;
+    private double ArmServoPos = 0;
 
 
 
@@ -178,7 +179,13 @@ public abstract class HumanOperated extends OpMode {
 
     }
 
+
+    protected void zeroArmServos(){
+        hardwareManager.leftArmServo.setPosition(ArmServoPos);
+        hardwareManager.rightArmServo.setPosition(ArmServoPos);
+    }
     public void intakeArmControl() {
+        /*
         if(gamepad2.dpad_left){ // if left Dpad is pressed
             rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
             leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
@@ -186,14 +193,15 @@ public abstract class HumanOperated extends OpMode {
             rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
             leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
         }
-    */
+        */
+
         ArmServoPos = Range.clip(
                 ArmServoPos + (gamepad2.right_stick_y * (1.0/360.0)),
                 0,
                 1);
     }
 
-    public void armServos () {
+   /* public void armServos () {
         liftServoPosition = liftServoPosition + (increment * -gamepad2.right_stick_y);
         liftServoPosition = Range.clip(liftServoPosition, 0.02777777777, 0.68);
         /* This code for our non-CRServos allows us to adjust the position like a CRServo,
@@ -215,6 +223,7 @@ public abstract class HumanOperated extends OpMode {
                 hardwareManager.clawRotationServo.setPosition(0);
             }
         }*/
+    /*
 
         //Adjusts our wrist servo based on our base servo position automatically.
         if(liftServoPosition >= 0.47222222222){
@@ -228,6 +237,7 @@ public abstract class HumanOperated extends OpMode {
         if(gamepad2.y) {liftServoPosition = 0.285;}
 
     }
+    */
 
     public void clawControls(){
         /*
@@ -269,6 +279,8 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager = new HardwareManager(hardwareMap);
 
         initActive = true;
+
+        zeroArmServos();
 
         //-------------------------------------------------
         // Set the default position of the claw and wrist
