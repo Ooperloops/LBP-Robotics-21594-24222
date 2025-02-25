@@ -28,6 +28,7 @@ import org.firstinspires.ftc.teamcode._regCode.all_purpose.HardwareManager;
  */
 public abstract class HumanOperated extends OpMode {
     protected HardwareManager hardwareManager;
+    protected SelfDriving selfDriving;
     //------------------------------------------------------------------------------------------------
     // Wheel power values
     //------------------------------------------------------------------------------------------------
@@ -67,11 +68,8 @@ public abstract class HumanOperated extends OpMode {
     protected double increment = 0.0027;
     boolean initActive;
     private double ArmServoPos = 0;
-
     protected double clawRotationServoPosition = 0;
-
     protected double clawPosition;
-
     protected double wristPosition;
 
 
@@ -230,6 +228,9 @@ public abstract class HumanOperated extends OpMode {
         }
 
         hardwareManager.wristServo.setPosition(wristPosition);
+        if(gamepad2.right_bumper){
+            selfDriving.scoreHighBar();
+        }
     }
 
     public void setArmPosition(){
