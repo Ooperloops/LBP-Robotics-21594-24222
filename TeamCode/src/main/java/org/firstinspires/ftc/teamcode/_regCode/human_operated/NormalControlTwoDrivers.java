@@ -20,7 +20,7 @@ public class NormalControlTwoDrivers extends HumanOperated {
         //armServos();
         intakeArmControl();
         setArmPosition();
-        clawControls();
+        //clawControls();
         setHardwarePower();
     }
 }

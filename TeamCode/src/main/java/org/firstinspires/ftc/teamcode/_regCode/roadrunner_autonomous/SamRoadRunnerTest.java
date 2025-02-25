@@ -27,8 +27,8 @@ public class SamRoadRunnerTest extends SelfDriving {
 
         //Zero arm and claw servo position
         //hardwareManager.liftServo.setPosition(0);
-        hardwareManager.rightClawServo.setPosition(0);
-        hardwareManager.leftClawServo.setPosition(0.25);
+        //hardwareManager.rightClawServo.setPosition(0);
+        //hardwareManager.leftClawServo.setPosition(0.25);
         hardwareManager.clawRotationServo.setPosition(0.5);
 
         //Make trajectories using RRPathgen, and make sure to use the Roadrunner documentation.

@@ -27,7 +27,7 @@ public class WristTuner extends OpMode{
     public void init() {
         hardwareManager = new HardwareManager(hardwareMap); // Initialize HardwareManager
         hardwareManager.clawRotationServo.setPosition(servoPos);
-        hardwareManager.armServo.setPosition(0);
+        //hardwareManager.armServo.setPosition(0);
         //ResetLiftWheelCount(); // Reset the count of the lift motor encoder
     }
     @Override
@@ -46,7 +46,7 @@ public class WristTuner extends OpMode{
         }
 
         hardwareManager.clawRotationServo.setPosition(servoPos);
-        hardwareManager.armServo.setPosition(liftServoPosition);
+        //hardwareManager.armServo.setPosition(liftServoPosition);
 
 
         // Print the current ticks on the lift motor via telemetry
