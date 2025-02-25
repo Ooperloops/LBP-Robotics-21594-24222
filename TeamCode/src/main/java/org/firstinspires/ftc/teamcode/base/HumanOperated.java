@@ -50,6 +50,15 @@ public abstract class HumanOperated extends OpMode {
     //------------------------------------------------------------------------------------------------
 
     public void intakeArmControl() {
+/*
+        if(gamepad2.dpad_left){ // if left Dpad is pressed
+            rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
+            leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
+        }else if(gamepad2.dpad_right){
+            rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
+            leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
+        }
+        */
 
         ArmServoPos = Range.clip(
                 ArmServoPos + (gamepad2.right_stick_y * (1.0/360.0)),
@@ -82,6 +91,9 @@ public abstract class HumanOperated extends OpMode {
         // Regular lift control
         //-----------------------------------
 
+        liftP = -gamepad2.left_stick_y;
+
+        /*
         if(-gamepad2.left_stick_y > 0 && hardwareManager.liftMotor.getCurrentPosition() >=  5650){
             liftP = 0;
         } else if (-gamepad2.left_stick_y < 0 && hardwareManager.liftMotor.getCurrentPosition() <=  25) {
@@ -90,6 +102,8 @@ public abstract class HumanOperated extends OpMode {
         }else{
             liftP = -gamepad2.left_stick_y;
         }
+
+         */
 
     }
 
@@ -130,10 +144,10 @@ public abstract class HumanOperated extends OpMode {
         double strafe = gamepad1.left_stick_x;
         double rotate = gamepad1.right_stick_x;
 
-        frontLeftWheelP  = drive + strafe + rotate;
-        frontRightWheelP = drive - strafe - rotate;
-        backLeftWheelP   = drive - strafe + rotate;
-        backRightWheelP  = drive + strafe - rotate;
+        frontLeftWheelP  = -drive - strafe - rotate;
+        frontRightWheelP = -drive + strafe + rotate;
+        backLeftWheelP   = drive + strafe - rotate;
+        backRightWheelP  = drive - strafe + rotate;
     }
 
     //------------------------------------------------------------------------------------------------
