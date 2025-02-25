@@ -158,7 +158,7 @@ public abstract class SelfDriving extends LinearOpMode {
         }
 
         // Set position...
-        hardwareManager.armServo.setPosition(angleToPosLeft);
+        //hardwareManager.armServo.setPosition(angleToPosLeft);
     }
 
     public void ArmToPosition(armPosition armPosition){
