@@ -62,11 +62,17 @@ public abstract class HumanOperated extends OpMode {
     // Lift servo position values
     //------------------------------------------------------------------------------------------------
     protected double liftServoPosition = 0.04;
-    protected double rightClawServoPosition = 0;
-    protected double leftClawServoPosition = 0.25;
+    //protected double rightClawServoPosition = 0;
+    //protected double leftClawServoPosition = 0.25;
     protected double increment = 0.0027;
     boolean initActive;
     private double ArmServoPos = 0;
+
+    protected double clawRotationServoPosition = 0;
+
+    protected double clawPosition;
+
+    protected double wristPosition;
 
 
 
@@ -201,6 +207,29 @@ public abstract class HumanOperated extends OpMode {
                 ArmServoPos + (gamepad2.right_stick_y * (1.0/360.0)),
                 0,
                 1);
+        if(gamepad2.dpad_left) {
+            clawRotationServoPosition = Range.clip(clawRotationServoPosition - increment, 0, 0.25);
+        }else if(gamepad2.dpad_right){
+            clawRotationServoPosition = Range.clip(clawRotationServoPosition + increment, 0, 0.25);
+        }
+
+        hardwareManager.clawRotationServo.setPosition(clawRotationServoPosition);
+
+        if(gamepad2.a) {
+            clawPosition = Range.clip(clawPosition + increment, 0, 0.25);
+        }else if(gamepad2.y){
+            clawPosition = Range.clip(clawPosition - increment, 0, 0.25);
+        }
+
+        hardwareManager.clawServo.setPosition(clawPosition);
+
+        if(gamepad2.x) {
+            wristPosition = Range.clip(wristPosition + increment, 0, 0.25);
+        }else if(gamepad2.b){
+            wristPosition = Range.clip(wristPosition - increment, 0, 0.25);
+        }
+
+        hardwareManager.wristServo.setPosition(wristPosition);
     }
 
     public void setArmPosition(){
@@ -245,11 +274,12 @@ public abstract class HumanOperated extends OpMode {
 
     }
     */
-
+/*
     public void clawControls(){
         /*
             The following are macros for specific positions for the claw to be in
          */
+    /*
 
         // All of these input values are placed in a single if-statement to avoid
         // conflict with multiple button presses
@@ -276,7 +306,7 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.rightClawServo.setPosition(rightClawServoPosition);
         hardwareManager.leftClawServo.setPosition(leftClawServoPosition);
     }
-
+*/
     //------------------------------------------------------------------------------------------------
     // Inheritance
     //------------------------------------------------------------------------------------------------
@@ -289,13 +319,15 @@ public abstract class HumanOperated extends OpMode {
 
         zeroArmServos();
 
+        hardwareManager.wristServo.setPosition(0);
+
         //-------------------------------------------------
         // Set the default position of the claw and wrist
         //-------------------------------------------------
 
         // Close the claw
-        hardwareManager.rightClawServo.setPosition(0);
-        hardwareManager.leftClawServo.setPosition(0.25);
+        //hardwareManager.rightClawServo.setPosition(0);
+        //hardwareManager.leftClawServo.setPosition(0.25);
 
         // Set wrist all the way back
         hardwareManager.clawRotationServo.setPosition(0);

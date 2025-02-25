@@ -29,6 +29,10 @@ public class HardwareManager {
     public final Servo leftClawServo;
     public final Servo rightClawServo;
 
+    public final Servo clawServo;
+
+    public final Servo wristServo;
+
     //private final Servo armServoP;
    //public final ReverseServoWrapper armServo;
     public final Servo leftArmServo;
@@ -140,9 +144,9 @@ public class HardwareManager {
        // armServoP = hardwareMap.servo.get("LeftArmS");
        // armServo = new ReverseServoWrapper(armServoP);
 
-        leftArmServo = hardwareMap.servo.get("leftArmS");
+        leftArmServo = hardwareMap.servo.get("LeftArmS");
         leftArmServo.setDirection(Servo.Direction.REVERSE);
-        Servo h = hardwareMap.servo.get("rightArmS");
+        Servo h = hardwareMap.servo.get("RightArmS");
         h.setDirection(Servo.Direction.REVERSE);
         rightArmServo = new ReverseServoWrapper(h);
 
@@ -152,6 +156,8 @@ public class HardwareManager {
         leftClawServo = hardwareMap.servo.get("LeftClawServo");
         rightClawServo = hardwareMap.servo.get("RightClawServo");
         clawRotationServoP = hardwareMap.servo.get("ClawRotationServo");
+        clawServo = hardwareMap.servo.get("ClawServo");
+        wristServo = hardwareMap.servo.get("WristServo");
 
         clawRotationServo = new ReverseServoWrapper(clawRotationServoP);
 
