@@ -320,6 +320,8 @@ public abstract class HumanOperated extends OpMode {
         zeroArmServos();
 
         hardwareManager.wristServo.setPosition(0);
+        hardwareManager.clawServo.setPosition(0);
+        hardwareManager.clawRotationServo.setPosition(0);
 
         //-------------------------------------------------
         // Set the default position of the claw and wrist
