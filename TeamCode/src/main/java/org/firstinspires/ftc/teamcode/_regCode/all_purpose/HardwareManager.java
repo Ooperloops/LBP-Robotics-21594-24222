@@ -26,8 +26,8 @@ public class HardwareManager {
     //Initialize/Declaring variables.  Make sure to put which hardware you are using.
     public final DcMotor liftMotorLeft;
     public final DcMotor liftMotorRight;
-    public final Servo leftClawServo;
-    public final Servo rightClawServo;
+    //public final Servo leftClawServo;
+    //public final Servo rightClawServo;
 
     public final Servo clawServo;
 
@@ -153,8 +153,8 @@ public class HardwareManager {
         //leftArmServo.setDirection(Servo.Direction.REVERSE);
         //rightArmServo.setDirection(Servo.Direction.REVERSE);
 
-        leftClawServo = hardwareMap.servo.get("LeftClawServo");
-        rightClawServo = hardwareMap.servo.get("RightClawServo");
+//        leftClawServo = hardwareMap.servo.get("LeftClawServo");
+  //      rightClawServo = hardwareMap.servo.get("RightClawServo");
         clawRotationServoP = hardwareMap.servo.get("ClawRotationServo");
         clawServo = hardwareMap.servo.get("ClawServo");
         wristServo = hardwareMap.servo.get("WristServo");
