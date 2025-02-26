@@ -26,11 +26,17 @@ public class HardwareManager {
     //Initialize/Declaring variables.  Make sure to put which hardware you are using.
     public final DcMotor liftMotorLeft;
     public final DcMotor liftMotorRight;
-    public final Servo leftClawServo;
-    public final Servo rightClawServo;
+    //public final Servo leftClawServo;
+    //public final Servo rightClawServo;
 
-    private final Servo armServoP;
-    public final ReverseServoWrapper armServo;
+    public final Servo clawServo;
+
+    public final Servo wristServo;
+
+    //private final Servo armServoP;
+   //public final ReverseServoWrapper armServo;
+    public final Servo leftArmServo;
+    public final ReverseServoWrapper rightArmServo;
 
     private final Servo clawRotationServoP;
     public final ReverseServoWrapper clawRotationServo;
@@ -135,15 +141,23 @@ public class HardwareManager {
         liftMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Arm and Claw
-        armServoP = hardwareMap.servo.get("LeftArmS");
-        armServo = new ReverseServoWrapper(armServoP);
+       // armServoP = hardwareMap.servo.get("LeftArmS");
+       // armServo = new ReverseServoWrapper(armServoP);
+
+        leftArmServo = hardwareMap.servo.get("LeftArmS");
+        leftArmServo.setDirection(Servo.Direction.REVERSE);
+        Servo h = hardwareMap.servo.get("RightArmS");
+        h.setDirection(Servo.Direction.REVERSE);
+        rightArmServo = new ReverseServoWrapper(h);
 
         //leftArmServo.setDirection(Servo.Direction.REVERSE);
         //rightArmServo.setDirection(Servo.Direction.REVERSE);
 
-        leftClawServo = hardwareMap.servo.get("LeftClawServo");
-        rightClawServo = hardwareMap.servo.get("RightClawServo");
+//        leftClawServo = hardwareMap.servo.get("LeftClawServo");
+  //      rightClawServo = hardwareMap.servo.get("RightClawServo");
         clawRotationServoP = hardwareMap.servo.get("ClawRotationServo");
+        clawServo = hardwareMap.servo.get("ClawServo");
+        wristServo = hardwareMap.servo.get("WristServo");
 
         clawRotationServo = new ReverseServoWrapper(clawRotationServoP);
 

@@ -28,6 +28,7 @@ import org.firstinspires.ftc.teamcode._regCode.all_purpose.HardwareManager;
  */
 public abstract class HumanOperated extends OpMode {
     protected HardwareManager hardwareManager;
+    protected SelfDriving selfDriving;
     //------------------------------------------------------------------------------------------------
     // Wheel power values
     //------------------------------------------------------------------------------------------------
@@ -62,10 +63,14 @@ public abstract class HumanOperated extends OpMode {
     // Lift servo position values
     //------------------------------------------------------------------------------------------------
     protected double liftServoPosition = 0.04;
-    protected double rightClawServoPosition = 0;
-    protected double leftClawServoPosition = 0.25;
+    //protected double rightClawServoPosition = 0;
+    //protected double leftClawServoPosition = 0.25;
     protected double increment = 0.0027;
     boolean initActive;
+    private double ArmServoPos = 0;
+    protected double clawRotationServoPosition = 0;
+    protected double clawPosition;
+    protected double wristPosition;
 
 
 
@@ -178,7 +183,66 @@ public abstract class HumanOperated extends OpMode {
 
     }
 
-    public void armServos () {
+
+
+
+    protected void zeroArmServos(){
+        hardwareManager.leftArmServo.setPosition(ArmServoPos);
+        hardwareManager.rightArmServo.setPosition(ArmServoPos);
+    }
+    public void intakeArmControl() {
+        /*
+        if(gamepad2.dpad_left){ // if left Dpad is pressed
+            rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
+            leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
+        }else if(gamepad2.dpad_right){
+            rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
+            leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
+        }
+        */
+
+        ArmServoPos = Range.clip(
+                ArmServoPos + (gamepad2.right_stick_y * (1.0/360.0)),
+                0,
+                1);
+        if(gamepad2.dpad_left) {
+            clawRotationServoPosition = Range.clip(clawRotationServoPosition - increment, 0, 0.25);
+        }else if(gamepad2.dpad_right){
+            clawRotationServoPosition = Range.clip(clawRotationServoPosition + increment, 0, 0.25);
+        }
+
+        hardwareManager.clawRotationServo.setPosition(clawRotationServoPosition);
+
+        if(gamepad2.a) {
+            clawPosition = Range.clip(clawPosition + increment, 0, 0.25);
+        }else if(gamepad2.y){
+            clawPosition = Range.clip(clawPosition - increment, 0, 0.25);
+        }
+
+        hardwareManager.clawServo.setPosition(clawPosition);
+
+        if(gamepad2.x) {
+            wristPosition = Range.clip(wristPosition + increment, 0, 0.25);
+        }else if(gamepad2.b){
+            wristPosition = Range.clip(wristPosition - increment, 0, 0.25);
+        }
+
+        hardwareManager.wristServo.setPosition(wristPosition);
+        if(gamepad2.right_bumper){
+            scoreHighBarTeleOP();
+        }
+    }
+
+    public void scoreHighBarTeleOP(){
+
+    }
+
+    public void setArmPosition(){
+        hardwareManager.leftArmServo.setPosition(ArmServoPos);
+        hardwareManager.rightArmServo.setPosition(ArmServoPos);
+    }
+
+   /* public void armServos () {
         liftServoPosition = liftServoPosition + (increment * -gamepad2.right_stick_y);
         liftServoPosition = Range.clip(liftServoPosition, 0.02777777777, 0.68);
         /* This code for our non-CRServos allows us to adjust the position like a CRServo,
@@ -200,6 +264,7 @@ public abstract class HumanOperated extends OpMode {
                 hardwareManager.clawRotationServo.setPosition(0);
             }
         }*/
+    /*
 
         //Adjusts our wrist servo based on our base servo position automatically.
         if(liftServoPosition >= 0.47222222222){
@@ -213,11 +278,13 @@ public abstract class HumanOperated extends OpMode {
         if(gamepad2.y) {liftServoPosition = 0.285;}
 
     }
-
+    */
+/*
     public void clawControls(){
         /*
             The following are macros for specific positions for the claw to be in
          */
+    /*
 
         // All of these input values are placed in a single if-statement to avoid
         // conflict with multiple button presses
@@ -244,7 +311,7 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.rightClawServo.setPosition(rightClawServoPosition);
         hardwareManager.leftClawServo.setPosition(leftClawServoPosition);
     }
-
+*/
     //------------------------------------------------------------------------------------------------
     // Inheritance
     //------------------------------------------------------------------------------------------------
@@ -255,19 +322,25 @@ public abstract class HumanOperated extends OpMode {
 
         initActive = true;
 
+        zeroArmServos();
+
+        hardwareManager.wristServo.setPosition(0);
+        hardwareManager.clawServo.setPosition(0);
+        hardwareManager.clawRotationServo.setPosition(0);
+
         //-------------------------------------------------
         // Set the default position of the claw and wrist
         //-------------------------------------------------
 
         // Close the claw
-        hardwareManager.rightClawServo.setPosition(0);
-        hardwareManager.leftClawServo.setPosition(0.25);
+        //hardwareManager.rightClawServo.setPosition(0);
+        //hardwareManager.leftClawServo.setPosition(0.25);
 
         // Set wrist all the way back
         hardwareManager.clawRotationServo.setPosition(0);
 
         //Move arm all the way back
-        hardwareManager.armServo.setPosition(0.0);
+        //hardwareManager.armServo.setPosition(0.0);
 
         //Init ElapsedTime for PID
         timeElapsed = new ElapsedTime();
@@ -284,7 +357,7 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.backLeftWheel.setPower(shrinkMotorPower(backLeftWheelP));
         hardwareManager.backRightWheel.setPower(shrinkMotorPower(backRightWheelP));
 
-        hardwareManager.armServo.setPosition(liftServoPosition);
+       // hardwareManager.armServo.setPosition(liftServoPosition);
     }
 
     protected double limitMotorPower(double input){

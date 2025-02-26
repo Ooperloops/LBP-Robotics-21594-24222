@@ -134,8 +134,8 @@ public abstract class SelfDriving extends LinearOpMode {
     //------------------------------------------------------------------------------------------------
     public void Claw(boolean closed){
         // Open or close claw based on boolean
-        hardwareManager.leftClawServo.setPosition((closed) ? 0.25 : 0);
-        hardwareManager.rightClawServo.setPosition((closed) ? 0 : 0.25);
+        //hardwareManager.leftClawServo.setPosition((closed) ? 0.25 : 0);
+        //hardwareManager.rightClawServo.setPosition((closed) ? 0 : 0.25);
     }
 
     public void Arm(double angle){
@@ -153,7 +153,7 @@ public abstract class SelfDriving extends LinearOpMode {
         }
 
         // Set position...
-        hardwareManager.armServo.setPosition(angleToPosLeft);
+        //hardwareManager.armServo.setPosition(angleToPosLeft);
     }
 
     public void ArmToPosition(armPosition armPosition){
