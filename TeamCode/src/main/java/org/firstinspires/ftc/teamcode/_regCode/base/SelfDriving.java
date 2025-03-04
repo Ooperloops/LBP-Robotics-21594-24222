@@ -62,10 +62,10 @@ public abstract class SelfDriving extends LinearOpMode {
             );
 
             double powerMultiplier = (PIDoutput/180);
-            hardwareManager.frontLeftWheel.setPower(1 - powerMultiplier);
-            hardwareManager.backLeftWheel.setPower(1 - powerMultiplier);
-            hardwareManager.frontRightWheel.setPower(1 + powerMultiplier);
-            hardwareManager.backRightWheel.setPower(1 + powerMultiplier);
+            hardwareManager.leftFront.setPower(1 - powerMultiplier);
+            hardwareManager.leftBack.setPower(1 - powerMultiplier);
+            hardwareManager.rightFront.setPower(1 + powerMultiplier);
+            hardwareManager.rightBack.setPower(1 + powerMultiplier);
             idle();
         }
 
@@ -81,10 +81,10 @@ public abstract class SelfDriving extends LinearOpMode {
 
         int direction = (metersDistance > 0) ? 1 : -1;
         hardwareManager.resetWheelCounts();
-        hardwareManager.frontLeftWheel.setPower(direction * 1);
-        hardwareManager.frontRightWheel.setPower(direction * -1);
-        hardwareManager.backLeftWheel.setPower(direction * -1);
-        hardwareManager.backRightWheel.setPower(direction * 1);
+        hardwareManager.leftFront.setPower(direction * 1);
+        hardwareManager.rightFront.setPower(direction * -1);
+        hardwareManager.leftBack.setPower(direction * -1);
+        hardwareManager.rightBack.setPower(direction * 1);
 
         double totalCounts = Math.abs(COUNTS_PER_METER * metersDistance);
         while(opModeIsActive() && hardwareManager.getAverageWheelCounts() <= totalCounts){
@@ -108,10 +108,10 @@ public abstract class SelfDriving extends LinearOpMode {
         double leftPower = TURN_POWER * motorOffset;
         double rightPower = TURN_POWER * -motorOffset;
 
-        hardwareManager.frontLeftWheel.setPower(leftPower);
-        hardwareManager.frontRightWheel.setPower(rightPower);
-        hardwareManager.backLeftWheel.setPower(leftPower);
-        hardwareManager.backRightWheel.setPower(rightPower);
+        hardwareManager.leftFront.setPower(leftPower);
+        hardwareManager.rightFront.setPower(rightPower);
+        hardwareManager.leftBack.setPower(leftPower);
+        hardwareManager.rightBack.setPower(rightPower);
 
         while(opModeIsActive() && hasReachedDesiredAngle(initialAngle, degreeAngle)) {
             idle();

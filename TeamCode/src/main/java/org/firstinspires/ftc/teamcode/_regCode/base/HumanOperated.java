@@ -352,10 +352,10 @@ public abstract class HumanOperated extends OpMode {
         MOTOR_SHRINK_MULTIPLIER = (gamepad1.left_bumper) ? 0.4 : 1;
 
         // Limit motor powers of all wheels
-        hardwareManager.frontLeftWheel.setPower(shrinkMotorPower(frontLeftWheelP));
-        hardwareManager.frontRightWheel.setPower(shrinkMotorPower(frontRightWheelP));
-        hardwareManager.backLeftWheel.setPower(shrinkMotorPower(backLeftWheelP));
-        hardwareManager.backRightWheel.setPower(shrinkMotorPower(backRightWheelP));
+        hardwareManager.leftFront.setPower(shrinkMotorPower(frontLeftWheelP));
+        hardwareManager.rightFront.setPower(shrinkMotorPower(frontRightWheelP));
+        hardwareManager.leftBack.setPower(shrinkMotorPower(backLeftWheelP));
+        hardwareManager.rightBack.setPower(shrinkMotorPower(backRightWheelP));
 
        // hardwareManager.armServo.setPosition(liftServoPosition);
     }

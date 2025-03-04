@@ -49,16 +49,16 @@ public class HardwareManager {
     //------------------------------------------------------------------------------------------------
     // Wheels
     //------------------------------------------------------------------------------------------------
-    public final DcMotor frontLeftWheel;
-    public final DcMotor frontRightWheel;
-    public final DcMotor backLeftWheel;
-    public final DcMotor backRightWheel;
+    public final DcMotor leftFront;
+    public final DcMotor rightFront;
+    public final DcMotor leftBack;
+    public final DcMotor rightBack;
 
     public double getAverageWheelCounts() {
-        return (Math.abs(frontLeftWheel.getCurrentPosition())) +
-                Math.abs(frontRightWheel.getCurrentPosition()) +
-                Math.abs(backLeftWheel.getCurrentPosition()) +
-                Math.abs(backRightWheel.getCurrentPosition()) / 4.0;
+        return (Math.abs(leftFront.getCurrentPosition())) +
+                Math.abs(rightFront.getCurrentPosition()) +
+                Math.abs(leftBack.getCurrentPosition()) +
+                Math.abs(rightBack.getCurrentPosition()) / 4.0;
     }
 
     public void resetWheelCounts() {
@@ -70,19 +70,19 @@ public class HardwareManager {
     /**
      * For each wheel motor run that specific callback.
      * Converting this:
-     *      frontLeftWheel.doTheSameCommand();
-     *      frontRightWheel.doTheSameCommand();
-     *      backLeftWheel.doTheSameCommand();
-     *      backRightWheel.doTheSameCommand();
+     *      leftFront.doTheSameCommand();
+     *      rightFront.doTheSameCommand();
+     *      leftBack.doTheSameCommand();
+     *      rightBack.doTheSameCommand();
      *
      * To this:
      *      doToAllWheels((wheel) -> wheel.doTheSameCommand());
      */
     public void doToAllWheels(WheelCallback callback) {
-        callback.run(frontLeftWheel);
-        callback.run(frontRightWheel);
-        callback.run(backLeftWheel);
-        callback.run(backRightWheel);
+        callback.run(leftFront);
+        callback.run(rightFront);
+        callback.run(leftBack);
+        callback.run(rightBack);
     }
 
     public interface WheelCallback {
@@ -111,16 +111,16 @@ public class HardwareManager {
 
         // Wheels
         //The green text is what you want to write on the DriveHub (the tablet thing), it can be anything.
-        frontLeftWheel = hardwareMap.dcMotor.get("FrontLeftM");
-        frontRightWheel = hardwareMap.dcMotor.get("FrontRightM");
-        backLeftWheel = hardwareMap.dcMotor.get("BackLeftM");
-        backRightWheel = hardwareMap.dcMotor.get("BackRightM");
+        leftFront = hardwareMap.dcMotor.get("FrontLeftM");
+        rightFront = hardwareMap.dcMotor.get("rightFrontM");
+        leftBack = hardwareMap.dcMotor.get("BackLeftM");
+        rightBack = hardwareMap.dcMotor.get("BackRightM");
 
         //Set which way it will rotate, make sure to include hardware specific arguements (DcMotorSimple).
-        frontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBack.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //This brake allows a motor to hold its position when it is not moving.
         doToAllWheels((wheel) -> wheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE));

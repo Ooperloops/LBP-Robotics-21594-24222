@@ -18,10 +18,10 @@ public class MotorTestHalf extends LinearOpMode {
         waitForStart();
         hardwareManager = new HardwareManager(hardwareMap);
         timeElapsed = new ElapsedTime();
-        hardwareManager.backRightWheel.setPower(0.5);
+        hardwareManager.rightBack.setPower(0.5);
         while(opModeIsActive() && timeElapsed.milliseconds() < 5000){
             idle();
         }
-        hardwareManager.backRightWheel.setPower(0);
+        hardwareManager.rightBack.setPower(0);
     }
 }
