@@ -112,7 +112,7 @@ public class HardwareManager {
         // Wheels
         //The green text is what you want to write on the DriveHub (the tablet thing), it can be anything.
         leftFront = hardwareMap.dcMotor.get("FrontLeftM");
-        rightFront = hardwareMap.dcMotor.get("rightFrontM");
+        rightFront = hardwareMap.dcMotor.get("FrontRightM");
         leftBack = hardwareMap.dcMotor.get("BackLeftM");
         rightBack = hardwareMap.dcMotor.get("BackRightM");
 
