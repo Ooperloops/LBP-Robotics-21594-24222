@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
+//44.328299596870025 Lateral Ramp Logger Val
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.canvas.Canvas;
