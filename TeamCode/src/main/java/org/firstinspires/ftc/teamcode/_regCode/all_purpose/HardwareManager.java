@@ -24,27 +24,27 @@ public class HardwareManager {
     // Active Intake
     //------------------------------------------------------------------------------------------------
     //Initialize/Declaring variables.  Make sure to put which hardware you are using.
+
+    // Lift
     public final DcMotor liftMotorLeft;
     public final DcMotor liftMotorRight;
-    //public final Servo leftClawServo;
-    //public final Servo rightClawServo;
-
-    public final Servo clawServo;
-
-    public final Servo wristServo;
-
-    //private final Servo armServoP;
-   //public final ReverseServoWrapper armServo;
-    public final Servo leftArmServo;
-    public final ReverseServoWrapper rightArmServo;
-
-    private final Servo clawRotationServoP;
-    public final ReverseServoWrapper clawRotationServo;
-
     public void ResetLiftWheelCount(){
         liftMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //Reset motor ticks
         liftMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Run motor by power
     }
+
+    // Claw
+    public final Servo clawServo;
+    public final Servo angleClawServo;
+    public final Servo horizontalClawServo;
+
+    public void angleToClawServoAngle(double angle){
+        horizontalClawServo.setPosition(angle * 1.0/360.0);
+    }
+
+    // Arm
+    public final Servo leftArmServo;
+    public final ReverseServoWrapper rightArmServo;
 
     //------------------------------------------------------------------------------------------------
     // Wheels
@@ -140,9 +140,7 @@ public class HardwareManager {
         liftMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        // Arm and Claw
-       // armServoP = hardwareMap.servo.get("LeftArmS");
-       // armServo = new ReverseServoWrapper(armServoP);
+        // Arm
 
         leftArmServo = hardwareMap.servo.get("LeftArmS");
         leftArmServo.setDirection(Servo.Direction.REVERSE);
@@ -150,19 +148,11 @@ public class HardwareManager {
         h.setDirection(Servo.Direction.REVERSE);
         rightArmServo = new ReverseServoWrapper(h);
 
-        //leftArmServo.setDirection(Servo.Direction.REVERSE);
-        //rightArmServo.setDirection(Servo.Direction.REVERSE);
+        // Claw
 
-//        leftClawServo = hardwareMap.servo.get("LeftClawServo");
-  //      rightClawServo = hardwareMap.servo.get("RightClawServo");
-        clawRotationServoP = hardwareMap.servo.get("ClawRotationServo");
-        clawServo = hardwareMap.servo.get("ClawServo");
-        wristServo = hardwareMap.servo.get("WristServo");
-
-        clawRotationServo = new ReverseServoWrapper(clawRotationServoP);
-
-        //clawRotationServo.setDirection(Servo.Direction.FORWARD);
-        liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        clawServo = hardwareMap.servo.get("clawS");
+        angleClawServo = hardwareMap.servo.get("angClawS");
+        horizontalClawServo = hardwareMap.servo.get("horzClawS");
 
         //Camera
         camera = hardwareMap.get(WebcamName.class, "Camera");

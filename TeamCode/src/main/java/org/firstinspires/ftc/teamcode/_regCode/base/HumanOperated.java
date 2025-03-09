@@ -123,118 +123,12 @@ public abstract class HumanOperated extends OpMode {
         backLeftWheelP   = - drive + strafe - rotate;
         backRightWheelP  = - drive - strafe + rotate;
     }
-    public void liftControlPID(boolean isPlayerOne) {
-        // If isPlayerOne, then set the active gamepad to controller 1
-        Gamepad activeGamepad = (isPlayerOne) ? gamepad1 : gamepad2;
 
-        //-----------------------------------
-        // Regular lift control
-        //-----------------------------------
-
-        if(-activeGamepad.left_stick_y > 0 && hardwareManager.liftMotorLeft.getCurrentPosition() >=  5650){
-            leftLiftP = 0;
-        } else if (-activeGamepad.left_stick_y < 0 && hardwareManager.liftMotorLeft.getCurrentPosition() <=  25) {
-            leftLiftP = 0;
-            hardwareManager.ResetLiftWheelCount();
-        }else{
-            leftLiftP = -activeGamepad.left_stick_y;
-        }
-        //-----------------------------------
-        // Set PID (Deprecated)
-        //-----------------------------------
-        // convert time elapsed in milliseconds to seconds
-        //double elapsedTImeToSeconds = timeElapsed.milliseconds() / 1000;
-
-
-        /*
-        if(elapsedTImeToSeconds - prevTime >= spdDelta) { // if spdDelta amount has pass then start PID correction.
-            telemetry.addData("Time: ", elapsedTImeToSeconds);
-
-            // Get speed of left and right motor
-            double currentLeftMotorPos = hardwareManager.liftMotorLeft.getCurrentPosition();
-            double currentRightMotorPos = hardwareManager.liftMotorRight.getCurrentPosition();
-
-            //Get the speed of both motors
-            double leftMotorSpeed = // Get speed...
-                    (currentLeftMotorPos - prevLeftMotorPos) / spdDelta; // ...through difference in position
-            double rightMotorSpeed = // Repeat for rightMotorSpeed
-                    (currentRightMotorPos - prevRightMotorPos) / spdDelta;
-
-            // Add PID correction to motor power
-            leftLiftP += powerPerSpeed * pidControl.OnUpdatePower(Shrink(leftMotorSpeed) /* current speed , Shrink(rightMotorSpeed) /* target speed );
-
-            telemetry.addData("Left Motor Speed: ", (double)leftMotorSpeed)
-                    .addData("Right Motor Speed: ", (double)rightMotorSpeed)
-                    .addData("Right Motor Ticks", hardwareManager.liftMotorRight.getCurrentPosition());
-
-            // Set previous position values for next iteration of the Set PID section
-            prevLeftMotorPos = currentLeftMotorPos;
-            prevRightMotorPos = currentRightMotorPos;
-
-            prevTime = elapsedTImeToSeconds;
-        }
-        //-----------------------------------
-        */
-        //Set the power of both motors
-        hardwareManager.liftMotorLeft.setPower(leftLiftP);
-        hardwareManager.liftMotorRight.setPower(rightLiftP);
-
-
-
-    }
-
-
-
-
-    protected void zeroArmServos(){
+    protected void zeroAllServos(){
         hardwareManager.leftArmServo.setPosition(ArmServoPos);
         hardwareManager.rightArmServo.setPosition(ArmServoPos);
-    }
-    public void intakeArmControl() {
-        /*
-        if(gamepad2.dpad_left){ // if left Dpad is pressed
-            rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
-            leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
-        }else if(gamepad2.dpad_right){
-            rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
-            leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
-        }
-        */
-
-        ArmServoPos = Range.clip(
-                ArmServoPos + (gamepad2.right_stick_y * (1.0/360.0)),
-                0,
-                1);
-        if(gamepad2.dpad_left) {
-            clawRotationServoPosition = Range.clip(clawRotationServoPosition - increment, 0, 0.25);
-        }else if(gamepad2.dpad_right){
-            clawRotationServoPosition = Range.clip(clawRotationServoPosition + increment, 0, 0.25);
-        }
-
-        hardwareManager.clawRotationServo.setPosition(clawRotationServoPosition);
-
-        if(gamepad2.a) {
-            clawPosition = Range.clip(clawPosition + increment, 0, 0.25);
-        }else if(gamepad2.y){
-            clawPosition = Range.clip(clawPosition - increment, 0, 0.25);
-        }
-
-        hardwareManager.clawServo.setPosition(clawPosition);
-
-        if(gamepad2.x) {
-            wristPosition = Range.clip(wristPosition + increment, 0, 0.25);
-        }else if(gamepad2.b){
-            wristPosition = Range.clip(wristPosition - increment, 0, 0.25);
-        }
-
-        hardwareManager.wristServo.setPosition(wristPosition);
-        if(gamepad2.right_bumper){
-            scoreHighBarTeleOP();
-        }
-    }
-
-    public void scoreHighBarTeleOP(){
-
+        hardwareManager.horizontalClawServo.setPosition(0);
+        hardwareManager.angleToClawServoAngle(0);
     }
 
     public void setArmPosition(){
