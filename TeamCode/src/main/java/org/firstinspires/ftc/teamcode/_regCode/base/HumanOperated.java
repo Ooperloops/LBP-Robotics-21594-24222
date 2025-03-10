@@ -216,28 +216,7 @@ public abstract class HumanOperated extends OpMode {
 
         initActive = true;
 
-        zeroArmServos();
-
-        hardwareManager.wristServo.setPosition(0);
-        hardwareManager.clawServo.setPosition(0);
-        hardwareManager.clawRotationServo.setPosition(0);
-
-        //-------------------------------------------------
-        // Set the default position of the claw and wrist
-        //-------------------------------------------------
-
-        // Close the claw
-        //hardwareManager.rightClawServo.setPosition(0);
-        //hardwareManager.leftClawServo.setPosition(0.25);
-
-        // Set wrist all the way back
-        hardwareManager.clawRotationServo.setPosition(0);
-
-        //Move arm all the way back
-        //hardwareManager.armServo.setPosition(0.0);
-
-        //Init ElapsedTime for PID
-        timeElapsed = new ElapsedTime();
+        zeroAllServos();
     }
 
     public void setHardwarePower() {

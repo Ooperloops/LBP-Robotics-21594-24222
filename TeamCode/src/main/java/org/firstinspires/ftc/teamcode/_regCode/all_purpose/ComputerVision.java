@@ -18,6 +18,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
+import org.openftc.easyopencv.OpenCvPipeline;
 
 /**
  * This class creates the basis for object detection
@@ -31,6 +32,10 @@ public class ComputerVision {
     //------------------------------------------------------------------------------------------------
     public final WebcamName Camera;
 
+    public void SetPipeline(OpenCvCamera camera, OpenCvPipeline pipeline){
+        camera.setPipeline(pipeline);
+    }
+
     public void StartCamView(){
         int cameraMonitorViewId =
                 hardwareMap.appContext.getResources().getIdentifier(
@@ -43,8 +48,6 @@ public class ComputerVision {
                 Camera,
                 cameraMonitorViewId
         );
-
-        camera.setPipeline(new SampleDetector());
 
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
