@@ -218,6 +218,25 @@ public abstract class HumanOperated extends OpMode {
 
         zeroAllServos();
     }
+/*
+    public void runOpMode() {
+        sampleServo = hardwareMap.get(Servo.class, "sampleServo");
+
+        // Initialize OpenCV pipeline
+        RectangleDetectionPipeline pipeline = new RectangleDetectionPipeline(sampleServo);
+        OpenCvCamera camera = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK);
+        camera.setPipeline(pipeline);
+        camera.openCameraDevice();
+        camera.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
+
+        waitForStart();
+
+        while (opModeIsActive()) {
+            telemetry.addData("Detected Angle", pipeline.getRotationAngle());
+            telemetry.update();
+        }
+    }
+    */
 
     public void setHardwarePower() {
 
