@@ -44,7 +44,7 @@ public class CameraTest extends LinearOpMode {
             public void onOpened()
             {
                 // Usually this is where you'll want to start streaming from the camera (see section 4)
-                camera.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+                camera.startStreaming(640, 480, OpenCvCameraRotation.SIDEWAYS_LEFT); // Adjust if needed
             }
             @Override
             public void onError(int errorCode)
