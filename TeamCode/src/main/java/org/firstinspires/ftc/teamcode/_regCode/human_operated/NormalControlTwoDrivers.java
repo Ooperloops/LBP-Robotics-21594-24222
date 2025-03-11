@@ -16,9 +16,7 @@ public class NormalControlTwoDrivers extends HumanOperated {
         /* All functions you write in HumanOperated should be called here since this class
         extends HumanOperated */
         useDefaultMovementControls();
-        //armServos();
         setArmPosition();
-        //clawControls();
         setHardwarePower();
     }
 }

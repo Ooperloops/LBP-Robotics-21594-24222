@@ -46,6 +46,10 @@ public class HardwareManager {
     public final Servo leftArmServo;
     public final ReverseServoWrapper rightArmServo;
 
+    // Ascent
+    public final DcMotor leftAscentMotor;
+    public final DcMotor rightAscentMotor;
+
     //------------------------------------------------------------------------------------------------
     // Wheels
     //------------------------------------------------------------------------------------------------
@@ -141,7 +145,6 @@ public class HardwareManager {
         liftMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Arm
-
         leftArmServo = hardwareMap.servo.get("LeftArmS");
         leftArmServo.setDirection(Servo.Direction.REVERSE);
         Servo h = hardwareMap.servo.get("RightArmS");
@@ -149,10 +152,13 @@ public class HardwareManager {
         rightArmServo = new ReverseServoWrapper(h);
 
         // Claw
-
         clawServo = hardwareMap.servo.get("clawS");
         angleClawServo = hardwareMap.servo.get("angClawS");
         horizontalClawServo = hardwareMap.servo.get("horzClawS");
+
+        // Ascent
+        leftAscentMotor = hardwareMap.dcMotor.get("ascRightM");
+        rightAscentMotor = hardwareMap.dcMotor.get("ascLeftM");
 
         //Camera
         camera = hardwareMap.get(WebcamName.class, "Camera");

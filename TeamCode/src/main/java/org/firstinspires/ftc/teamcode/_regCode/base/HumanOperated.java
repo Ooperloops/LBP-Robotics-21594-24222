@@ -38,39 +38,22 @@ public abstract class HumanOperated extends OpMode {
     protected double backLeftWheelP = 0;
     protected double backRightWheelP = 0;
     //------------------------------------------------------------------------------------------------
-    // Lift power values
+    // Lift Variable Values
     //------------------------------------------------------------------------------------------------
     // Variables for lift motor power
-    protected double leftLiftP = 0;
-    protected double rightLiftP = 0;
-
-    // Speed update delta variable
-    protected double spdDelta = 0.01; // In seconds
-
-    //Initialize PID controller
-    private PIDControl pidControl = new PIDControl(3000, 0.00, 0.5, spdDelta);
-
-    // Variables to store previous lift motor position
-    protected double prevLeftMotorPos = 0;
-    protected double prevRightMotorPos = 0;
-
-    // Time elapsed class for correction
-    protected ElapsedTime timeElapsed;
-    protected double prevTime = 1;
-    protected double powerPerSpeed = 1.0/12000.0;
+    protected double liftP = 0;
+    protected final int LiftMaxTicks = 0;
+    protected final int LiftMinTicks = 0;
 
     //------------------------------------------------------------------------------------------------
     // Lift servo position values
     //------------------------------------------------------------------------------------------------
-    protected double liftServoPosition = 0.04;
-    //protected double rightClawServoPosition = 0;
-    //protected double leftClawServoPosition = 0.25;
     protected double increment = 0.0027;
-    boolean initActive;
     private double ArmServoPos = 0;
-    protected double clawRotationServoPosition = 0;
-    protected double clawPosition;
-    protected double wristPosition;
+
+    // Use if were incrementing positions for the two servos on the wrist
+    private double HorzClawPos = 0;
+    private double AngClawPos = 0;
 
 
 
@@ -136,76 +119,51 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.rightArmServo.setPosition(ArmServoPos);
     }
 
-   /* public void armServos () {
-        liftServoPosition = liftServoPosition + (increment * -gamepad2.right_stick_y);
-        liftServoPosition = Range.clip(liftServoPosition, 0.02777777777, 0.68);
-        /* This code for our non-CRServos allows us to adjust the position like a CRServo,
-         however it  allows us to do finer adjustments at the cost of less speed.  Adjusting the
-          max/min values allows you to stop the servo from going any farther than the
-          specified angle. */
-        /*
-        if(!initActive) {
-
-            if (liftServoPosition == 0 || liftServoPosition <= 0.075) {
-                hardwareManager.clawRotationServo.setPosition(0);
-            } else if (liftServoPosition >= 0.175) {
-                hardwareManager.clawRotationServo.setPosition(0.27777777777);
-            } else if (liftServoPosition >= 0.45) {
-                hardwareManager.clawRotationServo.setPosition(0.5);
-            } else if (liftServoPosition < 0.45) {
-                hardwareManager.clawRotationServo.setPosition(0.27777777777);
-            } else if (liftServoPosition < 0.175) {
-                hardwareManager.clawRotationServo.setPosition(0);
-            }
-        }*/
-    /*
-
-        //Adjusts our wrist servo based on our base servo position automatically.
-        if(liftServoPosition >= 0.47222222222){
-            hardwareManager.clawRotationServo.setPosition(0.30555555555);
-        }else if(liftServoPosition >= 0.14){
-            hardwareManager.clawRotationServo.setPosition(0.25);
-        } else {
-            hardwareManager.clawRotationServo.setPosition(0.65);
-        }
-
-        if(gamepad2.y) {liftServoPosition = 0.285;}
-
+    public void armControls(){
+        ArmServoPos =
+                Range.clip(ArmServoPos + (gamepad2.right_stick_y * increment), 0, 1);
     }
-    */
-/*
+    public void accentControls(){
+        hardwareManager.rightAscentMotor.setPower(gamepad2.right_stick_x);
+        hardwareManager.leftAscentMotor.setPower(gamepad2.right_stick_x);
+    }
+
     public void clawControls(){
-        /*
-            The following are macros for specific positions for the claw to be in
-         */
-    /*
+        // Horizontal Wrist Servo Control
+        if(gamepad2.a){
 
-        // All of these input values are placed in a single if-statement to avoid
-        // conflict with multiple button presses
-        if(gamepad2.left_trigger > 0.3){ // Close right claw piece
-            leftClawServoPosition = 0.25;
-        }else if(gamepad2.right_trigger > 0.3){ // Close left claw piece
-            rightClawServoPosition = 0;
-        } else if(gamepad2.b ){ // Fully close the claw
-            rightClawServoPosition = 0;
-            leftClawServoPosition = 0.25;
-        } else if(gamepad2.x){ // Fully open the claw
-            rightClawServoPosition = 0.25;
-            leftClawServoPosition = 0;
+        } else if (gamepad2.b){
+
         }
 
-        // Manual control for the claw
-        if(gamepad2.dpad_left){ // if left Dpad is pressed
-            rightClawServoPosition = Range.clip(rightClawServoPosition - increment, 0, 0.25);
-            leftClawServoPosition = Range.clip(leftClawServoPosition + increment, 0, 0.25);
-        }else if(gamepad2.dpad_right){
-            rightClawServoPosition = Range.clip(rightClawServoPosition + increment, 0, 0.25);
-            leftClawServoPosition = Range.clip(leftClawServoPosition - increment, 0, 0.25);
+        // Rotational Wrist Servo Control
+        if(gamepad2.a){
+
+        } else if (gamepad2.b){
+
         }
-        hardwareManager.rightClawServo.setPosition(rightClawServoPosition);
-        hardwareManager.leftClawServo.setPosition(leftClawServoPosition);
+
+        // Claw Control
+
+        if(gamepad2.a){ // Open
+            hardwareManager.clawServo.setPosition(0.3);
+        } else if (gamepad2.b){ // Closed
+            hardwareManager.clawServo.setPosition(0);
+        }
     }
-*/
+
+    public void liftControl(){
+        if(gamepad2.left_stick_y > 0 && hardwareManager.liftMotorRight.getCurrentPosition() >= LiftMaxTicks){
+            // If lift ticks surpass max...
+            liftP = 0; // ...force stop the motors
+        } else if (gamepad2.left_stick_y < 0 && hardwareManager.liftMotorRight.getCurrentPosition() <= LiftMinTicks) {
+            // If lift ticks surpass min...
+            liftP = 0; // ...force stop the motors
+            hardwareManager.ResetLiftWheelCount();
+        } else {
+            liftP = gamepad2.left_stick_y;
+        }
+    }
     //------------------------------------------------------------------------------------------------
     // Inheritance
     //------------------------------------------------------------------------------------------------
@@ -213,8 +171,6 @@ public abstract class HumanOperated extends OpMode {
     @Override
     public void init() {
         hardwareManager = new HardwareManager(hardwareMap);
-
-        initActive = true;
 
         zeroAllServos();
     }
@@ -229,8 +185,6 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.rightFront.setPower(shrinkMotorPower(frontRightWheelP));
         hardwareManager.leftBack.setPower(shrinkMotorPower(backLeftWheelP));
         hardwareManager.rightBack.setPower(shrinkMotorPower(backRightWheelP));
-
-       // hardwareManager.armServo.setPosition(liftServoPosition);
     }
 
     protected double limitMotorPower(double input){

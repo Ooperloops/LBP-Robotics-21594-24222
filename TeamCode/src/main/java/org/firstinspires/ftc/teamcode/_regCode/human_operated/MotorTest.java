@@ -1,29 +1,27 @@
 package org.firstinspires.ftc.teamcode._regCode.human_operated;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode._regCode.all_purpose.HardwareManager;
-import org.firstinspires.ftc.teamcode._regCode.base.HumanOperated;
 
 
-@Autonomous(name = "Motor Test FULL POWER", group = "TeleOp")
-public class MotorTest extends LinearOpMode {
+@Autonomous(name = "Motor Min Max Test Tuner", group = "TeleOp")
+public class MotorTest extends OpMode {
 
     private HardwareManager hardwareManager;
-    private ElapsedTime timeElapsed;
+
     @Override
-    public void runOpMode() throws InterruptedException {
-        waitForStart();
+    public void init() {
         hardwareManager = new HardwareManager(hardwareMap);
-        timeElapsed = new ElapsedTime();
-        hardwareManager.rightBack.setPower(1);
-        while(opModeIsActive() && timeElapsed.milliseconds() < 5000){
-            idle();
-        }
-        hardwareManager.rightBack.setPower(0);
+    }
+
+    @Override
+    public void loop() {
+        hardwareManager.liftMotorLeft.setPower(gamepad1.left_stick_y);
+        hardwareManager.liftMotorRight.setPower(gamepad1.left_stick_y);
+
+        telemetry.addData("CurrentMotorTicks", hardwareManager.liftMotorLeft.getCurrentPosition());
+        telemetry.update();
     }
 }
