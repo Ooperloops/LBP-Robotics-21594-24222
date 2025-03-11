@@ -18,5 +18,6 @@ public class NormalControlTwoDrivers extends HumanOperated {
         useDefaultMovementControls();
         setArmPosition();
         setHardwarePower();
+        accentControls();
     }
 }

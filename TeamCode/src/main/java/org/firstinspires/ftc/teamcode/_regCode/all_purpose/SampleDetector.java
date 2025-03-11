@@ -32,18 +32,6 @@ public class SampleDetector extends OpenCvPipeline {
 
         Core.inRange(hsvMat, minBlue, maxBlue, blueFilter);
 
-        List<MatOfPoint> edges = new ArrayList<>();
-        Mat hier = new Mat();
-
-        //Core.
-
-        //Imgproc.findContours(blueFilter, edges, hier, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-        
-        for (int i = 0; i < edges.size(); i++) {
-            Scalar color = new Scalar(100 * NumToH, 100 * SVvalMult, 100 * SVvalMult);
-            Imgproc.drawContours(blueFilter, edges, i, color, 2, 1, hier, 0, new Point());
-        }
-
         return blueFilter;
     }
 

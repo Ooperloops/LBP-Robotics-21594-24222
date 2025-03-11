@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode._regCode.all_purpose;
 
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
@@ -18,20 +19,32 @@ public class AIGeneratedSampleDetector extends OpenCvPipeline {
     private double rotationAngle = 0; // Stores detected angle
     private Servo sampleServo; // Servo reference
 
+    private double NumToH = 180.0/355.0;
+    private double SVvalMult = 2.55;
+
     public AIGeneratedSampleDetector(Servo servo) {
         this.sampleServo = servo; // Pass servo from OpMode
     }
 
     @Override
     public Mat processFrame(Mat input) {
+
+        Mat blueFilter = new Mat();
+
+        Mat hsvMat = new Mat();
+        Imgproc.cvtColor(input, hsvMat, Imgproc.COLOR_RGB2HSV);
+
+        Scalar minBlue = new Scalar(200 * NumToH, 30  * SVvalMult, 30 * SVvalMult);; // HSV blue min
+        Scalar maxBlue = new Scalar(240 * NumToH, 100 * SVvalMult, 100 * SVvalMult); // HSV blue max
+
+        Core.inRange(hsvMat, minBlue, maxBlue, blueFilter);
+
         Mat gray = new Mat();
         Mat edges = new Mat();
         List<MatOfPoint> contours = new ArrayList<>();
         Mat hierarchy = new Mat();
 
-        // Convert to grayscale and detect edges
-        Imgproc.cvtColor(input, gray, Imgproc.COLOR_RGB2GRAY);
-        Imgproc.Canny(gray, edges, 50, 150);
+        Imgproc.Canny(blueFilter, edges, 50, 150);
 
         // Find contours
         Imgproc.findContours(edges, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);

@@ -160,6 +160,11 @@ public class HardwareManager {
         leftAscentMotor = hardwareMap.dcMotor.get("ascRightM");
         rightAscentMotor = hardwareMap.dcMotor.get("ascLeftM");
 
+        rightAscentMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        leftAscentMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightAscentMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         //Camera
         camera = hardwareMap.get(WebcamName.class, "Camera");
 
