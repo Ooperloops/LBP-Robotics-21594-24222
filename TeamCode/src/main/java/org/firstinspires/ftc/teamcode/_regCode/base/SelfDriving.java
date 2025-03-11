@@ -143,7 +143,7 @@ public abstract class SelfDriving extends LinearOpMode {
 
         // Convert angle to a servo position (0 deg - 360 deg) = (0.00 - 1.00)
         double angleToPosLeft = angle * (1.0/360.0);
-
+/*
         if(angleToPosLeft >= 0.47222222222){
             hardwareManager.clawRotationServo.setPosition(0.30555555555);
         }else if(angleToPosLeft >= 0.14){
@@ -151,6 +151,7 @@ public abstract class SelfDriving extends LinearOpMode {
         } else {
             hardwareManager.clawRotationServo.setPosition(0.65);
         }
+        */
 
         // Set position...
         //hardwareManager.armServo.setPosition(angleToPosLeft);
