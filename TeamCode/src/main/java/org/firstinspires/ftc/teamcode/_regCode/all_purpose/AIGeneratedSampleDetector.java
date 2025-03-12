@@ -21,10 +21,14 @@ public class AIGeneratedSampleDetector extends OpenCvPipeline {
 
     private double NumToH = 180.0/355.0;
     private double SVvalMult = 2.55;
+    private double preferredArea = 500;
 
     public AIGeneratedSampleDetector(Servo servo) {
         this.sampleServo = servo; // Pass servo from OpMode
     }
+
+    RotatedRect bestFit = null;
+    double largestArea = 0;
 
     @Override
     public Mat processFrame(Mat input) {
@@ -49,24 +53,31 @@ public class AIGeneratedSampleDetector extends OpenCvPipeline {
         // Find contours
         Imgproc.findContours(edges, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 
-        if(contours.size() > 0){
+        for (MatOfPoint contour : contours) {
             // Convert contour to RotatedRect
-            MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(0).toArray());
+            MatOfPoint2f contour2f = new MatOfPoint2f(contour.toArray());
             RotatedRect rect = Imgproc.minAreaRect(contour2f);
+            double currentArea = rect.size.width * rect.size.height;
 
+            if(currentArea >= largestArea && currentArea >= preferredArea){
+                bestFit = rect;
+                largestArea = currentArea;
+            }
+        }
+
+        if(bestFit != null){
             // Get the rotation angle
-            rotationAngle = rect.angle;
-            if (rect.size.width < rect.size.height) {
+            rotationAngle = bestFit.angle;
+            if (bestFit.size.width < bestFit.size.height) {
                 rotationAngle += 90; // Adjust to match vertical rectangles
             }
 
             // Draw the rectangle for visualization
             Point[] boxPoints = new Point[4];
-            rect.points(boxPoints);
+            bestFit.points(boxPoints);
             for (int i = 0; i < 4; i++) {
-                Imgproc.line(blueFilter, boxPoints[i], boxPoints[(i + 1) % 4], new Scalar(0, 255, 0), 5);
+                Imgproc.line(input, boxPoints[i], boxPoints[(i + 1) % 4], new Scalar(0, 255, 0), 2);
             }
-
         }
 
         // Normalize the angle to servo range (0 to 1)
@@ -78,7 +89,7 @@ public class AIGeneratedSampleDetector extends OpenCvPipeline {
         edges.release();
         hierarchy.release();
 
-        return blueFilter; // Return frame with visualization
+        return input; // Return frame with visualization
     }
 
     public double getRotationAngle() {
