@@ -49,9 +49,9 @@ public class AIGeneratedSampleDetector extends OpenCvPipeline {
         // Find contours
         Imgproc.findContours(edges, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 
-        for (MatOfPoint contour : contours) {
+        if(contours.size() > 0){
             // Convert contour to RotatedRect
-            MatOfPoint2f contour2f = new MatOfPoint2f(contour.toArray());
+            MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(0).toArray());
             RotatedRect rect = Imgproc.minAreaRect(contour2f);
 
             // Get the rotation angle
@@ -64,8 +64,9 @@ public class AIGeneratedSampleDetector extends OpenCvPipeline {
             Point[] boxPoints = new Point[4];
             rect.points(boxPoints);
             for (int i = 0; i < 4; i++) {
-                Imgproc.line(input, boxPoints[i], boxPoints[(i + 1) % 4], new Scalar(0, 255, 0), 2);
+                Imgproc.line(blueFilter, boxPoints[i], boxPoints[(i + 1) % 4], new Scalar(0, 255, 0), 5);
             }
+
         }
 
         // Normalize the angle to servo range (0 to 1)
@@ -77,7 +78,7 @@ public class AIGeneratedSampleDetector extends OpenCvPipeline {
         edges.release();
         hierarchy.release();
 
-        return input; // Return frame with visualization
+        return blueFilter; // Return frame with visualization
     }
 
     public double getRotationAngle() {

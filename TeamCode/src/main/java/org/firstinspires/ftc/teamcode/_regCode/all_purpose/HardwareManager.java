@@ -157,8 +157,8 @@ public class HardwareManager {
         horizontalClawServo = hardwareMap.servo.get("horzClawS");
 
         // Ascent
-        leftAscentMotor = hardwareMap.dcMotor.get("ascRightM");
-        rightAscentMotor = hardwareMap.dcMotor.get("ascLeftM");
+        leftAscentMotor = hardwareMap.dcMotor.get("ascLeftM");
+        rightAscentMotor = hardwareMap.dcMotor.get("ascRightM");
 
         rightAscentMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
