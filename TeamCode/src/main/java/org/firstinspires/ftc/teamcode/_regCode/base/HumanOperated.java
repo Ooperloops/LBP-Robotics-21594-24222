@@ -80,7 +80,7 @@ public abstract class HumanOperated extends OpMode {
         /** [HOW THIS WORKS]
          * DcMotors need a power input between (-1.00 to 1.00)
          * This can be done by calling the .setPower(); method on a DcMotor variable
-=      * -----
+         =      * -----
          * Each of the joysticks' have two axes (x and y)
          * if a the left joystick of a gamepad is moved up then gamepad#.left_stick_y is positive
          * if a the left joystick of a gamepad is moved down then gamepad#.left_stick_y is negative
@@ -130,17 +130,17 @@ public abstract class HumanOperated extends OpMode {
 
     public void clawControls(){
         // Horizontal Wrist Servo Control
-        if(gamepad2.a){
-
-        } else if (gamepad2.b){
-
+        if (ArmServoPos == 0){
+            HorzClawPos = 0;
+        }else if(ArmServoPos == 0.47222222222){
+            HorzClawPos = 0.22777777777;
         }
 
         // Rotational Wrist Servo Control
         if(gamepad2.right_bumper){
-            AngClawPos = Range.clip(AngClawPos, 0, 1);
+            AngClawPos = Range.clip(AngClawPos + increment, 0, 1);
         } else if (gamepad2.left_bumper){
-
+            AngClawPos = Range.clip(AngClawPos - increment, 0, 1);
         }
 
         // Claw Control
@@ -150,6 +150,9 @@ public abstract class HumanOperated extends OpMode {
         } else if (gamepad2.b){ // Closed
             hardwareManager.clawServo.setPosition(0);
         }
+
+        hardwareManager.angleClawServo.setPosition(AngClawPos);
+        hardwareManager.horizontalClawServo.setPosition(HorzClawPos);
     }
 
     public void liftControl(){
