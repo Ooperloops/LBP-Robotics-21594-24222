@@ -137,9 +137,9 @@ public abstract class HumanOperated extends OpMode {
         }
 
         // Rotational Wrist Servo Control
-        if(gamepad2.a){
-
-        } else if (gamepad2.b){
+        if(gamepad2.right_bumper){
+            AngClawPos = Range.clip(AngClawPos, 0, 1);
+        } else if (gamepad2.left_bumper){
 
         }
 
