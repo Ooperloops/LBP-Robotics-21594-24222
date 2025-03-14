@@ -157,6 +157,7 @@ public abstract class HumanOperated extends OpMode {
                 specimenCycleTick = 1;
             }
         }
+        hardwareManager.angleClawServo.setPosition(AngClawPos);
     }
 
     public void clawControls(){
