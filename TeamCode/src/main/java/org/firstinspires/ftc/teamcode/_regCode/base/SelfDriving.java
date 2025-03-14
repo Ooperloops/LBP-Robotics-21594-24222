@@ -137,7 +137,6 @@ public abstract class SelfDriving extends LinearOpMode {
         //hardwareManager.leftClawServo.setPosition((closed) ? 0.25 : 0);
         //hardwareManager.rightClawServo.setPosition((closed) ? 0 : 0.25);
     }
-
     public void Arm(double angle){
         // Inputs an angle that the arm should be at relative to its starting position
 
@@ -156,7 +155,6 @@ public abstract class SelfDriving extends LinearOpMode {
         // Set position...
         //hardwareManager.armServo.setPosition(angleToPosLeft);
     }
-
     public void ArmToPosition(armPosition armPosition){
         // Inputs an angle that the arm should be at relative to its starting position
         switch(armPosition){
@@ -169,7 +167,6 @@ public abstract class SelfDriving extends LinearOpMode {
 
         }
     }
-
     //------------------------------------------------------------------------------------------------
     // Outtake Slide
     //------------------------------------------------------------------------------------------------

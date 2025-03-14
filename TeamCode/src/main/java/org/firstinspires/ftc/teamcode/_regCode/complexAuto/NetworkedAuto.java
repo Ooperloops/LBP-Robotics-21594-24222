@@ -1,0 +1,214 @@
+package org.firstinspires.ftc.teamcode._regCode.complexAuto;
+
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.MecanumDrive;
+
+import org.firstinspires.ftc.teamcode._regCode.base.SelfDriving;
+
+
+
+/**
+`* Networked Auto is a class that makes creating different autonomous scripts easier
+ *
+ */
+public abstract class NetworkedAuto extends SelfDriving {
+    //------------------------------------------------------------------------------------------------
+    // Config
+    //------------------------------------------------------------------------------------------------
+    MecanumDrive drive;
+    //------------------------------------------------------------------------------------------------
+    // Weight Variables
+    //------------------------------------------------------------------------------------------------
+    protected int HighBasket = 0;
+    protected int Pushing = 0;
+    protected int HighRung = 0;
+    protected long startDelayMili = 0;
+    protected boolean Parking = false;
+    protected boolean MoveOutOfWay = false;
+    protected StartPos startPosition;
+    protected LoadedPosition loadedPosition;
+
+    //------------------------------------------------------------------------------------------------
+    // Private enums
+    //------------------------------------------------------------------------------------------------
+    public enum LoadedPosition{
+        LOADED_SPECIMEN,
+        LOADED_SAMPLE
+    }
+    //------------------------------------------------------------------------------------------------
+    // Trajectory Variables
+    //------------------------------------------------------------------------------------------------
+    private Actions GetSpec;
+    private Actions PushSpecFirst;
+    private Pose2d beginPose;
+    //------------------------------------------------------------------------------------------------
+    // Start Method
+    //------------------------------------------------------------------------------------------------
+
+    @Override
+    protected void runAutonomous(){
+        //Initialize drive class
+
+
+        hardwareManager.ResetLiftWheelCount();
+        initVariables();
+        sleep(startDelayMili);
+
+        switch(startPosition){
+            // set enum to specific position where robot starts
+            // --> done to improve readability
+            case FARBASKET:
+                beginPose = new Pose2d(11.59, -62.7, Math.toRadians(90.0));
+                break;
+            case MIDBASKET:
+                beginPose = new Pose2d(-12.99, -62.7, Math.toRadians(90.00));
+                break;
+            case NEARBASKET:
+                beginPose = new Pose2d(-35.63, -62.7, Math.toRadians(90.00));
+                break;
+        }
+
+        drive = new MecanumDrive(hardwareMap, beginPose);
+        /*
+        switch(loadedPosition){
+            case LOADED_SAMPLE:
+                // TODO: create auto to score a loaded sample on the high bucket
+                break;
+            case LOADED_SPECIMEN:
+                ScoreLoadedSpecimen(0); // scores loaded specimen on the high rung
+                break;
+        }
+
+
+        for(int i = 0; i < Pushing; i++){
+            // Pushes yellow samples under the bucket (needs testing)
+            Push(i);
+        }
+
+        for(int i = 0; i < HighBasket; i++){
+            // TODO: implement high basket scoring for auto
+        }
+
+        for(int i = 0; i < HighRung; i++){
+            // Start scoring my hanging specimen at high rung
+            HangSpecimenHigh();
+        }
+
+         */
+
+        if (Parking) { Park();}
+        //if (MoveOutOfWay) {MoveOutOfTheWay();}
+
+    }
+
+    protected abstract void initVariables();
+
+    //------------------------------------------------------------------------------------------------
+    // Actions
+    //------------------------------------------------------------------------------------------------
+
+    private void Park(){
+        // Parks bot at observation zone
+        drive.updatePoseEstimate();
+        Action parkTraj = drive.actionBuilder(beginPose)
+                .strafeTo(new Vector2d(59, -60))
+                .build();
+
+        Actions.runBlocking(parkTraj);
+
+    }
+    /*
+    private void Push(int current){
+        TrajectorySequence pushTraj = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                // --- Moves past the yellow samples to get into pushing position -------
+                .splineTo(new Vector2d(-35.62, -38.40), Math.toRadians(90.00))
+                .splineTo(new Vector2d(-36.87, -16.04), Math.toRadians(92.34))
+                .splineTo(new Vector2d(-44.00 - (9 * current), -10.07), Math.toRadians(90.00))
+                // ----------------------------------------------------------------------
+                .back(20) // reverse back 20 inches
+                .strafeTo(new Vector2d(-60, -60)) // strafe to the push zone below the buckets
+                .build();
+
+        drive.followTrajectorySequence(pushTraj);
+
+    }
+    private void ScoreHighBucket(){
+        // TODO: create RR script trajectory that goes to the sub and gets a sample for bucket scoring
+    }
+
+    private void HangSpecimenHigh(){
+        //InitPushFirstSamp(); // initialize pushing trajectory
+        //drive.followTrajectorySequence(PushSpecFirst); // push coloured sample into observation zone
+        InitToBarTrajectory(); // initialize grabbing specimen from wall trajectory
+        drive.followTrajectorySequence(GetSpec); // bot grabs wall specimen
+        sleep(500); // short delay for human player correction
+        Claw(true); // close the claw
+        MoveUpwardSlide(0.02); // move slide up to remove specimen from wall
+        sleep(100);
+        MoveUpwardSlide(0);
+        ScoreLoadedSpecimen(0.90); // Go to bar and hang specimen
+    }
+
+    private void ScoreLoadedSpecimen(double displacement){
+        Claw(true); // close the claw
+
+        TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                .addDisplacementMarker(() -> {
+                    ArmToPosition(armPosition.UPSTRAIGHT); // make arm perpendicular to drivebase
+                    hardwareManager.clawRotationServo.setPosition(0.5); // set wrist to proper position for hanging
+                })
+                .splineTo(new Vector2d(0.37, -35.00 + displacement), Math.toRadians(90.00)) // go near the sub
+                .addDisplacementMarker(() -> {
+                    MoveUpwardSlide(0.33); // move slide up to hang specimen
+                })
+                .addDisplacementMarker(() -> {
+                    Claw(false); // open the claw
+                    MoveUpwardSlide(0); // retract the lift back down
+                })
+                .back(15)
+                .build();
+
+
+        drive.followTrajectorySequence(trajectory0);
+    }
+
+    private void MoveOutOfTheWay(){
+        TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                .strafeTo(new Vector2d(-48, -48))
+                .build();// go near the sub
+        drive.followTrajectorySequence(trajectory0);
+    }
+
+    //------------------------------------------------------------------------------------------------
+    // Trajectory Initializers
+    //------------------------------------------------------------------------------------------------
+    private void InitToBarTrajectory(){
+        GetSpec = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                .addDisplacementMarker(()->{
+                    ArmToPosition(armPosition.SPECIMEN_READY); // Rotates arm behind itself
+
+                    Claw(false);                }) // opens the claw
+                .splineTo(new Vector2d(47, -38), Math.toRadians(90.00))
+                .lineTo(new Vector2d(48.0, -60)) // reverses to the wall where the specimen is
+                .build();
+
+    }
+
+    private void InitPushFirstSamp(){
+        PushSpecFirst = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                // Moves past the coloured samples to get into pushing position
+                .splineTo(new Vector2d(35.62, -47.98), Math.toRadians(90.00))
+                .splineTo(new Vector2d(36.59, -18.40), Math.toRadians(76.35))
+                .splineTo(new Vector2d(48, -4.79), Math.toRadians(90.00))
+                .build();
+
+    }
+
+     */
+
+}
