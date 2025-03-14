@@ -169,6 +169,12 @@ public abstract class HumanOperated extends OpMode {
             HorzClawPos = 0.22777777777;
         }
 
+        if(gamepad2.right_trigger > 0){
+            HorzClawPos = Range.clip(HorzClawPos + increment, 0, 1);
+        } else if (gamepad2.left_trigger > 0){
+            HorzClawPos = Range.clip(HorzClawPos - increment, 0, 1);
+        }
+
         // Rotational Wrist Servo Control
         if(gamepad2.right_bumper){
             AngClawPos = Range.clip(AngClawPos + increment, 0, 1);
