@@ -144,11 +144,15 @@ public abstract class HumanOperated extends OpMode {
         }
         if (cycleActive) {
             if(gamepad2.a && specimenCycleTick == 1) {
-                ArmServoPos = 0.25;
-                specimenCycleTick++;
+                hardwareManager.clawServo.setPosition(0);
+                specimenCycleTick ++;
             }else if (gamepad2.a && specimenCycleTick == 2) {
+                ArmServoPos = 0.25;
+                specimenCycleTick ++;
+            }else if(gamepad2.a && specimenCycleTick == 3){
+                hardwareManager.clawServo.setPosition(0.3);
                 ArmServoPos = 0;
-                specimenCycleTick--;
+                specimenCycleTick = 0;
             }else if (specimenCycleTick == 0){
                 specimenCycleTick = 1;
             }
@@ -171,11 +175,12 @@ public abstract class HumanOperated extends OpMode {
         }
 
         // Claw Control
-
-        if(gamepad2.a){ // Open
-            hardwareManager.clawServo.setPosition(0.3);
-        } else if (gamepad2.b){ // Closed
-            hardwareManager.clawServo.setPosition(0);
+        if (!cycleActive){
+            if(gamepad2.a){ // Open
+                hardwareManager.clawServo.setPosition(0.3);
+            } else if (gamepad2.b){ // Closed
+                hardwareManager.clawServo.setPosition(0);
+            }
         }
 
         hardwareManager.angleClawServo.setPosition(AngClawPos);
