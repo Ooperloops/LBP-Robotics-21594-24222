@@ -74,7 +74,7 @@ public abstract class NetworkedAuto extends SelfDriving {
         }
 
         drive = new MecanumDrive(hardwareMap, beginPose);
-        /*
+
         switch(loadedPosition){
             case LOADED_SAMPLE:
                 // TODO: create auto to score a loaded sample on the high bucket
@@ -99,10 +99,10 @@ public abstract class NetworkedAuto extends SelfDriving {
             HangSpecimenHigh();
         }
 
-         */
+
 
         if (Parking) { Park();}
-        //if (MoveOutOfWay) {MoveOutOfTheWay();}
+        if (MoveOutOfWay) {MoveOutOfTheWay();}
 
     }
 
@@ -115,27 +115,26 @@ public abstract class NetworkedAuto extends SelfDriving {
     private void Park(){
         // Parks bot at observation zone
         drive.updatePoseEstimate();
-        Action parkTraj = drive.actionBuilder(beginPose)
+        Action parkTraj = drive.actionBuilder(drive.updatePoseEstimate())
                 .strafeTo(new Vector2d(59, -60))
                 .build();
 
         Actions.runBlocking(parkTraj);
 
     }
-    /*
+
     private void Push(int current){
-        TrajectorySequence pushTraj = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+        Action pushTraj = drive.actionBuilder(drive.updatePoseEstimate())
                 // --- Moves past the yellow samples to get into pushing position -------
                 .splineTo(new Vector2d(-35.62, -38.40), Math.toRadians(90.00))
                 .splineTo(new Vector2d(-36.87, -16.04), Math.toRadians(92.34))
                 .splineTo(new Vector2d(-44.00 - (9 * current), -10.07), Math.toRadians(90.00))
                 // ----------------------------------------------------------------------
-                .back(20) // reverse back 20 inches
+                .lineToX(30) // reverse back 20 inches
                 .strafeTo(new Vector2d(-60, -60)) // strafe to the push zone below the buckets
                 .build();
 
-        drive.followTrajectorySequence(pushTraj);
-
+        Actions.runBlocking(pushTraj);
     }
     private void ScoreHighBucket(){
         // TODO: create RR script trajectory that goes to the sub and gets a sample for bucket scoring
@@ -157,7 +156,7 @@ public abstract class NetworkedAuto extends SelfDriving {
     private void ScoreLoadedSpecimen(double displacement){
         Claw(true); // close the claw
 
-        TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+        Action trajectory0 = drive.drive.actionBuilder(drive.getPoseEstimate())
                 .addDisplacementMarker(() -> {
                     ArmToPosition(armPosition.UPSTRAIGHT); // make arm perpendicular to drivebase
                     hardwareManager.clawRotationServo.setPosition(0.5); // set wrist to proper position for hanging
@@ -178,7 +177,7 @@ public abstract class NetworkedAuto extends SelfDriving {
     }
 
     private void MoveOutOfTheWay(){
-        TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+        Action trajectory0 = drive.drive.actionBuilder(drive.getPoseEstimate())
                 .strafeTo(new Vector2d(-48, -48))
                 .build();// go near the sub
         drive.followTrajectorySequence(trajectory0);
@@ -188,7 +187,7 @@ public abstract class NetworkedAuto extends SelfDriving {
     // Trajectory Initializers
     //------------------------------------------------------------------------------------------------
     private void InitToBarTrajectory(){
-        GetSpec = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+        GetSpec = drive.drive.actionBuilder(drive.getPoseEstimate())
                 .addDisplacementMarker(()->{
                     ArmToPosition(armPosition.SPECIMEN_READY); // Rotates arm behind itself
 
@@ -200,7 +199,7 @@ public abstract class NetworkedAuto extends SelfDriving {
     }
 
     private void InitPushFirstSamp(){
-        PushSpecFirst = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+        PushSpecFirst = drive.drive.actionBuilder(drive.getPoseEstimate())
                 // Moves past the coloured samples to get into pushing position
                 .splineTo(new Vector2d(35.62, -47.98), Math.toRadians(90.00))
                 .splineTo(new Vector2d(36.59, -18.40), Math.toRadians(76.35))
@@ -209,6 +208,6 @@ public abstract class NetworkedAuto extends SelfDriving {
 
     }
 
-     */
+
 
 }

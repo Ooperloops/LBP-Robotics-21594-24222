@@ -450,7 +450,7 @@ public final class MecanumDrive {
         }
     }
 
-    public PoseVelocity2d updatePoseEstimate() {
+    public Pose2d updatePoseEstimate() {
         PoseVelocity2d vel = localizer.update();
         poseHistory.add(localizer.getPose());
         
