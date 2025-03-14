@@ -141,6 +141,7 @@ public abstract class HumanOperated extends OpMode {
         }else if (gamepad2.start && cycleActive){
             cycleActive = false;
             specimenCycleTick = 0;
+            zeroAllServos();
         }
         if (cycleActive) {
             if(gamepad2.a && specimenCycleTick == 1) {
