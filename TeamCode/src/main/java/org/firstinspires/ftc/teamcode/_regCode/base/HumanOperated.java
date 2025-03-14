@@ -153,6 +153,9 @@ public abstract class HumanOperated extends OpMode {
 
         hardwareManager.angleClawServo.setPosition(AngClawPos);
         hardwareManager.horizontalClawServo.setPosition(HorzClawPos);
+        telemetry.addData("AnglClaw Angle", AngClawPos);
+        telemetry.addData("HorzClaw Angle", HorzClawPos);
+        telemetry.update();
     }
 
     public void liftControl(){
