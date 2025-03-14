@@ -55,6 +55,10 @@ public abstract class HumanOperated extends OpMode {
     private double HorzClawPos = 0;
     private double AngClawPos = 0;
 
+    private boolean cycleActive = false;
+
+    private int specimenCycleTick = 1;
+
 
 
 
@@ -128,6 +132,27 @@ public abstract class HumanOperated extends OpMode {
     public void accentControls(){
         hardwareManager.rightAscentMotor.setPower(gamepad2.right_stick_x);
         hardwareManager.leftAscentMotor.setPower(gamepad2.right_stick_x);
+    }
+
+    public void specimenCycle() {
+        if (gamepad2.start && !cycleActive){
+            cycleActive = true;
+            ArmServoPos = 0;
+        }else if (gamepad2.start && cycleActive){
+            cycleActive = false;
+            specimenCycleTick = 0;
+        }
+        if (cycleActive) {
+            if(gamepad2.a && specimenCycleTick == 1) {
+                ArmServoPos = 0.25;
+                specimenCycleTick++;
+            }else if (gamepad2.a && specimenCycleTick == 2) {
+                ArmServoPos = 0;
+                specimenCycleTick--;
+            }else if (specimenCycleTick == 0){
+                specimenCycleTick = 1;
+            }
+        }
     }
 
     public void clawControls(){
