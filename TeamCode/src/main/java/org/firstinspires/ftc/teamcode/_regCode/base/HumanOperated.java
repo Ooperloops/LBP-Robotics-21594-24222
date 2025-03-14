@@ -122,6 +122,8 @@ public abstract class HumanOperated extends OpMode {
     public void armControls(){
         ArmServoPos =
                 Range.clip(ArmServoPos + (gamepad2.right_stick_y * increment), 0, 1);
+        telemetry.addData("ArmServo Angle", ArmServoPos);
+        telemetry.update();
     }
     public void accentControls(){
         hardwareManager.rightAscentMotor.setPower(gamepad2.right_stick_x);
