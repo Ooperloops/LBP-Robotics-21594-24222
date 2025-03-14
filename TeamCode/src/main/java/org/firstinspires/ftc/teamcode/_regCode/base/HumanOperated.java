@@ -42,8 +42,8 @@ public abstract class HumanOperated extends OpMode {
     //------------------------------------------------------------------------------------------------
     // Variables for lift motor power
     protected double liftP = 0;
-    protected final int LiftMaxTicks = 0;
-    protected final int LiftMinTicks = 0;
+    protected final int LiftMaxTicks = 4380;
+    protected final int LiftMinTicks = 60;
 
     //------------------------------------------------------------------------------------------------
     // Lift servo position values
@@ -218,16 +218,25 @@ public abstract class HumanOperated extends OpMode {
     }
 
     public void liftControl(){
-        if(gamepad2.left_stick_y > 0 && hardwareManager.liftMotorRight.getCurrentPosition() >= LiftMaxTicks){
+        if(-gamepad2.left_stick_y > 0 && hardwareManager.liftMotorLeft.getCurrentPosition() >= LiftMaxTicks){
             // If lift ticks surpass max...
             liftP = 0; // ...force stop the motors
-        } else if (gamepad2.left_stick_y < 0 && hardwareManager.liftMotorRight.getCurrentPosition() <= LiftMinTicks) {
+        } else if (-gamepad2.left_stick_y < 0 && hardwareManager.liftMotorLeft.getCurrentPosition() <= LiftMinTicks) {
             // If lift ticks surpass min...
             liftP = 0; // ...force stop the motors
             hardwareManager.ResetLiftWheelCount();
         } else {
-            liftP = gamepad2.left_stick_y;
+            liftP = -gamepad2.left_stick_y;
         }
+    }
+
+    public void simpleLiftControl(){
+        liftP = gamepad2.left_stick_y;
+    }
+
+    public void setLiftPower(){
+        hardwareManager.liftMotorLeft.setPower(liftP);
+        hardwareManager.liftMotorRight.setPower(liftP);
     }
     //------------------------------------------------------------------------------------------------
     // Inheritance

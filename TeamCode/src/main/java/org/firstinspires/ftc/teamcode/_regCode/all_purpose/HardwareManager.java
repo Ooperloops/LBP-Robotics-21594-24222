@@ -31,6 +31,8 @@ public class HardwareManager {
     public void ResetLiftWheelCount(){
         liftMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //Reset motor ticks
         liftMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Run motor by power
+        liftMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //Reset motor ticks
+        liftMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //Run motor by power
     }
 
     // Claw
@@ -133,16 +135,10 @@ public class HardwareManager {
         liftMotorLeft = hardwareMap.dcMotor.get("LeftLiftM");
         liftMotorRight = hardwareMap.dcMotor.get("RightLiftM");
 
-        liftMotorLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftMotorRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         liftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        //Encoder programming for PID on the lift.
-        liftMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        liftMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        liftMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        liftMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Arm
         leftArmServo = hardwareMap.servo.get("LeftArmS");

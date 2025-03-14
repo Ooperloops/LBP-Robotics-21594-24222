@@ -23,20 +23,12 @@ public class LiftTuner extends OpMode{
     @Override
     public void init() {
         hardwareManager = new HardwareManager(hardwareMap); // Initialize HardwareManager
-        //ResetLiftWheelCount(); // Reset the count of the lift motor encoder
+        hardwareManager.ResetLiftWheelCount(); // Reset the count of the lift motor encoder
     }
     @Override
     public void loop() {
-        if(gamepad1.a){ //Raise the lift
-            hardwareManager.liftMotorLeft.setPower(0.5);
-            //hardwareManager.lowerLiftMotor.setPower(-0.1);
-        } else if (gamepad1.b){ //Lower the lift
-            hardwareManager.liftMotorLeft.setPower(-0.1);
-            //hardwareManager.lowerLiftMotor.setPower(0.5);
-        } else { // Do nothing
-            hardwareManager.liftMotorLeft.setPower(0);
-            //hardwareManager.lowerLiftMotor.setPower(0);
-        }
+        hardwareManager.liftMotorLeft.setPower(-gamepad2.right_stick_y );
+        hardwareManager.liftMotorRight.setPower(-gamepad2.right_stick_y);
 
         // Print the current ticks on the lift motor via telemetry
         telemetry

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode._regCode.complexAuto;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -80,14 +81,14 @@ public abstract class NetworkedAuto extends SelfDriving {
                 // TODO: create auto to score a loaded sample on the high bucket
                 break;
             case LOADED_SPECIMEN:
-                ScoreLoadedSpecimen(0); // scores loaded specimen on the high rung
+                //ScoreLoadedSpecimen(0); // scores loaded specimen on the high rung
                 break;
         }
 
 
         for(int i = 0; i < Pushing; i++){
             // Pushes yellow samples under the bucket (needs testing)
-            Push(i);
+            //Push(i);
         }
 
         for(int i = 0; i < HighBasket; i++){
@@ -96,13 +97,13 @@ public abstract class NetworkedAuto extends SelfDriving {
 
         for(int i = 0; i < HighRung; i++){
             // Start scoring my hanging specimen at high rung
-            HangSpecimenHigh();
+            //HangSpecimenHigh();
         }
 
 
 
-        if (Parking) { Park();}
-        if (MoveOutOfWay) {MoveOutOfTheWay();}
+        if (Parking) { /*Park();*/}
+        if (MoveOutOfWay) {/*MoveOutOfTheWay();*/}
 
     }
 
@@ -111,7 +112,7 @@ public abstract class NetworkedAuto extends SelfDriving {
     //------------------------------------------------------------------------------------------------
     // Actions
     //------------------------------------------------------------------------------------------------
-
+    /*
     private void Park(){
         // Parks bot at observation zone
         drive.updatePoseEstimate();
@@ -143,20 +144,23 @@ public abstract class NetworkedAuto extends SelfDriving {
     private void HangSpecimenHigh(){
         //InitPushFirstSamp(); // initialize pushing trajectory
         //drive.followTrajectorySequence(PushSpecFirst); // push coloured sample into observation zone
-        InitToBarTrajectory(); // initialize grabbing specimen from wall trajectory
-        drive.followTrajectorySequence(GetSpec); // bot grabs wall specimen
+        //InitToBarTrajectory(); // initialize grabbing specimen from wall trajectory
+        Actions.runBlocking(GetSpec); // bot grabs wall specimen
         sleep(500); // short delay for human player correction
         Claw(true); // close the claw
         MoveUpwardSlide(0.02); // move slide up to remove specimen from wall
         sleep(100);
         MoveUpwardSlide(0);
-        ScoreLoadedSpecimen(0.90); // Go to bar and hang specimen
+        //ScoreLoadedSpecimen(0.90); // Go to bar and hang specimen
     }
 
+     */
+
+    /*
     private void ScoreLoadedSpecimen(double displacement){
         Claw(true); // close the claw
 
-        Action trajectory0 = drive.drive.actionBuilder(drive.getPoseEstimate())
+        Action trajectory0 = drive.actionBuilder(drive.getPoseEstimate())
                 .addDisplacementMarker(() -> {
                     ArmToPosition(armPosition.UPSTRAIGHT); // make arm perpendicular to drivebase
                     hardwareManager.clawRotationServo.setPosition(0.5); // set wrist to proper position for hanging
@@ -208,6 +212,8 @@ public abstract class NetworkedAuto extends SelfDriving {
 
     }
 
+
+     */
 
 
 }
