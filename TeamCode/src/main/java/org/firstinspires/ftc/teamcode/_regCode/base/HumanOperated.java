@@ -54,10 +54,9 @@ public abstract class HumanOperated extends OpMode {
     // Use if were incrementing positions for the two servos on the wrist
     private double HorzClawPos = 0;
     private double AngClawPos = 0;
-
     private boolean cycleActive = false;
-
     private int specimenCycleTick = 1;
+    private int sampleCycleTick = 1;
 
 
 
@@ -115,7 +114,8 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.leftArmServo.setPosition(ArmServoPos);
         hardwareManager.rightArmServo.setPosition(ArmServoPos);
         hardwareManager.horizontalClawServo.setPosition(0);
-        hardwareManager.angleToClawServoAngle(0);
+        hardwareManager.clawServo.setPosition(0);
+        //hardwareManager.angleToClawServoAngle(0);
     }
 
     public void setArmPosition(){
@@ -124,10 +124,12 @@ public abstract class HumanOperated extends OpMode {
     }
 
     public void armControls(){
-        ArmServoPos =
-                Range.clip(ArmServoPos + (gamepad2.right_stick_y * increment), 0, 1);
-        telemetry.addData("ArmServo Angle", ArmServoPos);
-        telemetry.update();
+        if (!cycleActive) {
+            ArmServoPos =
+                    Range.clip(ArmServoPos + (gamepad2.right_stick_y * increment), 0, 1);
+            telemetry.addData("ArmServo Angle", ArmServoPos);
+            telemetry.update();
+        }
     }
     public void accentControls(){
         hardwareManager.rightAscentMotor.setPower(gamepad2.right_stick_x);
@@ -146,13 +148,13 @@ public abstract class HumanOperated extends OpMode {
         if (cycleActive) {
             if(gamepad2.a && specimenCycleTick == 1) {
                 hardwareManager.clawServo.setPosition(0);
+                ArmServoPos = 0;
                 specimenCycleTick ++;
             }else if (gamepad2.a && specimenCycleTick == 2) {
                 ArmServoPos = 0.25;
                 specimenCycleTick ++;
             }else if(gamepad2.a && specimenCycleTick == 3){
                 hardwareManager.clawServo.setPosition(0.3);
-                ArmServoPos = 0;
                 specimenCycleTick = 0;
             }else if (specimenCycleTick == 0){
                 specimenCycleTick = 1;
@@ -162,6 +164,23 @@ public abstract class HumanOperated extends OpMode {
     }
 
     public void clawControls(){
+        if(gamepad2.right_bumper) {
+            HorzClawPos = Range.clip(HorzClawPos + increment, 0, 1);
+        } else if (gamepad2.left_bumper){
+            HorzClawPos = Range.clip(HorzClawPos - increment, 0, 1);
+        }
+        if (gamepad2.x) {
+
+        }
+
+        if (!cycleActive) {
+            if (gamepad2.a) { // Open
+                hardwareManager.clawServo.setPosition(0.1);
+            } else if (gamepad2.b) { // Closed
+                hardwareManager.clawServo.setPosition(0);
+            }
+        }
+        /*
         // Horizontal Wrist Servo Control
         if (ArmServoPos == 0){
             HorzClawPos = 0;
@@ -183,19 +202,20 @@ public abstract class HumanOperated extends OpMode {
         }
 
         // Claw Control
-        if (!cycleActive){
+       // if (!cycleActive){
             if(gamepad2.a){ // Open
-                hardwareManager.clawServo.setPosition(0.3);
+                hardwareManager.clawServo.setPosition(0.1);
             } else if (gamepad2.b){ // Closed
                 hardwareManager.clawServo.setPosition(0);
             }
-        }
+       // }
 
         hardwareManager.angleClawServo.setPosition(AngClawPos);
         hardwareManager.horizontalClawServo.setPosition(HorzClawPos);
         telemetry.addData("AnglClaw Angle", AngClawPos);
         telemetry.addData("HorzClaw Angle", HorzClawPos);
         telemetry.update();
+        */
     }
 
     public void liftControl(){
