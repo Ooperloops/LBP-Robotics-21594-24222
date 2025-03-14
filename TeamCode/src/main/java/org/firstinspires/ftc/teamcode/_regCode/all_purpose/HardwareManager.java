@@ -153,7 +153,7 @@ public class HardwareManager {
 
         // Claw
         clawServo = hardwareMap.servo.get("clawS");
-        //clawServo.setDirection(Servo.Direction.REVERSE);
+        clawServo.setDirection(Servo.Direction.REVERSE);
         angleClawServo = hardwareMap.servo.get("angClawS");
         horizontalClawServo = hardwareMap.servo.get("horzClawS");
 

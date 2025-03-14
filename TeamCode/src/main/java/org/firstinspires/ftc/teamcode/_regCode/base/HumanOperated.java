@@ -115,7 +115,6 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.rightArmServo.setPosition(ArmServoPos);
         hardwareManager.horizontalClawServo.setPosition(0);
         hardwareManager.clawServo.setPosition(0);
-        //hardwareManager.angleToClawServoAngle(0);
     }
 
     public void setArmPosition(){
@@ -180,7 +179,7 @@ public abstract class HumanOperated extends OpMode {
                 hardwareManager.clawServo.setPosition(0);
             }
         }
-        /*
+
         // Horizontal Wrist Servo Control
         if (ArmServoPos == 0){
             HorzClawPos = 0;
@@ -204,7 +203,7 @@ public abstract class HumanOperated extends OpMode {
         // Claw Control
        // if (!cycleActive){
             if(gamepad2.a){ // Open
-                hardwareManager.clawServo.setPosition(0.1);
+                hardwareManager.clawServo.setPosition(0.15);
             } else if (gamepad2.b){ // Closed
                 hardwareManager.clawServo.setPosition(0);
             }
@@ -215,7 +214,7 @@ public abstract class HumanOperated extends OpMode {
         telemetry.addData("AnglClaw Angle", AngClawPos);
         telemetry.addData("HorzClaw Angle", HorzClawPos);
         telemetry.update();
-        */
+
     }
 
     public void liftControl(){
