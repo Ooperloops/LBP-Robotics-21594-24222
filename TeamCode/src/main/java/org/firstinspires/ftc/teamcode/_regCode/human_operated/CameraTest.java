@@ -1,14 +1,10 @@
 package org.firstinspires.ftc.teamcode._regCode.human_operated;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode._regCode.all_purpose.AIGeneratedSampleDetector;
-import org.firstinspires.ftc.teamcode._regCode.all_purpose.ComputerVision;
+import org.firstinspires.ftc.teamcode._regCode.all_purpose.SampleDetector;
 import org.firstinspires.ftc.teamcode._regCode.all_purpose.HardwareManager;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -37,7 +33,7 @@ public class CameraTest extends LinearOpMode {
                 Camera,
                 cameraMonitorViewId
         );
-        OpenCvPipeline pipeline = new AIGeneratedSampleDetector(hardwareManager.angleClawServo);
+        OpenCvPipeline pipeline = new SampleDetector(hardwareManager.angleClawServo);
         camera.setPipeline(pipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
@@ -58,7 +54,7 @@ public class CameraTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            telemetry.addData("Detected Angle", ((AIGeneratedSampleDetector)pipeline).getRotationAngle());
+            telemetry.addData("Detected Angle", ((SampleDetector)pipeline).getRotationAngle());
             telemetry.update();
         }
     }
