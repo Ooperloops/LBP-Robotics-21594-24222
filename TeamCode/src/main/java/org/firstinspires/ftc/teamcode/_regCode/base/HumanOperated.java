@@ -54,6 +54,7 @@ public abstract class HumanOperated extends OpMode {
     // Use if were incrementing positions for the two servos on the wrist
     private double HorzClawPos = 0;
     private double AngClawPos = 0;
+    private double conF = (1.0/360.0);
 
 
 
@@ -112,6 +113,8 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.rightArmServo.setPosition(ArmServoPos);
         hardwareManager.horizontalClawServo.setPosition(0);
         hardwareManager.clawServo.setPosition(0);
+        AngClawPos = 90*conF;
+        hardwareManager.angleClawServo.setPosition(AngClawPos);
     }
 
     public void setArmPosition(){
@@ -134,12 +137,17 @@ public abstract class HumanOperated extends OpMode {
     public void clawControls(){
         if (gamepad2.a) {
             ArmServoPos = 0;
+            AngClawPos = 0.25;
         }else if(gamepad2.x){
             ArmServoPos = 0.09722222222;
         }else if(gamepad2.y) {
             ArmServoPos = 0.5;
+            AngClawPos = 90*conF;
+            ArmServoPos = 0.40277777777;
         }else if (gamepad2.b){
             ArmServoPos = 0.40277777777;
+        }else if (gamepad2.dpad_up){
+            ArmServoPos = 0.33333333333;
         }
 
         // Horizontal Wrist Servo Control
@@ -151,10 +159,10 @@ public abstract class HumanOperated extends OpMode {
 
 
         // Rotational Wrist Servo Control
-        if(gamepad2.right_bumper){
-            AngClawPos = Range.clip(AngClawPos + increment, 0, 1);
-        } else if (gamepad2.left_bumper){
-            AngClawPos = Range.clip(AngClawPos - increment, 0, 1);
+        if(gamepad2.right_bumper  && AngClawPos > 0){
+            AngClawPos = AngClawPos - 0.125;
+        } else if (gamepad2.left_bumper ){
+            AngClawPos = AngClawPos + 0.125;
         }
 
         // Claw Control
