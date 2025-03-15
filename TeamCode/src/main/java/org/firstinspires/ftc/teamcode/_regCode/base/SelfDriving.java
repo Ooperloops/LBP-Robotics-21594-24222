@@ -143,7 +143,7 @@ public abstract class SelfDriving extends LinearOpMode {
         // Inputs an angle that the arm should be at relative to its starting position
         switch(armPosition){
             case UPSTRAIGHT:
-                Arm(102);
+                Arm(70);
                 break;
             case SPECIMEN_READY:
                 Arm(0);

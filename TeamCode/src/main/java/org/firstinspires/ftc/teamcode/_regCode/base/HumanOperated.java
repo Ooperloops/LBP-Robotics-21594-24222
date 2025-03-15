@@ -137,16 +137,16 @@ public abstract class HumanOperated extends OpMode {
     public void clawControls(){
         if (gamepad2.a) {
             ArmServoPos = 0;
-            AngClawPos = 0.25;
+            AngClawPos = angToServoPos(90);
         }else if(gamepad2.x){
-            ArmServoPos = 0.09722222222;
+            ArmServoPos = angToServoPos(35);
         }else if(gamepad2.y) {
-            ArmServoPos = 200*conF;
+            ArmServoPos = angToServoPos(185);
             hardwareManager.clawServo.setPosition(0);
         }else if (gamepad2.b){
-            ArmServoPos = 170*conF;
+            ArmServoPos = angToServoPos(145);
         }else if (gamepad2.dpad_up){
-            ArmServoPos = 0.40277777777;
+            ArmServoPos = angToServoPos(70); // Upright to hang spec
         }
 
         // Horizontal Wrist Servo Control
@@ -189,6 +189,9 @@ public abstract class HumanOperated extends OpMode {
 
     public void simpleLiftControl(){
         liftP = gamepad2.left_stick_y;
+    }
+    public double angToServoPos(double angle){
+        return angle * conF;
     }
 
     public void setLiftPower(){
