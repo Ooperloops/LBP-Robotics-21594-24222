@@ -139,7 +139,7 @@ public abstract class HumanOperated extends OpMode {
             ArmServoPos = 0;
             AngClawPos = angToServoPos(100);
         }else if(gamepad2.x){
-            ArmServoPos = angToServoPos(35);
+            ArmServoPos = angToServoPos(100);
         }else if(gamepad2.y) {
             ArmServoPos = angToServoPos(230);
         }else if (gamepad2.b){
