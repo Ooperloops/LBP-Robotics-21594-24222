@@ -45,7 +45,7 @@ public abstract class NetworkedAuto extends SelfDriving {
     //------------------------------------------------------------------------------------------------
     private Action GetSpec;
     private Action PushSpecFirst;
-    private Pose2d beginPose;
+    private Pose2d currentPose;
     //------------------------------------------------------------------------------------------------
     // Start Method
     //------------------------------------------------------------------------------------------------
@@ -63,16 +63,17 @@ public abstract class NetworkedAuto extends SelfDriving {
             // set enum to specific position where robot starts
             // --> done to improve readability
             case FARBASKET:
-                beginPose = new Pose2d(11.59, -62.7, Math.toRadians(90.0));
+                currentPose = new Pose2d(11.59, -62.7, Math.toRadians(90.0));
                 break;
             case MIDBASKET:
-                beginPose = new Pose2d(-12.99, -62.7, Math.toRadians(90.00));
+                currentPose = new Pose2d(-12.99, -62.7, Math.toRadians(90.00));
                 break;
             case NEARBASKET:
-                beginPose = new Pose2d(-35.63, -62.7, Math.toRadians(90.00));
+                currentPose = new Pose2d(-35.63, -62.7, Math.toRadians(90.00));
                 break;
         }
-        drive = new MecanumDrive(hardwareMap, beginPose);
+        drive = new MecanumDrive(hardwareMap, currentPose);
+        drive.localizer.update();
 
         switch(loadedPosition){
             case LOADED_SAMPLE:
@@ -108,10 +109,11 @@ public abstract class NetworkedAuto extends SelfDriving {
     private void Park(){
         // Parks bot at observation zone
         Action parkTraj = drive.actionBuilder(drive.localizer.getPose())
+                .setTangent(Math.toRadians(90.0))
                 .strafeTo(new Vector2d(59, -60))
                 .build();
-
         Actions.runBlocking(parkTraj);
+        drive.localizer.update();
 
     }
     private void ScoreHighBucket(){
@@ -127,6 +129,7 @@ public abstract class NetworkedAuto extends SelfDriving {
                 .splineTo(new Vector2d(48 + (9 * i), -4.79), Math.toRadians(90.00))
                 .build();
         Actions.runBlocking(PushSpecFirst); // push coloured sample into observation zone
+        drive.localizer.update();
         // initialize grabbing specimen from wall trajectory
         GetSpec = drive.actionBuilder(drive.localizer.getPose())
                 .stopAndAdd(()->{
@@ -145,9 +148,9 @@ public abstract class NetworkedAuto extends SelfDriving {
                     MoveUpwardSlide(0);
                     ScoreLoadedSpecimen(0.90); // Go to bar and hang specimen
                 })
-
                 .build();
         Actions.runBlocking(GetSpec); // bot grabs wall specimen
+        drive.localizer.update();
     }
 
 
@@ -169,9 +172,8 @@ public abstract class NetworkedAuto extends SelfDriving {
                 })
                 .lineToY(-45)
                 .build();
-
-
         Actions.runBlocking(trajectory0);
+        drive.localizer.update();
     }
 
     private void MoveOutOfTheWay(){
@@ -179,6 +181,7 @@ public abstract class NetworkedAuto extends SelfDriving {
                 .strafeTo(new Vector2d(-48, -48))
                 .build();// go near the sub
         Actions.runBlocking(trajectory0);
+        drive.localizer.update();
     }
 
     //------------------------------------------------------------------------------------------------
