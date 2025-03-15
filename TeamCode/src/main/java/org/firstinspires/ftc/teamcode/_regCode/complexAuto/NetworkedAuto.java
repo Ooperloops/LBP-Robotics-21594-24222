@@ -156,18 +156,18 @@ public abstract class NetworkedAuto extends SelfDriving {
 
         Action trajectory0 = drive.actionBuilder(drive.localizer.getPose())
                 .stopAndAdd(() -> {
-                    ArmToPosition(armPosition.UPSTRAIGHT); // make arm perpendicular to drivebase
-                    hardwareManager.leftArmServo.setPosition(0.5);
-                    hardwareManager.rightArmServo.setPosition(0.5);
+                    //ArmToPosition(armPosition.UPSTRAIGHT); // make arm perpendicular to drivebase
+                    //hardwareManager.leftArmServo.setPosition(0.5);
+                    //hardwareManager.rightArmServo.setPosition(0.5);
                     //TODO: move vertical servo claw to proper position
                 })
                 .splineTo(new Vector2d(0.37, -35.00 + displacement), Math.toRadians(90.00)) // go near the sub
                 .stopAndAdd(() -> {
-                    MoveUpwardSlide(0.33); // move slide up to hang specimen
-                    Claw(false); // open the claw
-                    MoveUpwardSlide(0); // retract the lift back down
+                    //MoveUpwardSlide(0.33); // move slide up to hang specimen
+                    //Claw(false); // open the claw
+                    //MoveUpwardSlide(0); // retract the lift back down
                 })
-                .lineToX(-45)
+                .lineToY(-45)
                 .build();
 
 

@@ -25,7 +25,7 @@ public class CycledAutoEx extends NetworkedAuto {
         startPosition = StartPos.FARBASKET;
         loadedPosition = LoadedPosition.LOADED_SPECIMEN;
         HighBasket = 0;
-        HighRung = 1;
+        HighRung = 0;
         Parking = true;
 
     }

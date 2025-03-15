@@ -25,7 +25,7 @@ public class NearBasketAuto extends NetworkedAuto {
         startPosition = StartPos.NEARBASKET;
         loadedPosition = LoadedPosition.LOADED_SPECIMEN;
         HighBasket = 0;
-        Pushing = 0;
+        //Pushing = 0;
         HighRung = 0;
         Parking = true;
 
