@@ -21,12 +21,11 @@ public abstract class NetworkedAuto extends SelfDriving {
     //------------------------------------------------------------------------------------------------
     // Config
     //------------------------------------------------------------------------------------------------
-    MecanumDrive drive;
+    protected MecanumDrive drive;
     //------------------------------------------------------------------------------------------------
     // Weight Variables
     //------------------------------------------------------------------------------------------------
     protected int HighBasket = 0;
-    protected int Pushing = 0;
     protected int HighRung = 0;
     protected long startDelayMili = 0;
     protected boolean Parking = false;
@@ -84,12 +83,6 @@ public abstract class NetworkedAuto extends SelfDriving {
                 break;
         }
 
-
-        for(int i = 0; i < Pushing; i++){
-            // Pushes yellow samples under the bucket (needs testing)
-            Push(i);
-        }
-
         for(int i = 0; i < HighBasket; i++){
             // TODO: implement high basket scoring for auto
         }
@@ -121,20 +114,6 @@ public abstract class NetworkedAuto extends SelfDriving {
         Actions.runBlocking(parkTraj);
 
     }
-
-    private void Push(int current){
-        Action pushTraj = drive.actionBuilder(drive.localizer.getPose())
-                // --- Moves past the yellow samples to get into pushing position -------
-                .splineTo(new Vector2d(-35.62, -38.40), Math.toRadians(90.00))
-                .splineTo(new Vector2d(-36.87, -16.04), Math.toRadians(92.34))
-                .splineTo(new Vector2d(-44.00 - (9 * current), -10.07), Math.toRadians(90.00))
-                // ----------------------------------------------------------------------
-                .lineToYConstantHeading(-30.07) // reverse back 20 inches
-                .strafeTo(new Vector2d(-60, -60)) // strafe to the push zone below the buckets
-                .build();
-
-        Actions.runBlocking(pushTraj);
-    }
     private void ScoreHighBucket(){
         // TODO: create RR script trajectory that goes to the sub and gets a sample for bucket scoring
     }
@@ -156,27 +135,19 @@ public abstract class NetworkedAuto extends SelfDriving {
                 .setTangent(Math.toRadians(90.00))
                 .strafeTo(new Vector2d(47, -38))
                 .lineToY( -60) // reverses to the wall where the specimen is
+                .waitSeconds(0.5) // short delay for human player correction
+                .stopAndAdd(() -> {
+                    Claw(true); // close the claw
+                    MoveUpwardSlide(0.02); // move slide up to remove specimen from wall
+                })
+                .waitSeconds(0.1)
+                .stopAndAdd(() -> {
+                    MoveUpwardSlide(0);
+                    ScoreLoadedSpecimen(0.90); // Go to bar and hang specimen
+                })
+
                 .build();
         Actions.runBlocking(GetSpec); // bot grabs wall specimen
-        sleep(500); // short delay for human player correction
-        Claw(true); // close the claw
-        MoveUpwardSlide(0.02); // move slide up to remove specimen from wall
-        sleep(100);
-        MoveUpwardSlide(0);
-        ScoreLoadedSpecimen(0.90); // Go to bar and hang specimen
-    }
-
-    private void HangSpecimenHigh(){
-        InitPushFirstSamp(); // initialize pushing trajectory
-        Actions.runBlocking(PushSpecFirst); // push coloured sample into observation zone
-        InitToBarTrajectory(); // initialize grabbing specimen from wall trajectory
-        Actions.runBlocking(GetSpec); // bot grabs wall specimen
-        sleep(500); // short delay for human player correction
-        Claw(true); // close the claw
-        MoveUpwardSlide(0.02); // move slide up to remove specimen from wall
-        sleep(100);
-        MoveUpwardSlide(0);
-        ScoreLoadedSpecimen(0.90); // Go to bar and hang specimen
     }
 
 

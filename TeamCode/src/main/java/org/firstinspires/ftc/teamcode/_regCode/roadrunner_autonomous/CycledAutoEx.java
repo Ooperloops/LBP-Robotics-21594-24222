@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode._regCode.complexAuto.NetworkedAuto;
 import org.firstinspires.ftc.teamcode._regCode.complexAuto.StartPos;
 
-@Autonomous(name = "Cycled Auto City Comp", group = "RoadRunner")
+@Autonomous(name = "NEW RR EXAMPLE PROGRAM", group = "RoadRunner")
 public class CycledAutoEx extends NetworkedAuto {
 
     /* > The following code overrides the "initVariables" function
@@ -25,7 +25,6 @@ public class CycledAutoEx extends NetworkedAuto {
         startPosition = StartPos.FARBASKET;
         loadedPosition = LoadedPosition.LOADED_SPECIMEN;
         HighBasket = 0;
-        Pushing = 0;
         HighRung = 1;
         Parking = true;
 
