@@ -43,7 +43,7 @@ public abstract class HumanOperated extends OpMode {
     // Variables for lift motor power
     protected double liftP = 0;
     protected final int LiftMaxTicks = 4380;
-    protected final int LiftMinTicks = 60;
+    protected final int LiftMinTicks = 70;
 
     //------------------------------------------------------------------------------------------------
     // Lift servo position values

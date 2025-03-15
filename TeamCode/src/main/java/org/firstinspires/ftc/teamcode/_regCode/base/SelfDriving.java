@@ -133,27 +133,11 @@ public abstract class SelfDriving extends LinearOpMode {
     // Intake
     //------------------------------------------------------------------------------------------------
     public void Claw(boolean closed){
-        // Open or close claw based on boolean
-        //hardwareManager.leftClawServo.setPosition((closed) ? 0.25 : 0);
-        //hardwareManager.rightClawServo.setPosition((closed) ? 0 : 0.25);
+        hardwareManager.clawServo.setPosition((closed) ? 0 : 0.15);
     }
     public void Arm(double angle){
-        // Inputs an angle that the arm should be at relative to its starting position
-
-        // Convert angle to a servo position (0 deg - 360 deg) = (0.00 - 1.00)
-        double angleToPosLeft = angle * (1.0/360.0);
-/*
-        if(angleToPosLeft >= 0.47222222222){
-            hardwareManager.clawRotationServo.setPosition(0.30555555555);
-        }else if(angleToPosLeft >= 0.14){
-            hardwareManager.clawRotationServo.setPosition(0.25);
-        } else {
-            hardwareManager.clawRotationServo.setPosition(0.65);
-        }
-        */
-
-        // Set position...
-        //hardwareManager.armServo.setPosition(angleToPosLeft);
+        hardwareManager.leftArmServo.setPosition(angle * (1.0 / 360.0));
+        hardwareManager.rightArmServo.setPosition(angle * (1.0 / 360.0));
     }
     public void ArmToPosition(armPosition armPosition){
         // Inputs an angle that the arm should be at relative to its starting position
@@ -162,7 +146,7 @@ public abstract class SelfDriving extends LinearOpMode {
                 Arm(102);
                 break;
             case SPECIMEN_READY:
-                Arm(15);
+                Arm(0);
                 break;
 
         }
@@ -176,59 +160,25 @@ public abstract class SelfDriving extends LinearOpMode {
 
         // limits the value to only be between 0 and 1, representing 0% to 100%
         double percent = Range.clip(RaiseToPercent, 0.0, 1.0);
-        double targetCount = percent * 5650;
+        double targetCount = percent * 4380;
 
-        // Reset the encoders for the
-        //hardwareManager.ResetLiftWheelCount();
+        // Reset the encoders
+        hardwareManager.ResetLiftWheelCount();
 
-        double mainDirection = (percent * 5650 > hardwareManager.liftMotorLeft.getCurrentPosition()) ? 1 : -1;
+        double mainDirection = (targetCount > hardwareManager.liftMotorLeft.getCurrentPosition()) ? 1 : -1;
         hardwareManager.liftMotorLeft.setPower(mainDirection);
+        hardwareManager.liftMotorRight.setPower(mainDirection);
         while(opModeIsActive() && targetCount - 15 > hardwareManager.liftMotorLeft.getCurrentPosition() || hardwareManager.liftMotorLeft.getCurrentPosition() > targetCount + 15 ){
-            if(mainDirection > 0 && hardwareManager.liftMotorLeft.getCurrentPosition() >=  5650){
+            if(mainDirection > 0 && hardwareManager.liftMotorLeft.getCurrentPosition() >=  4380){
                 break;
-            } else if (mainDirection < 0 && hardwareManager.liftMotorLeft.getCurrentPosition() <=  25) {
+            } else if (mainDirection < 0 && hardwareManager.liftMotorLeft.getCurrentPosition() <=  60) {
                 hardwareManager.ResetLiftWheelCount();
                 break;
             }
             idle();
         }
         hardwareManager.liftMotorLeft.setPower(0);
-    }
-
-
-    //------------------------------------------------------------------------------------------------
-    // Auto Macros
-    //------------------------------------------------------------------------------------------------
-    public void ScoreHighBasket(){
-        Arm(0);
-        sleep(1500);
-        MoveUpwardSlide(30);
-        sleep(1500);
-        Arm(120);
-        sleep(1500);
-        Claw(true);
-        sleep(1000);
-        Claw(false);
-        sleep(1000);
-        Arm(0);
-        sleep(1500);
-        MoveUpwardSlide(-30);
-    }
-
-    public void scoreHighBar(){
-        MoveUpwardSlide(0.3);
-        sleep(300);
-    }
-
-    public void GrabLow(){
-        Claw(true);
-        sleep(1000);
-        Arm(170);
-        sleep(2000);
-        Claw(false);
-        sleep(1000);
-        Arm(0);
-        sleep(1000);
+        hardwareManager.liftMotorRight.setPower(0);
     }
 
     //------------------------------------------------------------------------------------------------
