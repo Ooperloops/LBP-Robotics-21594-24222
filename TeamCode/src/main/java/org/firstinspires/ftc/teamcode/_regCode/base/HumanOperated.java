@@ -113,7 +113,7 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.rightArmServo.setPosition(ArmServoPos);
         hardwareManager.horizontalClawServo.setPosition(0);
         hardwareManager.clawServo.setPosition(0);
-        AngClawPos = 90*conF;
+        AngClawPos = 96*conF;
         hardwareManager.angleClawServo.setPosition(AngClawPos);
     }
 
@@ -141,13 +141,12 @@ public abstract class HumanOperated extends OpMode {
         }else if(gamepad2.x){
             ArmServoPos = 0.09722222222;
         }else if(gamepad2.y) {
-            ArmServoPos = 0.5;
-            AngClawPos = 90*conF;
-            ArmServoPos = 0.40277777777;
+            ArmServoPos = 200*conF;
+            hardwareManager.clawServo.setPosition(0);
         }else if (gamepad2.b){
-            ArmServoPos = 0.40277777777;
+            ArmServoPos = 170*conF;
         }else if (gamepad2.dpad_up){
-            ArmServoPos = 0.33333333333;
+            ArmServoPos = 0.40277777777;
         }
 
         // Horizontal Wrist Servo Control
