@@ -28,7 +28,7 @@ import org.firstinspires.ftc.teamcode._regCode.all_purpose.HardwareManager;
  */
 public abstract class HumanOperated extends OpMode {
     protected HardwareManager hardwareManager;
-    protected SelfDriving selfDriving;
+    protected boolean slowToggle = false;
     //------------------------------------------------------------------------------------------------
     // Wheel power values
     //------------------------------------------------------------------------------------------------
@@ -42,8 +42,8 @@ public abstract class HumanOperated extends OpMode {
     //------------------------------------------------------------------------------------------------
     // Variables for lift motor power
     protected double liftP = 0;
-    protected final int LiftMaxTicks = 4380;
-    protected final int LiftMinTicks = 70;
+    protected final int LiftMaxTicks = 4400;
+    protected final int LiftMinTicks = 100;
 
     //------------------------------------------------------------------------------------------------
     // Lift servo position values
@@ -113,7 +113,7 @@ public abstract class HumanOperated extends OpMode {
         hardwareManager.rightArmServo.setPosition(ArmServoPos);
         hardwareManager.horizontalClawServo.setPosition(0);
         hardwareManager.clawServo.setPosition(0);
-        AngClawPos = 96*conF;
+        AngClawPos = 100*conF;
         hardwareManager.angleClawServo.setPosition(AngClawPos);
     }
 
@@ -137,23 +137,25 @@ public abstract class HumanOperated extends OpMode {
     public void clawControls(){
         if (gamepad2.a) {
             ArmServoPos = 0;
-            AngClawPos = angToServoPos(90);
+            AngClawPos = angToServoPos(100);
         }else if(gamepad2.x){
             ArmServoPos = angToServoPos(35);
         }else if(gamepad2.y) {
-            ArmServoPos = angToServoPos(185);
-            hardwareManager.clawServo.setPosition(0);
+            ArmServoPos = angToServoPos(230);
         }else if (gamepad2.b){
-            ArmServoPos = angToServoPos(145);
+            ArmServoPos = angToServoPos(205);
+            HorzClawPos = 160*conF;
         }else if (gamepad2.dpad_up){
-            ArmServoPos = angToServoPos(70); // Upright to hang spec
+            ArmServoPos = angToServoPos(60); // Upright to hang spec
         }
 
         // Horizontal Wrist Servo Control
         if (ArmServoPos == 0){
             HorzClawPos = 0;
-        }else if(ArmServoPos == 0.47222222222){
-            HorzClawPos = 0.22777777777;
+        }else if(ArmServoPos > 0 && ArmServoPos < 145*conF){
+            HorzClawPos = 100*conF;
+        }else if(ArmServoPos > 145*conF) {
+            HorzClawPos = 160*conF;
         }
 
 
@@ -175,10 +177,10 @@ public abstract class HumanOperated extends OpMode {
     }
 
     public void liftControl(){
-        if(-gamepad2.left_stick_y > 0 && hardwareManager.liftMotorLeft.getCurrentPosition() >= LiftMaxTicks){
+        if(-gamepad2.left_stick_y > 0 && hardwareManager.liftMotorLeft.getCurrentPosition() >= 4550){
             // If lift ticks surpass max...
             liftP = 0; // ...force stop the motors
-        } else if (-gamepad2.left_stick_y < 0 && hardwareManager.liftMotorLeft.getCurrentPosition() <= LiftMinTicks) {
+        } else if (-gamepad2.left_stick_y < 0 && hardwareManager.liftMotorLeft.getCurrentPosition() <= 80) {
             // If lift ticks surpass min...
             liftP = 0; // ...force stop the motors
             hardwareManager.ResetLiftWheelCount();
@@ -212,7 +214,14 @@ public abstract class HumanOperated extends OpMode {
     public void setHardwarePower() {
 
         // Left bumper multiplies motor power by a small decimal (slow toggle)
-        MOTOR_SHRINK_MULTIPLIER = (gamepad1.left_bumper) ? 0.4 : 1;
+        if(gamepad1.a && !slowToggle){
+            MOTOR_SHRINK_MULTIPLIER = 0.4;
+            slowToggle = true;
+        } else if (gamepad1.a && slowToggle){
+            MOTOR_SHRINK_MULTIPLIER = 1;
+            slowToggle = false;
+        }
+        //MOTOR_SHRINK_MULTIPLIER = (gamepad1.left_bumper) ? 0.4 : 1;
 
         // Limit motor powers of all wheels
         hardwareManager.leftFront.setPower(shrinkMotorPower(frontLeftWheelP));
