@@ -12,4 +12,8 @@ public class ReverseServoWrapper {
         double newPos = (1- position);
         currentServo.setPosition(newPos);
     }
+
+    public double getPosition(){
+        return currentServo.getPosition();
+    }
 }

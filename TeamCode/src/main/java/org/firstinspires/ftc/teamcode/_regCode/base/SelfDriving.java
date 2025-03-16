@@ -72,6 +72,17 @@ public abstract class SelfDriving extends LinearOpMode {
         hardwareManager.doToAllWheels((wheel) -> wheel.setPower(0));
     }
 
+    protected void timedMove(double milliseconds, double power,boolean forwards){
+        ElapsedTime timeElapsed = new ElapsedTime();
+        double tempPower = (forwards) ? power : -power;
+        while(timeElapsed.milliseconds() < milliseconds){
+            hardwareManager.doToAllWheels((wheel) -> wheel.setPower(tempPower));
+            idle();
+        }
+        hardwareManager.doToAllWheels((wheel) -> wheel.setPower(0));
+
+    }
+
     //------------------------------------------------------------------------------------------------
     // Strafing (Deprecated: unusable)
     //------------------------------------------------------------------------------------------------

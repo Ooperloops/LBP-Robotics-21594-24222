@@ -42,8 +42,6 @@ public abstract class HumanOperated extends OpMode {
     //------------------------------------------------------------------------------------------------
     // Variables for lift motor power
     protected double liftP = 0;
-    protected final int LiftMaxTicks = 4400;
-    protected final int LiftMinTicks = 100;
 
     //------------------------------------------------------------------------------------------------
     // Lift servo position values
@@ -111,9 +109,8 @@ public abstract class HumanOperated extends OpMode {
     protected void zeroAllServos(){
         hardwareManager.leftArmServo.setPosition(ArmServoPos);
         hardwareManager.rightArmServo.setPosition(ArmServoPos);
-        hardwareManager.horizontalClawServo.setPosition(0);
+        hardwareManager.horizontalClawServo.setPosition(HorzClawPos);
         hardwareManager.clawServo.setPosition(0);
-        AngClawPos = 100*conF;
         hardwareManager.angleClawServo.setPosition(AngClawPos);
     }
 
@@ -124,46 +121,44 @@ public abstract class HumanOperated extends OpMode {
 
     public void armControls(){
             ArmServoPos =
-                    Range.clip(ArmServoPos + (gamepad2.right_stick_y * increment), 0, 1);
-            telemetry.addData("ArmServo Angle", ArmServoPos);
-            telemetry.update();
-    }
-    public void accentControls(){
-        hardwareManager.rightAscentMotor.setPower(gamepad2.right_stick_x);
-        hardwareManager.leftAscentMotor.setPower(gamepad2.right_stick_x);
+                    Range.clip(ArmServoPos + (-gamepad2.right_stick_y * increment), 0, 0.65);
+
     }
 
 
     public void clawControls(){
         if (gamepad2.a) {
             ArmServoPos = 0;
-            AngClawPos = angToServoPos(100);
+            AngClawPos =0;
+            HorzClawPos = 0.42;
         }else if(gamepad2.x){
-            ArmServoPos = angToServoPos(100);
+            ArmServoPos = 0.1307;
+            AngClawPos =0;
+            HorzClawPos = 0.42;
         }else if(gamepad2.y) {
-            ArmServoPos = angToServoPos(230);
+            ArmServoPos = 0.2607;
+            AngClawPos =0.6;
+            HorzClawPos = 0.42;
         }else if (gamepad2.b){
-            ArmServoPos = angToServoPos(205);
-            HorzClawPos = 160*conF;
-        }else if (gamepad2.dpad_up){
-            ArmServoPos = angToServoPos(60); // Upright to hang spec
+            ArmServoPos = 0.5701;
+            AngClawPos =0;
+            HorzClawPos = 0.065;
         }
 
         // Horizontal Wrist Servo Control
-        if (ArmServoPos == 0){
-            HorzClawPos = 0;
-        }else if(ArmServoPos > 0 && ArmServoPos < 145*conF){
-            HorzClawPos = 100*conF;
-        }else if(ArmServoPos > 145*conF) {
-            HorzClawPos = 160*conF;
+
+        if(gamepad2.dpad_left){
+            HorzClawPos = Range.clip(HorzClawPos + 0.005, 0, 0.42);
+        } else if (gamepad2.dpad_right) {
+            HorzClawPos = Range.clip(HorzClawPos - 0.005, 0, 0.42);
         }
 
 
         // Rotational Wrist Servo Control
         if(gamepad2.right_bumper){
-            AngClawPos = Range.clip(AngClawPos + increment, 0, 1);
+            AngClawPos = Range.clip(AngClawPos + increment, 0, 0.6);
         } else if (gamepad2.left_bumper){
-            AngClawPos = Range.clip(AngClawPos - increment, 0, 1);
+            AngClawPos = Range.clip(AngClawPos - increment, 0, 0.6);
         }
 
         // Claw Control
@@ -177,10 +172,10 @@ public abstract class HumanOperated extends OpMode {
     }
 
     public void liftControl(){
-        if(-gamepad2.left_stick_y > 0 && hardwareManager.liftMotorLeft.getCurrentPosition() >= 4550){
+        if(-gamepad2.left_stick_y > 0 && hardwareManager.liftMotorLeft.getCurrentPosition() >= 4250){
             // If lift ticks surpass max...
             liftP = 0; // ...force stop the motors
-        } else if (-gamepad2.left_stick_y < 0 && hardwareManager.liftMotorLeft.getCurrentPosition() <= 80) {
+        } else if (-gamepad2.left_stick_y < 0 && hardwareManager.liftMotorLeft.getCurrentPosition() <= 20) {
             // If lift ticks surpass min...
             liftP = 0; // ...force stop the motors
             hardwareManager.ResetLiftWheelCount();
@@ -189,11 +184,11 @@ public abstract class HumanOperated extends OpMode {
         }
     }
 
-    public void simpleLiftControl(){
-        liftP = gamepad2.left_stick_y;
-    }
-    public double angToServoPos(double angle){
-        return angle * conF;
+    public void ServoTelemetry(){
+        telemetry.addData("ARM POSITION", ArmServoPos)
+                .addData("VERTICAL POSITION", HorzClawPos)
+                .addData("ANGULAR POSITION", AngClawPos);
+        telemetry.update();
     }
 
     public void setLiftPower(){

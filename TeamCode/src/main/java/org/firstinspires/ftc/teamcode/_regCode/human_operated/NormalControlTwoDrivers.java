@@ -23,5 +23,6 @@ public class NormalControlTwoDrivers extends HumanOperated {
         clawControls();
         liftControl();
         setLiftPower();
+        ServoTelemetry();
     }
 }

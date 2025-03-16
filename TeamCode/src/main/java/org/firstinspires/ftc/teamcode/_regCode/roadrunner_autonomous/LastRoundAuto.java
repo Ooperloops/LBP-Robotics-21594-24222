@@ -27,9 +27,9 @@ public class LastRoundAuto extends NetworkedAuto {
         loadedPosition = LoadedPosition.LOADED_SPECIMEN;
         HighBasket = 0;
         //Pushing = 0;
-        HighRung = 0;
+        HighRung = 3;
         MoveOutOfWay = true;
-        Parking = false;
+        Parking = true;
 
     }
 }
